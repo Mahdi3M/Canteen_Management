@@ -21,6 +21,9 @@ def contact(request):
 
 #<-- ======= Customer ======= -->
 
+def customer_catalog(request):
+    return render(request, "Canteen/catalog.html")
+
 def customer_order(request):
     return render(request, "Canteen/customer_order.html")
 
