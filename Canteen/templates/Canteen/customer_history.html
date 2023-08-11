@@ -2,7 +2,525 @@
 {% load static %}
 
 {% block main %}
+<main id="main" class="main">
 
+  <div class="pagetitle">
+    <h1>Order History</h1>
+  </div><!-- End Page Title -->
+
+  <div class="card mt-5">
+    <div class="card-body">
+      <h5 class="card-title">Monthly Bills</h5>
+
+      <!-- Default Tabs -->
+      <ul class="nav nav-tabs d-flex" id="myTabjustified" role="tablist">
+        <li class="nav-item flex-fill" role="presentation">
+          <button class="nav-link w-100 active" id="jan-tab" data-bs-toggle="tab" data-bs-target="#jan-justified" type="button" role="tab" aria-controls="jan" aria-selected="true">January</button>
+        </li>
+        <li class="nav-item flex-fill" role="presentation">
+          <button class="nav-link w-100" id="feb-tab" data-bs-toggle="tab" data-bs-target="#feb-justified" type="button" role="tab" aria-controls="feb" aria-selected="false">February</button>
+        </li>
+        <li class="nav-item flex-fill" role="presentation">
+          <button class="nav-link w-100" id="mar-tab" data-bs-toggle="tab" data-bs-target="#mar-justified" type="button" role="tab" aria-controls="mar" aria-selected="false">March</button>
+        </li>
+        <li class="nav-item flex-fill" role="presentation">
+          <button class="nav-link w-100" id="apr-tab" data-bs-toggle="tab" data-bs-target="#apr-justified" type="button" role="tab" aria-controls="apr" aria-selected="true">April</button>
+        </li>
+        <li class="nav-item flex-fill" role="presentation">
+          <button class="nav-link w-100" id="may-tab" data-bs-toggle="tab" data-bs-target="#may-justified" type="button" role="tab" aria-controls="may" aria-selected="false">May</button>
+        </li>
+        <li class="nav-item flex-fill" role="presentation">
+          <button class="nav-link w-100" id="jun-tab" data-bs-toggle="tab" data-bs-target="#jun-justified" type="button" role="tab" aria-controls="jun" aria-selected="false">June</button>
+        </li>
+        <li class="nav-item flex-fill" role="presentation">
+          <button class="nav-link w-100" id="jul-tab" data-bs-toggle="tab" data-bs-target="#jul-justified" type="button" role="tab" aria-controls="jul" aria-selected="true">July</button>
+        </li>
+        <li class="nav-item flex-fill" role="presentation">
+          <button class="nav-link w-100" id="aug-tab" data-bs-toggle="tab" data-bs-target="#aug-justified" type="button" role="tab" aria-controls="aug" aria-selected="false">August</button>
+        </li>
+        <li class="nav-item flex-fill" role="presentation">
+          <button class="nav-link w-100" id="sep-tab" data-bs-toggle="tab" data-bs-target="#sep-justified" type="button" role="tab" aria-controls="sep" aria-selected="false">September</button>
+        </li>
+        <li class="nav-item flex-fill" role="presentation">
+          <button class="nav-link w-100" id="oct-tab" data-bs-toggle="tab" data-bs-target="#oct-justified" type="button" role="tab" aria-controls="oct" aria-selected="true">October</button>
+        </li>
+        <li class="nav-item flex-fill" role="presentation">
+          <button class="nav-link w-100" id="nov-tab" data-bs-toggle="tab" data-bs-target="#nov-justified" type="button" role="tab" aria-controls="nov" aria-selected="false">November</button>
+        </li>
+        <li class="nav-item flex-fill" role="presentation">
+          <button class="nav-link w-100" id="dec-tab" data-bs-toggle="tab" data-bs-target="#dec-justified" type="button" role="tab" aria-controls="dec" aria-selected="false">December</button>
+        </li>
+      </ul>
+      <div class="tab-content pt-2" id="myTabjustifiedContent">
+        <div class="tab-pane fade show active" id="jan-justified" role="tabpanel" aria-labelledby="jan-tab">
+          <!-- Table with stripped rows -->
+          <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Order No</th>
+                    <th scope="col">Date</th>
+                    <th scope="col">Items</th>
+                    <th scope="col">Price</th>
+                    <th scope="col">Paid</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <th scope="row">1</th>
+                    <td>#12345</td>
+                    <td>2023-01-10</td>
+                    <td>Product A, Product B</td>
+                    <td>৳150.00</td>
+                    <td>Yes</td>
+                </tr>
+                <tr>
+                    <th scope="row">2</th>
+                    <td>#12346</td>
+                    <td>2023-01-09</td>
+                    <td>Product C</td>
+                    <td>৳75.50</td>
+                    <td>No</td>
+                </tr>
+                <!-- Add more rows as needed -->
+            </tbody>
+          </table>        
+          <!-- End Table with stripped rows -->          
+          <div class="total">
+            <p>Total Bill Left: ৳75.50</p>
+          </div>
+        </div>
+        <div class="tab-pane fade" id="feb-justified" role="tabpanel" aria-labelledby="feb-tab">
+          <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Order No</th>
+                    <th scope="col">Date</th>
+                    <th scope="col">Items</th>
+                    <th scope="col">Price</th>
+                    <th scope="col">Paid</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <th scope="row">1</th>
+                    <td>#98765</td>
+                    <td>2023-02-11</td>
+                    <td>Product X, Product Y, Product Z</td>
+                    <td>৳250.00</td>
+                    <td>Yes</td>
+                </tr>
+                <tr>
+                    <th scope="row">2</th>
+                    <td>#98766</td>
+                    <td>2023-02-10</td>
+                    <td>Product A</td>
+                    <td>৳50.00</td>
+                    <td>No</td>
+                </tr>
+                <tr>
+                    <th scope="row">3</th>
+                    <td>#98767</td>
+                    <td>2023-08-09</td>
+                    <td>Product B, Product C, Product D</td>
+                    <td>৳120.00</td>
+                    <td>Yes</td>
+                </tr>
+                <!-- Add more rows as needed -->
+            </tbody>
+          </table>
+            
+          <div class="total">
+            <p>Total Bill Left: ৳50.00</p>
+          </div>
+        </div>
+        <div class="tab-pane fade" id="mar-justified" role="tabpanel" aria-labelledby="mar-tab">
+          <!-- Table with stripped rows -->
+          <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Order No</th>
+                    <th scope="col">Date</th>
+                    <th scope="col">Items</th>
+                    <th scope="col">Price</th>
+                    <th scope="col">Paid</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <th scope="row">1</th>
+                    <td>#12345</td>
+                    <td>2023-01-10</td>
+                    <td>Product A, Product B</td>
+                    <td>৳150.00</td>
+                    <td>Yes</td>
+                </tr>
+                <tr>
+                    <th scope="row">2</th>
+                    <td>#12346</td>
+                    <td>2023-01-09</td>
+                    <td>Product C</td>
+                    <td>৳75.50</td>
+                    <td>No</td>
+                </tr>
+                <!-- Add more rows as needed -->
+            </tbody>
+          </table>        
+          <!-- End Table with stripped rows -->          
+          <div class="total">
+            <p>Total Bill Left: ৳75.50</p>
+          </div>
+        </div>
+        <div class="tab-pane fade" id="apr-justified" role="tabpanel" aria-labelledby="apr-tab">
+          <!-- Table with stripped rows -->
+          <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Order No</th>
+                    <th scope="col">Date</th>
+                    <th scope="col">Items</th>
+                    <th scope="col">Price</th>
+                    <th scope="col">Paid</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <th scope="row">1</th>
+                    <td>#12345</td>
+                    <td>2023-01-10</td>
+                    <td>Product A, Product B</td>
+                    <td>৳150.00</td>
+                    <td>Yes</td>
+                </tr>
+                <tr>
+                    <th scope="row">2</th>
+                    <td>#12346</td>
+                    <td>2023-01-09</td>
+                    <td>Product C</td>
+                    <td>৳75.50</td>
+                    <td>No</td>
+                </tr>
+                <!-- Add more rows as needed -->
+            </tbody>
+          </table>        
+          <!-- End Table with stripped rows -->          
+          <div class="total">
+            <p>Total Bill Left: ৳75.50</p>
+          </div>
+        </div>
+        <div class="tab-pane fade" id="may-justified" role="tabpanel" aria-labelledby="may-tab">
+          <!-- Table with stripped rows -->
+          <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Order No</th>
+                    <th scope="col">Date</th>
+                    <th scope="col">Items</th>
+                    <th scope="col">Price</th>
+                    <th scope="col">Paid</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <th scope="row">1</th>
+                    <td>#12345</td>
+                    <td>2023-01-10</td>
+                    <td>Product A, Product B</td>
+                    <td>৳150.00</td>
+                    <td>Yes</td>
+                </tr>
+                <tr>
+                    <th scope="row">2</th>
+                    <td>#12346</td>
+                    <td>2023-01-09</td>
+                    <td>Product C</td>
+                    <td>৳75.50</td>
+                    <td>No</td>
+                </tr>
+                <!-- Add more rows as needed -->
+            </tbody>
+          </table>        
+          <!-- End Table with stripped rows -->          
+          <div class="total">
+            <p>Total Bill Left: ৳75.50</p>
+          </div>
+        </div>
+        <div class="tab-pane fade" id="jun-justified" role="tabpanel" aria-labelledby="jun-tab">
+          <!-- Table with stripped rows -->
+          <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Order No</th>
+                    <th scope="col">Date</th>
+                    <th scope="col">Items</th>
+                    <th scope="col">Price</th>
+                    <th scope="col">Paid</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <th scope="row">1</th>
+                    <td>#12345</td>
+                    <td>2023-01-10</td>
+                    <td>Product A, Product B</td>
+                    <td>৳150.00</td>
+                    <td>Yes</td>
+                </tr>
+                <tr>
+                    <th scope="row">2</th>
+                    <td>#12346</td>
+                    <td>2023-01-09</td>
+                    <td>Product C</td>
+                    <td>৳75.50</td>
+                    <td>No</td>
+                </tr>
+                <!-- Add more rows as needed -->
+            </tbody>
+          </table>        
+          <!-- End Table with stripped rows -->          
+          <div class="total">
+            <p>Total Bill Left: ৳75.50</p>
+          </div>
+        </div>
+        <div class="tab-pane fade " id="jul-justified" role="tabpanel" aria-labelledby="jul-tab">
+          <!-- Table with stripped rows -->
+          <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Order No</th>
+                    <th scope="col">Date</th>
+                    <th scope="col">Items</th>
+                    <th scope="col">Price</th>
+                    <th scope="col">Paid</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <th scope="row">1</th>
+                    <td>#12345</td>
+                    <td>2023-01-10</td>
+                    <td>Product A, Product B</td>
+                    <td>৳150.00</td>
+                    <td>Yes</td>
+                </tr>
+                <tr>
+                    <th scope="row">2</th>
+                    <td>#12346</td>
+                    <td>2023-01-09</td>
+                    <td>Product C</td>
+                    <td>৳75.50</td>
+                    <td>No</td>
+                </tr>
+                <!-- Add more rows as needed -->
+            </tbody>
+          </table>        
+          <!-- End Table with stripped rows -->          
+          <div class="total">
+            <p>Total Bill Left: ৳75.50</p>
+          </div>
+        </div>
+        <div class="tab-pane fade" id="aug-justified" role="tabpanel" aria-labelledby="aug-tab">
+          <!-- Table with stripped rows -->
+          <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Order No</th>
+                    <th scope="col">Date</th>
+                    <th scope="col">Items</th>
+                    <th scope="col">Price</th>
+                    <th scope="col">Paid</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <th scope="row">1</th>
+                    <td>#12345</td>
+                    <td>2023-01-10</td>
+                    <td>Product A, Product B</td>
+                    <td>৳150.00</td>
+                    <td>Yes</td>
+                </tr>
+                <tr>
+                    <th scope="row">2</th>
+                    <td>#12346</td>
+                    <td>2023-01-09</td>
+                    <td>Product C</td>
+                    <td>৳75.50</td>
+                    <td>No</td>
+                </tr>
+                <!-- Add more rows as needed -->
+            </tbody>
+          </table>        
+          <!-- End Table with stripped rows -->          
+          <div class="total">
+            <p>Total Bill Left: ৳75.50</p>
+          </div>
+        </div>
+        <div class="tab-pane fade" id="sep-justified" role="tabpanel" aria-labelledby="sep-tab">
+          <!-- Table with stripped rows -->
+          <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Order No</th>
+                    <th scope="col">Date</th>
+                    <th scope="col">Items</th>
+                    <th scope="col">Price</th>
+                    <th scope="col">Paid</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <th scope="row">1</th>
+                    <td>#12345</td>
+                    <td>2023-01-10</td>
+                    <td>Product A, Product B</td>
+                    <td>৳150.00</td>
+                    <td>Yes</td>
+                </tr>
+                <tr>
+                    <th scope="row">2</th>
+                    <td>#12346</td>
+                    <td>2023-01-09</td>
+                    <td>Product C</td>
+                    <td>৳75.50</td>
+                    <td>No</td>
+                </tr>
+                <!-- Add more rows as needed -->
+            </tbody>
+          </table>        
+          <!-- End Table with stripped rows -->          
+          <div class="total">
+            <p>Total Bill Left: ৳75.50</p>
+          </div>
+        </div>
+        <div class="tab-pane fade" id="oct-justified" role="tabpanel" aria-labelledby="oct-tab">
+          <!-- Table with stripped rows -->
+          <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Order No</th>
+                    <th scope="col">Date</th>
+                    <th scope="col">Items</th>
+                    <th scope="col">Price</th>
+                    <th scope="col">Paid</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <th scope="row">1</th>
+                    <td>#12345</td>
+                    <td>2023-01-10</td>
+                    <td>Product A, Product B</td>
+                    <td>৳150.00</td>
+                    <td>Yes</td>
+                </tr>
+                <tr>
+                    <th scope="row">2</th>
+                    <td>#12346</td>
+                    <td>2023-01-09</td>
+                    <td>Product C</td>
+                    <td>৳75.50</td>
+                    <td>No</td>
+                </tr>
+                <!-- Add more rows as needed -->
+            </tbody>
+          </table>        
+          <!-- End Table with stripped rows -->          
+          <div class="total">
+            <p>Total Bill Left: ৳75.50</p>
+          </div>
+        </div>
+        <div class="tab-pane fade" id="nov-justified" role="tabpanel" aria-labelledby="nov-tab">
+          <!-- Table with stripped rows -->
+          <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Order No</th>
+                    <th scope="col">Date</th>
+                    <th scope="col">Items</th>
+                    <th scope="col">Price</th>
+                    <th scope="col">Paid</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <th scope="row">1</th>
+                    <td>#12345</td>
+                    <td>2023-01-10</td>
+                    <td>Product A, Product B</td>
+                    <td>৳150.00</td>
+                    <td>Yes</td>
+                </tr>
+                <tr>
+                    <th scope="row">2</th>
+                    <td>#12346</td>
+                    <td>2023-01-09</td>
+                    <td>Product C</td>
+                    <td>৳75.50</td>
+                    <td>No</td>
+                </tr>
+                <!-- Add more rows as needed -->
+            </tbody>
+          </table>        
+          <!-- End Table with stripped rows -->          
+          <div class="total">
+            <p>Total Bill Left: ৳75.50</p>
+          </div>
+        </div>
+        <div class="tab-pane fade" id="dec-justified" role="tabpanel" aria-labelledby="dec-tab">
+          <!-- Table with stripped rows -->
+          <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Order No</th>
+                    <th scope="col">Date</th>
+                    <th scope="col">Items</th>
+                    <th scope="col">Price</th>
+                    <th scope="col">Paid</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <th scope="row">1</th>
+                    <td>#12345</td>
+                    <td>2023-01-10</td>
+                    <td>Product A, Product B</td>
+                    <td>৳150.00</td>
+                    <td>Yes</td>
+                </tr>
+                <tr>
+                    <th scope="row">2</th>
+                    <td>#12346</td>
+                    <td>2023-01-09</td>
+                    <td>Product C</td>
+                    <td>৳75.50</td>
+                    <td>No</td>
+                </tr>
+                <!-- Add more rows as needed -->
+            </tbody>
+          </table>        
+          <!-- End Table with stripped rows -->          
+          <div class="total">
+            <p>Total Bill Left: ৳75.50</p>
+          </div>
+        </div>
+      </div><!-- End Default Tabs -->
+
+    </div>
+  </div>
+
+</main>
 {% endblock main %}
 
 {% block scripts %}
