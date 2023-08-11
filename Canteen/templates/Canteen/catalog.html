@@ -1,6 +1,164 @@
 {% extends 'base.html' %}
 {% load static %}
 
-{% block main %}
+{% block head %}
+    <link rel="stylesheet" href={% static 'assets/css/carousel.css' %}>
+    <!-- Fontawesome Link for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css">
+    <script src={% static 'assets/js/carousel.js' %} defer></script>
+{% endblock head %}
 
+{% block main %}
+<main id="main" class="main">
+    <div class="pagetitle">
+      <h1>Catalog</h1>
+      {% comment %} <nav>
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="index.html">{Customer Name}</a></li>
+          <li class="breadcrumb-item active">Home</li>
+        </ol>
+      </nav> {% endcomment %}
+    </div><!-- End Page Title -->
+
+
+  <div class="wrapper-container">
+    <h3 class="card-title">Food Items </h3>
+    <div class="wrapper" id="wrapper 1">
+      <ul class="carousel">
+        <li class="card">
+          <div class="img"><img src={% static 'assets/img/product-1.jpg' %} alt="img" draggable="false"></div>
+          <h2>Blanche Pearson</h2>
+          <span>Price: 1000Tk</span>
+          <button>Add To Cart</button>
+        </li>
+        <li class="card">
+          <div class="img"><img src={% static 'assets/img/product-2.jpg' %} alt="img" draggable="false"></div>
+          <h2>Joenas Brauers</h2>
+          <span>Price: 1000Tkr</span>
+          <button>Add To Cart</button>
+        </li>
+        <li class="card">
+          <div class="img"><img src={% static 'assets/img/product-3.jpg' %} alt="img" draggable="false"></div>
+          <h2>Lariach French</h2>
+          <span>Price: 1000Tk</span>
+          <button>Add To Cart</button>
+        </li>
+        <li class="card">
+          <div class="img"><img src={% static 'assets/img/product-4.jpg' %} alt="img" draggable="false"></div>
+          <h2>James Khosravi</h2>
+          <span>Price: 1000Tk</span>
+          <button>Add To Cart</button>
+        </li>
+        <li class="card">
+          <div class="img"><img src={% static 'assets/img/product-5.jpg' %} alt="img" draggable="false"></div>
+          <h2>Kristina Zasiadko</h2>
+          <span>Price: 1000Tk</span>
+          <button>Add To Cart</button>
+        </li>
+        <li class="card">
+          <div class="img"><img src={% static 'assets/img/product-6.jpg' %} alt="img" draggable="false"></div>
+          <h2>Donald Horton</h2>
+          <span>Price: 1000Tk</span>
+          <button>Add To Cart</button>
+        </li>
+      </ul>
+      <i id="left" class="fa-solid fa-angle-left"></i>
+      <i id="right" class="fa-solid fa-angle-right"></i>
+    </div>
+
+    <h3 class="card-title">Cosmetic Items </h3>
+    <div class="wrapper" id="wrapper 2">
+        <ul class="carousel">
+          <li class="card">
+            <div class="img"><img src={% static 'assets/img/product-1.jpg' %} alt="img" draggable="false"></div>
+            <h2>Blanche Pearson</h2>
+            <span>Price: 1000Tk</span>
+            <button>Add To Cart</button>
+          </li>
+          <li class="card">
+            <div class="img"><img src={% static 'assets/img/product-2.jpg' %} alt="img" draggable="false"></div>
+            <h2>Joenas Brauers</h2>
+            <span>Price: 1000Tk</span>
+            <button>Add To Cart</button>
+          </li>
+          <li class="card">
+            <div class="img"><img src={% static 'assets/img/product-3.jpg' %} alt="img" draggable="false"></div>
+            <h2>Lariach French</h2>
+            <span>Price: 1000Tk</span>
+            <button>Add To Cart</button>
+          </li>
+          <li class="card">
+            <div class="img"><img src={% static 'assets/img/product-4.jpg' %} alt="img" draggable="false"></div>
+            <h2>James Khosravi</h2>
+            <span>Price: 1000Tk</span>
+            <button>Add To Cart</button>
+          </li>
+          <li class="card">
+            <div class="img"><img src={% static 'assets/img/product-5.jpg' %} alt="img" draggable="false"></div>
+            <h2>Kristina Zasiadko</h2>
+            <span>Price: 1000Tk</span>
+            <button>Add To Cart</button>
+          </li>
+          <li class="card">
+            <div class="img"><img src={% static 'assets/img/product-6.jpg' %} alt="img" draggable="false"></div>
+            <h2>Donald Horton</h2>
+            <span>Price: 1000Tk</span>
+            <button>Add To Cart</button>
+          </li>
+        </ul>
+        <i id="left" class="fa-solid fa-angle-left"></i>
+        <i id="right" class="fa-solid fa-angle-right"></i>
+    </div>
+
+    <h3 class="card-title">Toiletry Items </h3>
+    <div class="wrapper" id="wrapper 3">
+        <ul class="carousel">
+          <li class="card">
+            <div class="img"><img src={% static 'assets/img/product-1.jpg' %} alt="img" draggable="false"></div>
+            <h2>Blanche Pearson</h2>
+            <span>Price: 1000Tk</span>
+            <button>Add To Cart</button>
+          </li>
+          <li class="card">
+            <div class="img"><img src={% static 'assets/img/product-2.jpg' %} alt="img" draggable="false"></div>
+            <h2>Joenas Brauers</h2>
+            <span>Price: 1000Tk</span>
+            <button>Add To Cart</button>
+          </li>
+          <li class="card">
+            <div class="img"><img src={% static 'assets/img/product-3.jpg' %} alt="img" draggable="false"></div>
+            <h2>Lariach French</h2>
+            <span>Price: 1000Tk</span>
+            <button>Add To Cart</button>
+          </li>
+          <li class="card">
+            <div class="img"><img src={% static 'assets/img/product-4.jpg' %} alt="img" draggable="false"></div>
+            <h2>James Khosravi</h2>
+            <span>Price: 1000Tk</span>
+            <button>Add To Cart</button>
+          </li>
+          <li class="card">
+            <div class="img"><img src={% static 'assets/img/product-5.jpg' %} alt="img" draggable="false"></div>
+            <h2>Kristina Zasiadko</h2>
+            <span>Price: 1000Tk</span>
+            <button>Add To Cart</button>
+          </li>
+          <li class="card">
+            <div class="img"><img src={% static 'assets/img/product-6.jpg' %} alt="img" draggable="false"></div>
+            <h2>Donald Horton</h2>
+            <span>Price: 1000Tk</span>
+            <button>Add To Cart</button>
+          </li>
+        </ul>
+        <i id="left" class="fa-solid fa-angle-left"></i>
+        <i id="right" class="fa-solid fa-angle-right"></i>
+    </div>
+  </div>  
+</main>
 {% endblock main %}
+
+{% block scripts %}
+<script>
+  $("#catalog").removeClass("collapsed");
+</script>
+{% endblock scripts %}
