@@ -2,7 +2,59 @@
 {% load static %}
 
 {% block main %}
+<main id="main" class="main">
 
+  <div class="pagetitle">
+    <h1>Order Details</h1>
+    <p>Order Number: 123456</p>
+  </div><!-- End Page Title -->
+
+  <section id="cart">
+    <ul class="cards p-3">
+      <li class="card mb-3 p-3">
+        <div class="row g-0">
+          <div class="col-md-2 d-flex align-items-center justify-content-center">
+            <img src={% static 'assets/img/product-1.jpg' %} alt="Product 1">
+          </div>
+          <div class="col-md-10 d-flex justify-content-between align-items-center">
+            <div>
+              <h3>Product 1</h3>
+              <p>Quantity: 1</p>
+              <p>Price: $999</p>
+            </div>
+            <div>
+              <p id="order-total">Total: $999</p>
+              <button class="remove">Remove</button>
+            </div>
+          </div>
+        </div>
+      </li>
+      <li class="card mb-3 p-3">
+        <div class="row g-0">
+          <div class="col-md-2 d-flex align-items-center justify-content-center">
+            <img src={% static 'assets/img/product-2.jpg' %} alt="Product 1">
+          </div>
+          <div class="col-md-10 d-flex justify-content-between align-items-center">
+              <div>
+                  <h3>Product 2</h3>
+                  <p>Quantity: 2</p>
+                  <p>Price: $1999</p>
+              </div>
+              <div>
+                  <p id="order-total">Total: $3998</p>
+                  <button class="remove">Remove</button>
+              </div>
+          </div>
+        </div>
+      </li>
+    </ul>
+    <div class="total">
+      <p>Total: $4,997</p>
+      <button class="checkout">Checkout</button>
+    </div>
+  </section>
+
+</main>
 {% endblock main %}
 
 {% block scripts %}
