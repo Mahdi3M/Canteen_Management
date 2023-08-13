@@ -24,14 +24,16 @@ def contact(request):
 def customer_catalog(request):
     return render(request, "Canteen/catalog.html")
 
-def customer_order(request):
-    return render(request, "Canteen/customer_order.html")
+def customer_cart(request):
+    return render(request, "Canteen/customer_cart.html")
 
 def customer_history(request):
     return render(request, "Canteen/customer_history.html")
 
 #<-- ======= Bar NCO ======= -->
 
+def nco_order(request):
+    return render(request, "Canteen/nco_order.html")
 
 
 #<-- ======= Admin ======= -->

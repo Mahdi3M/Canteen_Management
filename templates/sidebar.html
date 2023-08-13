@@ -12,6 +12,8 @@
         </a>
       </li>
 
+      <!-- ======= Customer ======= -->
+
       <li class="nav-item">
         <a id="catalog" class="nav-link collapsed" href={% url 'Canteen:customer_catalog' %}>
           <i class="bi bi-grid"></i>
@@ -20,9 +22,9 @@
       </li>
 
       <li class="nav-item">
-        <a id="order" class="nav-link collapsed" href={% url 'Canteen:customer_order' %}>
+        <a id="cart" class="nav-link collapsed" href={% url 'Canteen:customer_cart' %}>
           <i class="bi bi-cart-check"></i>
-          <span>Order</span>
+          <span>Cart</span>
         </a>
       </li>
 
@@ -31,7 +33,18 @@
           <i class="bi bi-clock-history"></i>
           <span>History</span>
         </a>
-      </li><!-- End Dashboard Nav -->
+      </li>
+
+      <!-- ======= Bar NCO ======= -->
+
+      <li class="nav-item">
+        <a id="order" class="nav-link collapsed" href={% url 'Canteen:nco_order' %}>
+          <i class="bi bi-arrow-down-square"></i>
+          <span>Orders</span>
+        </a>
+      </li>
+
+      <!-- ======= Other Pages ======= -->
 
       <li class="nav-heading">Pages</li>
 
@@ -40,28 +53,28 @@
           <i class="bi bi-person"></i>
           <span>Profile</span>
         </a>
-      </li><!-- End Profile Page Nav -->
+      </li>
 
       <li class="nav-item">
         <a id="contact" class="nav-link collapsed" href={% url 'Canteen:contact' %}>
           <i class="bi bi-envelope"></i>
           <span>Contact</span>
         </a>
-      </li><!-- End Contact Page Nav -->
+      </li>
 
       <li class="nav-item">
         <a id="register" class="nav-link collapsed" href={% url 'Canteen:register' %}>
           <i class="bi bi-card-list"></i>
           <span>Register</span>
         </a>
-      </li><!-- End Register Page Nav -->
+      </li>
 
       <li class="nav-item">
         <a id="login" class="nav-link collapsed" href={% url 'Canteen:login' %}>
           <i class="bi bi-box-arrow-in-right"></i>
           <span>Login</span>
         </a>
-      </li><!-- End Login Page Nav -->
+      </li>
 
     </ul>
 
