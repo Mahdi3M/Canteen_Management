@@ -20,7 +20,7 @@
   <div class="tab-content pt-2" id="myTabContent">
     <div class="tab-pane fade show active" id="pills-new-item" role="tabpanel" aria-labelledby="new-item-tab">
       <div class="card p-4 mb-5">
-        <form action="/action_page.php" method="post" class="needs-validation" novalidate>
+        <form action="" method="POST" class="needs-validation" novalidate>
           <div class="row">
             <div class="col-4">
               <div class="image-preview">
@@ -32,6 +32,60 @@
               </div>
             </div>
             <div class="col-8">
+              <div class="mb-3">
+                <label for="productName" class="form-label">Product Name or Code</label>
+                <input type="text" class="form-control" id="productName" placeholder="Enter product name" name="productName" required>
+                <div class="invalid-feedback">Please enter the product name.</div>
+              </div>
+              <div class="mb-3">
+                <label for="category" class="form-label">Category</label>
+                <select class="form-control" id="category" name="category">
+                  <option value="electronics">Electronics</option>
+                  <option value="clothes">Clothes</option>
+                  <option value="food">Food</option>
+                  <option value="books">Books</option>
+                </select>
+              </div>
+              <div class="mb-3">
+                <label for="subCategory" class="form-label">Sub Category</label>
+                <select class="form-control" id="subCategory" name="subCategory">
+                  <option value="phones">Phones</option>
+                  <option value="laptops">Laptops</option>
+                  <option value="shirts">Shirts</option>
+                  <option value="pants">Pants</option>
+                </select>
+              </div>
+              <div class="mb-3">
+                <label for="buyingPrice" class="form-label">Buying Price</label>
+                <input type="number" class="form-control" id="buyingPrice" placeholder="Enter buying price" name="buyingPrice" required>
+                <div class="invalid-feedback">Please enter the buying price.</div>
+              </div>
+              <div class="mb-3">
+                <label for="sellingPrice" class="form-label">Selling Price</label>
+                <input type="number" class="form-control" id="sellingPrice" placeholder="Enter selling price" name="sellingPrice" required>
+                <div class="invalid-feedback">Please enter the selling price.</div>
+              </div>
+              <div class="mb-3">
+                <label for="amount" class="form-label">Amount</label>
+                <input type="number" class="form-control" id="amount" placeholder="Enter amount" name="amount" required>
+                <div class="invalid-feedback">Please enter the amount.</div>
+              </div>
+              <div class="d-flex justify-content-end mt-5">
+                <button type="submit" class="btn btn-primary">Add</button>
+              </div>              
+            </div>
+          </div>
+        </form>
+      </div>    
+    </div>
+    <div class="tab-pane fade" id="pills-manage" role="tabpanel" aria-labelledby="manage-tab">
+      <div class="row">
+        <div class="col-6">
+          <div class="card">
+            <div class="d-flex flex-column p-4">
+              <div class="d-flex justify-content-center mb-3">
+                <h3> Add Items </h3>
+              </div>
               <div class="mb-3">
                 <label for="productName" class="form-label">Product Name</label>
                 <input type="text" class="form-control" id="productName" placeholder="Enter product name" name="productName" required>
@@ -74,17 +128,46 @@
                 <label for="amount" class="form-label">Amount</label>
                 <input type="number" class="form-control" id="amount" placeholder="Enter amount" name="amount" required>
                 <div class="invalid-feedback">Please enter the amount.</div>
-              </div>
-              <div class="d-flex justify-content-end mt-5">
-                <button type="submit" class="btn btn-primary align-self-end">Add</button>
-              </div>              
+              </div>           
             </div>
+            <div class="d-flex justify-content-end m-4">
+              <button type="submit" class="btn btn-primary">Add Item</button>
+            </div>  
           </div>
-        </form>
-      </div>    
-    </div>
-    <div class="tab-pane fade" id="pills-manage" role="tabpanel" aria-labelledby="manage-tab">
-      Nesciunt totam et. Consequuntur magnam aliquid eos nulla dolor iure eos quia. Accusantium distinctio omnis et atque fugiat. Itaque doloremque aliquid sint quasi quia distinctio similique. Voluptate nihil recusandae mollitia dolores. Ut laboriosam voluptatum dicta.
+        </div>
+        <div class="col-6">
+          <div class="card d-flex justify-content-center">
+            <div class="d-flex flex-column p-4">
+              <div class="d-flex justify-content-center mb-3">
+                <h3> Remove Items </h3>
+              </div>
+              <div class="mb-3">
+                <label for="productName" class="form-label">Product Name or Code</label>
+                <input type="text" class="form-control" id="productName" placeholder="Enter product name" name="productName" required>
+                <div class="invalid-feedback">Please enter the product name.</div>
+              </div>
+              <div class="mb-3">
+                <label for="buyingPrice" class="form-label">Buying Price</label>
+                <input type="number" class="form-control" id="buyingPrice" placeholder="Enter buying price" name="buyingPrice" required>
+                <div class="invalid-feedback">Please enter the buying price.</div>
+              </div>
+              <div class="mb-3">
+                <label for="amount" class="form-label">Amount</label>
+                <input type="number" class="form-control" id="amount" placeholder="Enter amount" name="amount" required>
+                <div class="invalid-feedback">Please enter the amount.</div>
+              </div>    
+              <div class="mb-3">
+                <label for="amount" class="form-label">Comment</label>
+                <textarea class="form-control" placeholder="Leave a comment here" id="floatingTextarea" style="height: 300px;"></textarea>
+                <div class="invalid-feedback">Please enter the reason for removing items.</div>
+              </div>             
+            </div>
+            <div class="d-flex justify-content-end m-4">
+              <button type="submit" class="btn btn-primary">Remove</button>
+            </div> 
+          </div>
+        </div>
+      </div>
     </div>
   </div><!-- End Pills Tabs -->
 
@@ -110,13 +193,6 @@
 
           reader.readAsDataURL(imageInput.files[0]);
       }
-  }
-
-  function clearImage() {
-      var preview = document.getElementById('preview');
-      var imageInput = document.getElementById('image');
-      preview.src = '#';
-      imageInput.value = ''; // Clear the selected file
   }
 </script>
 {% endblock scripts %}
