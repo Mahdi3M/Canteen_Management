@@ -9,78 +9,205 @@
   </div><!-- End Page Title -->
 
   <!-- Pills Tabs -->
-  <ul class="nav nav-pills mb-4 mt-5" id="pills-tab" role="tablist">
-    <li class="nav-item" role="presentation">
-      <button class="nav-link active" id="pills-on-process-tab" data-bs-toggle="pill" data-bs-target="#pills-on-process" type="button" role="tab" aria-controls="pills-on-process" aria-selected="true">On-process</button>
-    </li>
-    <li class="nav-item" role="presentation">
-      <button class="nav-link" id="pills-completed-tab" data-bs-toggle="pill" data-bs-target="#pills-completed" type="button" role="tab" aria-controls="pills-completed" aria-selected="false">Completed</button>
-    </li>
-  </ul>
-  <div class="tab-content pt-2" id="myTabContent">
+  <div class="d-flex justify-content-between align-items-center">
+    <div>
+      <ul class="nav nav-pills mb-4 mt-3" id="pills-tab" role="tablist">
+        <li class="nav-item" role="presentation">
+          <button class="nav-link active" id="pills-on-process-tab" data-bs-toggle="pill" data-bs-target="#pills-on-process" type="button" role="tab" aria-controls="pills-on-process" aria-selected="true">On-process</button>
+        </li>
+        <li class="nav-item" role="presentation">
+          <button class="nav-link" id="pills-completed-tab" data-bs-toggle="pill" data-bs-target="#pills-completed" type="button" role="tab" aria-controls="pills-completed" aria-selected="false">Completed</button>
+        </li>
+      </ul>
+    </div>
+    <div class="p-3 me-4 mt-3">      
+      <button type="button" class="btn btn-primary" id="scan-button" data-toggle="modal" data-target="#addProductModal">Scan</button>
+
+      <!-- Modal -->
+      <div class="modal fade" id="addProductModal" tabindex="-1" role="dialog" aria-labelledby="addProductModalLabel" aria-hidden="true">
+          <div class="modal-dialog" role="document">
+              <div class="modal-content">
+                  <div class="modal-header">
+                      <h5 class="modal-title" id="addProductModalLabel">Add Product to Checkout</h5>
+                      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                          <span aria-hidden="true">&times;</span>
+                      </button>
+                  </div>
+                  <div class="modal-body">
+                      <!-- Product Form -->
+                      <form>
+                          <div class="form-group">
+                              <label for="productName">Product Name</label>
+                              <input type="text" class="form-control" id="productName" placeholder="Enter product name">
+                          </div>
+                          <div class="form-group">
+                              <label for="productPrice">Product Price</label>
+                              <input type="number" class="form-control" id="productPrice" placeholder="Enter product price">
+                          </div>
+                      </form>
+                      
+                      <!-- Product Table -->
+                      <table class="table">
+                          <thead>
+                              <tr>
+                                  <th>Product Name</th>
+                                  <th>Price</th>
+                                  <th>Quantity</th>
+                                  <th>Actions</th>
+                              </tr>
+                          </thead>
+                          <tbody>
+                              <tr>
+                                  <td>Product 1</td>
+                                  <td>৳10.00</td>
+                                  <td>
+                                      <button class="btn btn-sm btn-secondary">-</button>
+                                      <span>1</span>
+                                      <button class="btn btn-sm btn-secondary">+</button>
+                                  </td>
+                                  <td>
+                                      <button class="btn btn-sm btn-danger">Remove</button>
+                                  </td>
+                              </tr>
+                              <!-- Add more rows as needed -->
+                          </tbody>
+                      </table>
+                  </div>
+                  <div class="modal-footer">
+                      <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                      <button type="button" class="btn btn-primary">Add to Checkout</button>
+                  </div>
+              </div>
+          </div>
+      </div>
+      <!-- End Modal -->
+
+    </div>
+  </div>
+  <div class="tab-content pt-2 mb-5" id="myTabContent">
     <div class="tab-pane fade show active" id="pills-on-process" role="tabpanel" aria-labelledby="on-process-tab">
       <section id="order">
         <ul class="cards p-3">
           <li class="card mb-3 p-3">
             <div class="row g-0">
-              <div class="col-md-12 d-flex justify-content-between align-items-center">
-                <div>
-                    <h3>Order: #123456</h3>
-                    <table class="product-table">
-                      <tr>
-                        <th>#</th>
-                        <th>Product</th>
-                        <th>Quantity</th>
-                        <th>Rate</th>
-                        <th>Total Price</th>
-                      </tr>
-                      <tr>
-                        <th>1</th>
-                        <td>Chips Potato Cracker</td>
-                        <td>2</td>
-                        <td>10</td>
-                        <td>20</td>
-                      </tr>
-                      <tr>
-                        <th>2</th>
-                        <td>Chips Sun Family</td>
-                        <td>1</td>
-                        <td>50</td>
-                        <td>50</td>
-                      </tr>
-                  </table>
-                </div>
-                <div>
-                    <p id="order-total">Total: ৳3998</p>
-                    <button class="order-complete">Complete</button>
-                    <button class="order-remove">Remove</button>
-                </div>
+              <div class="col-md-12">
+                <h3>Order: #123456</h3>
+                    <div class="p-4 pb-5">
+                      <table class="product-table">
+                        <tr>
+                          <th id="sr">#</th>
+                          <th id="order-product">Product</th>
+                          <th id="order-quantity">Quantity</th>
+                          <th id="order-price">Rate</th>
+                          <th id="order-total">Total Price</th>
+                        </tr>
+                        <tr>
+                          <th id="sr">1</th>
+                          <td id="order-product">Chips Potato Cracker</td>
+                          <td id="order-quantity">2</td>
+                          <td id="order-price">10</td>
+                          <td id="order-total">20</td>
+                        </tr>
+                        <tr>
+                          <th id="sr">2</th>
+                          <td id="order-product">Chips Sun Family</td>
+                          <td id="order-quantity">1</td>
+                          <td id="order-price">50</td>
+                          <td id="order-total">50</td>
+                        </tr>
+                      </table>
+                    </div>
+                    <div class="total d-flex justify-content-between align-items-center">
+                      <p id="order-total">Total: ৳70</p>
+                      <button class="order-complete me-2">Complete</button>
+                      <button class="order-remove">Remove</button>
+                    </div>
               </div>
             </div>
           </li>
           <li class="card mb-3 p-3">
             <div class="row g-0">
-              <div class="col-md-12 d-flex justify-content-between align-items-center">
-                  <div>
-                      <h3>Product 2</h3>
-                      <p>Quantity: 2</p>
-                      <p>Price: ৳1999</p>
-                  </div>
-                  <div>
-                      <p id="order-total">Total: ৳3998</p>
-                      <button class="remove">Remove</button>
-                  </div>
+              <div class="col-md-12">
+                <h3>Order: #123457</h3>
+                    <div class="p-4 pb-5">
+                      <table class="product-table">
+                        <tr>
+                          <th id="sr">#</th>
+                          <th id="order-product">Product</th>
+                          <th id="order-quantity">Quantity</th>
+                          <th id="order-price">Rate</th>
+                          <th id="order-total">Total Price</th>
+                        </tr>
+                        <tr>
+                          <th id="sr">1</th>
+                          <td id="order-product">Chips Pringles Large</td>
+                          <td id="order-quantity">1</td>
+                          <td id="order-price">190</td>
+                          <td id="order-total">190</td>
+                        </tr>
+                        <tr>
+                          <th id="sr">2</th>
+                          <td id="order-product">Chips Sun Family</td>
+                          <td id="order-quantity">1</td>
+                          <td id="order-price">50</td>
+                          <td id="order-total">50</td>
+                        </tr>
+                      </table>
+                    </div>
+                    <div class="total d-flex justify-content-between align-items-center">
+                      <p id="order-total">Total: ৳2,40</p>
+                      <button class="order-complete me-2">Complete</button>
+                      <button class="order-remove">Remove</button>
+                    </div>
               </div>
             </div>
           </li>
-        </ul>
-        <div class="total">
-          <button class="scan">Scan</button>
-        </div>
       </section>
     </div>
     <div class="tab-pane fade" id="pills-completed" role="tabpanel" aria-labelledby="completed-tab">
-      Nesciunt totam et. Consequuntur magnam aliquid eos nulla dolor iure eos quia. Accusantium distinctio omnis et atque fugiat. Itaque doloremque aliquid sint quasi quia distinctio similique. Voluptate nihil recusandae mollitia dolores. Ut laboriosam voluptatum dicta.
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-title"></h5>
+          <!-- Table with stripped rows -->
+          <table class="table table-striped customer-histroy-table">
+            <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Order No</th>
+                    <th scope="col">Date</th>
+                    <th scope="col">Items</th>
+                    <th scope="col">Price</th>
+                    <th scope="col">Paid</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <th scope="row">1</th>
+                    <td>#12345</td>
+                    <td>2023-01-10</td>
+                    <td>Product A, Product B</td>
+                    <td>৳150.00</td>
+                    <td><span style="color: green;">
+                      <i class="bi bi-check-circle-fill" style="color: green;"></i> Paid
+                  </span></td>
+                </tr>
+                <tr>
+                    <th scope="row">2</th>
+                    <td>#12346</td>
+                    <td>2023-01-09</td>
+                    <td>Product C</td>
+                    <td>৳75.50</td>
+                    <td><span style="color: red;">
+                      <i class="bi bi-x-circle-fill" style="color: red;"></i> Not Paid
+                  </span></td>
+                </tr>
+                <!-- Add more rows as needed -->
+            </tbody>
+          </table> 
+          <!-- End Table with stripped rows -->
+
+        </div>
+      </div>
     </div>
   </div><!-- End Pills Tabs -->
 
@@ -91,4 +218,7 @@
 <script>
   $("#order").removeClass("collapsed");
 </script>
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 {% endblock scripts %}

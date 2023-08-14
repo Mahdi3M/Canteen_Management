@@ -1274,7 +1274,7 @@ h6 {
   pointer-events: auto;
 }
 
-#cart #order-total{
+#cart #cart-total{
   font-weight: 1000;
   font-size: large;
   margin-top: 15px;
@@ -1345,65 +1345,84 @@ h6 {
 # Order Cards
 --------------------------------------------------------------*/
 
-#order-remove {
-  background-color: #db4734;
-  color: #ffffff;
-  border: none;
-  border-radius: 8px;
-  padding: 10px 20px;
-  margin-top: 10px;
-  font-size: 14px;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
+.product-table th#sr,
+.product-table td#sr {
+  width: 50px;
 }
 
-#order-remove:hover {
-  background-color: #bd311f;
+.product-table th#order-product,
+.product-table td#order-product {
+  width: 250px;
+}
+.product-table th#order-quantity,
+.product-table td#order-quantity,
+.product-table th#order-price,
+.product-table td#order-price {
+  width: 150px;
 }
 
-#order-complete {
-  background-color: #58c510;
-  color: #ffffff;
-  border: none;
-  border-radius: 8px;
-  padding: 10px 20px;
-  margin-top: 10px;
-  font-size: 14px;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
+#order-total {
+  font-weight: 1200;
 }
 
-#order-remove:hover {
-  background-color: #1f970f;
+.order-complete,
+.order-remove {
+    margin-top: 10px;
+    padding: 8px 16px;
+    border: none;
+    font-size: 14px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    border-radius: 8px;
+}
+
+.order-complete {
+    background-color: #28a745;
+    color: white;
+}
+
+.order-remove {
+    background-color: #dc3545;
+    color: white;
+}
+
+.order-complete:hover,
+.order-remove:hover {
+    opacity: 0.8;
 }
 
 .total {
   display: flex;
   justify-content: space-between;
-  align-items: right;
-  background-color: #f5f5f5;
-  padding: 10px 20px;
-  border-top: 1px solid #ddd;
+  align-items: center;
 }
 
-.total p {
-  font-size: 18px;
-  margin: 0;
+#order-total {
+  margin-right: auto;
 }
 
-.scan {
-  background-color: #3498db;
-  color: #fff;
+.order-complete,
+.order-remove {
+  padding: 8px 16px;
   border: none;
-  padding: 10px 20px;
-  font-size: 16px;
-  font-weight: 1200;
+  font-size: 14px;
+  font-weight: bold;
   cursor: pointer;
   transition: background-color 0.3s ease;
-  border-radius: 8px;
 }
 
-.scan:hover {
-  background-color: #2980b9;
+.order-complete {
+  background-color: #28a745;
+  color: white;
 }
 
+.order-remove {
+  background-color: #dc3545;
+  color: white;
+}
+
+.order-complete:hover,
+.order-remove:hover {
+  opacity: 0.8;
+}
