@@ -35,5 +35,8 @@ def customer_history(request):
 def nco_order(request):
     return render(request, "Canteen/nco_order.html")
 
+def nco_inventory(request):
+    return render(request, "Canteen/nco_inventory.html")
+
 
 #<-- ======= Admin ======= -->

@@ -1,0 +1,122 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block main %}
+<main id="main" class="main">
+
+  <div class="pagetitle">
+    <h1>Inventory</h1>
+  </div><!-- End Page Title -->
+
+  <!-- Pills Tabs -->
+  <ul class="nav nav-pills my-4" id="pills-tab" role="tablist">
+    <li class="nav-item" role="presentation">
+      <button class="nav-link active" id="pills-new-item-tab" data-bs-toggle="pill" data-bs-target="#pills-new-item" type="button" role="tab" aria-controls="pills-new-item" aria-selected="true">Add New Item</button>
+    </li>
+    <li class="nav-item" role="presentation">
+      <button class="nav-link" id="pills-manage-tab" data-bs-toggle="pill" data-bs-target="#pills-manage" type="button" role="tab" aria-controls="pills-manage" aria-selected="false">Manage</button>
+    </li>
+  </ul>
+  <div class="tab-content pt-2" id="myTabContent">
+    <div class="tab-pane fade show active" id="pills-new-item" role="tabpanel" aria-labelledby="new-item-tab">
+      <div class="card p-4 mb-5">
+        <form action="/action_page.php" method="post" class="needs-validation" novalidate>
+          <div class="row">
+            <div class="col-4">
+              <div class="image-preview">
+                  <img id="preview" src={% static 'assets/img/default.png' %} alt="Image Preview" class="p-3 mb-2" style="max-width: 100%; height: auto; border-radius: 8px;">
+              </div>
+              <div class="mb-3">
+                  <label for="image" class="form-label">Select Image</label>
+                  <input type="file" class="form-control" id="image" name="image" onchange="previewImage()">
+              </div>
+            </div>
+            <div class="col-8">
+              <div class="mb-3">
+                <label for="productName" class="form-label">Product Name</label>
+                <input type="text" class="form-control" id="productName" placeholder="Enter product name" name="productName" required>
+                <div class="invalid-feedback">Please enter the product name.</div>
+              </div>
+              <div class="mb-3">
+                <label for="productCode" class="form-label">Product Code</label>
+                <input type="text" class="form-control" id="productCode" placeholder="Enter product code" name="productCode" required>
+                <div class="invalid-feedback">Please enter the product code.</div>
+              </div>
+              <div class="mb-3">
+                <label for="category" class="form-label">Category</label>
+                <select class="form-control" id="category" name="category">
+                  <option value="electronics">Electronics</option>
+                  <option value="clothes">Clothes</option>
+                  <option value="food">Food</option>
+                  <option value="books">Books</option>
+                </select>
+              </div>
+              <div class="mb-3">
+                <label for="subCategory" class="form-label">Sub Category</label>
+                <select class="form-control" id="subCategory" name="subCategory">
+                  <option value="phones">Phones</option>
+                  <option value="laptops">Laptops</option>
+                  <option value="shirts">Shirts</option>
+                  <option value="pants">Pants</option>
+                </select>
+              </div>
+              <div class="mb-3">
+                <label for="buyingPrice" class="form-label">Buying Price</label>
+                <input type="number" class="form-control" id="buyingPrice" placeholder="Enter buying price" name="buyingPrice" required>
+                <div class="invalid-feedback">Please enter the buying price.</div>
+              </div>
+              <div class="mb-3">
+                <label for="sellingPrice" class="form-label">Selling Price</label>
+                <input type="number" class="form-control" id="sellingPrice" placeholder="Enter selling price" name="sellingPrice" required>
+                <div class="invalid-feedback">Please enter the selling price.</div>
+              </div>
+              <div class="mb-3">
+                <label for="amount" class="form-label">Amount</label>
+                <input type="number" class="form-control" id="amount" placeholder="Enter amount" name="amount" required>
+                <div class="invalid-feedback">Please enter the amount.</div>
+              </div>
+              <div class="d-flex justify-content-end mt-5">
+                <button type="submit" class="btn btn-primary align-self-end">Add</button>
+              </div>              
+            </div>
+          </div>
+        </form>
+      </div>    
+    </div>
+    <div class="tab-pane fade" id="pills-manage" role="tabpanel" aria-labelledby="manage-tab">
+      Nesciunt totam et. Consequuntur magnam aliquid eos nulla dolor iure eos quia. Accusantium distinctio omnis et atque fugiat. Itaque doloremque aliquid sint quasi quia distinctio similique. Voluptate nihil recusandae mollitia dolores. Ut laboriosam voluptatum dicta.
+    </div>
+  </div><!-- End Pills Tabs -->
+
+</main>
+{% endblock main %}
+
+{% block scripts %}
+<script>
+  $("#inventory").removeClass("collapsed");
+</script>
+
+<script>
+  function previewImage() {
+      var preview = document.getElementById('preview');
+      var imageInput = document.getElementById('image');
+
+      if (imageInput.files && imageInput.files[0]) {
+          var reader = new FileReader();
+
+          reader.onload = function(e) {
+              preview.src = e.target.result;
+          };
+
+          reader.readAsDataURL(imageInput.files[0]);
+      }
+  }
+
+  function clearImage() {
+      var preview = document.getElementById('preview');
+      var imageInput = document.getElementById('image');
+      preview.src = '#';
+      imageInput.value = ''; // Clear the selected file
+  }
+</script>
+{% endblock scripts %}
