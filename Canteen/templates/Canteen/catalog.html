@@ -10,8 +10,14 @@
 
 {% block main %}
 <main id="main" class="main">
-    <div class="pagetitle">
+    <div class="pagetitle my-4 d-flex">
       <h1>Catalog</h1>
+      <div class="search-bar flex-fill ps-5">
+        <form class="search-form d-flex align-items-center" method="POST" action="#">
+          <input type="text" name="query" placeholder="Enter search keyword" title="Enter search keyword">
+          <button type="submit" title="Search"><i class="bi bi-search"></i></button>
+        </form>
+      </div><!-- End Search Bar -->
       {% comment %} <nav>
         <ol class="breadcrumb">
           <li class="breadcrumb-item"><a href="index.html">{Customer Name}</a></li>

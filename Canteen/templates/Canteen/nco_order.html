@@ -25,7 +25,7 @@
 
       <!-- Modal -->
       <div class="modal fade" id="addProductModal" tabindex="-1" role="dialog" aria-labelledby="addProductModalLabel" aria-hidden="true">
-          <div class="modal-dialog" role="document">
+          <div class="modal-dialog modal-dialog-scrollable" role="document">
               <div class="modal-content">
                   <div class="modal-header">
                       <h5 class="modal-title" id="addProductModalLabel">Add Product to Checkout</h5>
@@ -34,15 +34,14 @@
                       </button>
                   </div>
                   <div class="modal-body">
-                      <!-- Product Form -->
+                    <!-- Product Form -->
                       <form>
-                          <div class="form-group">
+                          <div class="form-group pb-5">
                               <label for="productName">Product Name</label>
-                              <input type="text" class="form-control" id="productName" placeholder="Enter product name">
-                          </div>
-                          <div class="form-group">
-                              <label for="productPrice">Product Price</label>
-                              <input type="number" class="form-control" id="productPrice" placeholder="Enter product price">
+                              <div class="input-group">
+                                <input type="text" class="form-control" id="productName" placeholder="Enter search keyword">
+                                <button type="submit" class="input-group-text" title="Search"><i class="bi bi-search"></i></button>
+                            </div>
                           </div>
                       </form>
                       
