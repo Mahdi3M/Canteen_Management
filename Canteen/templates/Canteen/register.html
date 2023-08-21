@@ -13,7 +13,7 @@
               <div class="d-flex justify-content-center py-4">
                 <a href={% url 'Canteen:home' %} class="logo d-flex align-items-center w-auto">
                   <img src={% static 'assets/img/logo.png' %} alt="">
-                  <span class="d-none d-lg-block">Offrs' Mess Cafe</span>
+                  <span class="d-none d-lg-block">STC&S Offrs' Mess Cafe</span>
                 </a>
               </div><!-- End Logo -->
 
@@ -26,7 +26,8 @@
                     <p class="text-center small">Enter your personal details to create account</p>
                   </div>
 
-                  <form class="row g-3 needs-validation" novalidate>
+                  <form method=POST action={% url 'Canteen:register' %} class="row g-3 needs-validation" novalidate>
+                    {% csrf_token %}
                     <div class="col-12">
                       <label for="yourName" class="form-label">Your Name</label>
                       <input type="text" name="name" class="form-control" id="yourName" required>
@@ -34,9 +35,28 @@
                     </div>
 
                     <div class="col-12">
-                      <label for="yourEmail" class="form-label">Your Email</label>
-                      <input type="email" name="email" class="form-control" id="yourEmail" required>
-                      <div class="invalid-feedback">Please enter a valid Email adddress!</div>
+                      <label for="yourBA" class="form-label">Your BA No.</label>
+                      <div class="input-group">
+                          <span class="input-group-text">BA-</span>
+                          <input type="number" name="ba" class="form-control" id="yourBA" required>
+                          <div class="invalid-feedback">Please enter a valid BA Number!</div>
+                      </div>
+                    </div>
+
+                    <div class="col-12">
+                      <label for="yourUnit" class="form-label">Unit Name</label>
+                      <div class="input-group has-validation">
+                        <input type="text" name="unit" class="form-control" id="yourUnit" required>
+                        <div class="invalid-feedback">Please choose an unit.</div>
+                      </div>
+                    </div>
+
+                    <div class="col-12">
+                      <label for="yourRank" class="form-label">Rank</label>
+                      <div class="input-group has-validation">
+                        <input type="text" name="rank" class="form-control" id="yourRank" required>
+                        <div class="invalid-feedback">Please enter your rank.</div>
+                      </div>
                     </div>
 
                     <div class="col-12">
@@ -49,23 +69,35 @@
                     </div>
 
                     <div class="col-12">
+                      <label for="yourEmail" class="form-label">Your Email</label>
+                      <input type="email" name="email" class="form-control" id="yourEmail" required>
+                      <div class="invalid-feedback">Please enter a valid Email adddress!</div>
+                    </div>
+
+                    <div class="col-12">
                       <label for="yourPassword" class="form-label">Password</label>
                       <input type="password" name="password" class="form-control" id="yourPassword" required>
                       <div class="invalid-feedback">Please enter your password!</div>
                     </div>
 
                     <div class="col-12">
+                      <label for="confirmPassword" class="form-label">Confirm Password</label>
+                      <input type="password" name="confirmpassword" class="form-control" id="confirmPassword" required>
+                      <div class="invalid-feedback">Please re-enter your password!</div>
+                    </div>
+
+                    {% comment %} <div class="col-12">
                       <div class="form-check">
                         <input class="form-check-input" name="terms" type="checkbox" value="" id="acceptTerms" required>
                         <label class="form-check-label" for="acceptTerms">I agree and accept the <a href="#">terms and conditions</a></label>
                         <div class="invalid-feedback">You must agree before submitting.</div>
                       </div>
-                    </div>
-                    <div class="col-12">
+                    </div> {% endcomment %}
+                    <div class="col-12 mt-5">
                       <button class="btn btn-primary w-100" type="submit">Create Account</button>
                     </div>
                     <div class="col-12">
-                      <p class="small mb-0">Already have an account? <a href="pages-login.html">Log in</a></p>
+                      <p class="small mb-0">Already have an account? <a href={% url 'Canteen:signin' %}>Sign In</a></p>
                     </div>
                   </form>
 

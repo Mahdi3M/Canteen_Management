@@ -4,8 +4,8 @@ from Canteen import views
 app_name = "Canteen"
 
 urlpatterns = [
-    path('', views.home, name="home"),
-    path('login/', views.login, name="login"),
+    path('', views.signin, name="signin"),
+    path('signout', views.sign_out, name="signout"),
     path('register/', views.register, name="register"),
     path('profile/', views.profile, name="profile"),
     path('contact/', views.contact, name="contact"),
@@ -17,6 +17,7 @@ urlpatterns = [
     path('nco_order/', views.nco_order, name="nco_order"),
     path('nco_inventory/', views.nco_inventory, name="nco_inventory"),
     
+    path('home/', views.home, name="home"),
     path('admin_stats/', views.admin_stats, name="admin_stats"),
     path('admin_users/', views.admin_users, name="admin_users"),
 ]

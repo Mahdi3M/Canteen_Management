@@ -5,30 +5,29 @@
 
       <li class="nav-heading">Navigate</li>
 
-      <li class="nav-item">
-        <a id="home" class="nav-link collapsed" href={% url 'Canteen:home' %}>
-          <i class="bi bi-house"></i>
-          <span>Home</span>
-        </a>
-      </li>
-    </li>
+      <!-- ======= Admin ======= -->
+      {% if user.role == "Admin" %}
+        <li class="nav-item">
+          <a id="home" class="nav-link collapsed" href={% url 'Canteen:home' %}>
+            <i class="bi bi-house"></i>
+            <span>Home</span>
+          </a>
+        </li>
 
-    <!-- ======= Admin ======= -->
+        <li class="nav-item">
+          <a id="stats" class="nav-link collapsed" href={% url 'Canteen:admin_stats' %}>
+            <i class="bi bi-bar-chart"></i>
+            <span>Statistics</span>
+          </a>
+        </li>
 
-    <li class="nav-item">
-      <a id="stats" class="nav-link collapsed" href={% url 'Canteen:admin_stats' %}>
-        <i class="bi bi-bar-chart"></i>
-        <span>Statistics</span>
-      </a>
-    </li>
-
-    <li class="nav-item">
-      <a id="users" class="nav-link collapsed" href={% url 'Canteen:admin_users' %}>
-        <i class="bi bi-people"></i>
-        <span>Users</span>
-      </a>
-    </li>
-
+        <li class="nav-item">
+          <a id="users" class="nav-link collapsed" href={% url 'Canteen:admin_users' %}>
+            <i class="bi bi-people"></i>
+            <span>Users</span>
+          </a>
+        </li>
+      {% endif %}
       <!-- ======= Customer ======= -->
 
       <li class="nav-item">
@@ -53,51 +52,21 @@
       </li>
 
       <!-- ======= Bar NCO ======= -->
+      {% if user.role == "Bar NCO" %}
+        <li class="nav-item">
+          <a id="order" class="nav-link collapsed" href={% url 'Canteen:nco_order' %}>
+            <i class="bi bi-arrow-down-square"></i>
+            <span>Orders</span>
+          </a>
+        </li>
 
-      <li class="nav-item">
-        <a id="order" class="nav-link collapsed" href={% url 'Canteen:nco_order' %}>
-          <i class="bi bi-arrow-down-square"></i>
-          <span>Orders</span>
-        </a>
-      </li>
-
-      <li class="nav-item">
-        <a id="inventory" class="nav-link collapsed" href={% url 'Canteen:nco_inventory' %}>
-          <i class="bi bi-archive"></i>
-          <span>Inventory</span>
-        </a>
-
-      <!-- ======= Other Pages ======= -->
-
-      <li class="nav-heading">Pages</li>
-
-      <li class="nav-item">
-        <a id="profile" class="nav-link collapsed" href={% url 'Canteen:profile' %}>
-          <i class="bi bi-person"></i>
-          <span>Profile</span>
-        </a>
-      </li>
-
-      <li class="nav-item">
-        <a id="contact" class="nav-link collapsed" href={% url 'Canteen:contact' %}>
-          <i class="bi bi-envelope"></i>
-          <span>Contact</span>
-        </a>
-      </li>
-
-      <li class="nav-item">
-        <a id="register" class="nav-link collapsed" href={% url 'Canteen:register' %}>
-          <i class="bi bi-card-list"></i>
-          <span>Register</span>
-        </a>
-      </li>
-
-      <li class="nav-item">
-        <a id="login" class="nav-link collapsed" href={% url 'Canteen:login' %}>
-          <i class="bi bi-box-arrow-in-right"></i>
-          <span>Login</span>
-        </a>
-      </li>
+        <li class="nav-item">
+          <a id="inventory" class="nav-link collapsed" href={% url 'Canteen:nco_inventory' %}>
+            <i class="bi bi-archive"></i>
+            <span>Inventory</span>
+          </a>
+        </li>
+      {% endif %}
 
     </ul>
 

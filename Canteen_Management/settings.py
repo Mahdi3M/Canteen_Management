@@ -133,4 +133,4 @@ MEDIA_URL = 'media/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-# AUTH_USER_MODEL = "base.User"
+AUTH_USER_MODEL = "Canteen.User"

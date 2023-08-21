@@ -77,6 +77,14 @@
   
   {% endblock scripts %}
 
+  {% if messages %}
+      {% for message in messages %}
+          <script>
+              alert('{{ message|escapejs }}')
+          </script>
+      {% endfor %}
+  {% endif %}
+
   <!-- Vendor JS Files -->
   <script src={% static 'assets/vendor/apexcharts/apexcharts.min.js' %}></script>
   <script src={% static 'assets/vendor/bootstrap/js/bootstrap.bundle.min.js' %}></script>
