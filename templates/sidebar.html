@@ -11,6 +11,23 @@
           <span>Home</span>
         </a>
       </li>
+    </li>
+
+    <!-- ======= Admin ======= -->
+
+    <li class="nav-item">
+      <a id="stats" class="nav-link collapsed" href={% url 'Canteen:admin_stats' %}>
+        <i class="bi bi-bar-chart"></i>
+        <span>Statistics</span>
+      </a>
+    </li>
+
+    <li class="nav-item">
+      <a id="users" class="nav-link collapsed" href={% url 'Canteen:admin_users' %}>
+        <i class="bi bi-people"></i>
+        <span>Users</span>
+      </a>
+    </li>
 
       <!-- ======= Customer ======= -->
 
@@ -49,7 +66,6 @@
           <i class="bi bi-archive"></i>
           <span>Inventory</span>
         </a>
-      </li>
 
       <!-- ======= Other Pages ======= -->
 

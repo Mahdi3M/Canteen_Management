@@ -1,0 +1,138 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block main %}
+<main id="main" class="main">
+
+  <div class="pagetitle">
+    <h1>Users</h1>
+  </div><!-- End Page Title -->
+
+  <!-- Pills Tabs -->
+  <ul class="nav nav-pills my-4" id="pills-tab" role="tablist">
+    <li class="nav-item" role="presentation">
+      <button class="nav-link active" id="pills-pending-users-tab" data-bs-toggle="pill" data-bs-target="#pills-pending-users" type="button" role="tab" aria-controls="pills-pending-users" aria-selected="true">Pending Users</button>
+    </li>
+    <li class="nav-item" role="presentation">
+      <button class="nav-link" id="pills-all-users-tab" data-bs-toggle="pill" data-bs-target="#pills-all-users" type="button" role="tab" aria-controls="pills-all-users" aria-selected="false">All Users</button>
+    </li>
+  </ul>
+  <div class="tab-content pt-2" id="myTabContent">
+    <div class="tab-pane fade show active" id="pills-pending-users" role="tabpanel" aria-labelledby="pending-users-tab">
+      <div class="card p-4">  
+        <div class="card-body">
+          <table class="table sales-summary">
+            <thead>
+              <tr>
+                <th>Picture</th>
+                <th>Username</th>
+                <th>Address</th>
+                <th>Role</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><img src={% static 'assets/img/default.png' %} alt="Image Preview" class="m-2" style="max-width: 50px; height: auto; border-radius: 8px;"></td>
+                <td>Lt. Asmeer Joy</td>
+                <td>House 123, Road 45, Block C, Gulshan 2, Dhaka</td>
+                <td>
+                  <select class="form-select" aria-label="Default select example" id="userRole" name="userRole">
+                    <option value="admin">Admin</option>
+                    <option value="barNCO">Bar NCO</option>
+                    <option selected value="customer">Customer</option>
+                  </select>
+                </td>
+                <td><button type="submit" class="btn btn-primary">Add</button></td>
+              </tr>
+              <tr>
+                <td><img src={% static 'assets/img/default.png' %} alt="Image Preview" class="m-2" style="max-width: 50px; height: auto; border-radius: 8px;"></td>
+                <td>Capt. Sakib </td>
+                <td>Apartment B4, House 78, Road 8, Dhanmondi, Dhaka</td>
+                <td>
+                  <select class="form-select" aria-label="Default select example" id="userRole" name="userRole">
+                    <option value="admin">Admin</option>
+                    <option value="barNCO">Bar NCO</option>
+                    <option selected value="customer">Customer</option>
+                  </select>
+                </td>
+                <td><button type="submit" class="btn btn-primary">Add</button></td>
+              </tr>
+              <tr>
+                <td><img src={% static 'assets/img/default.png' %} alt="Image Preview" class="m-2" style="max-width: 50px; height: auto; border-radius: 8px;"></td>
+                <td>Lt. Natique</td>
+                <td>Plot 17, Sector 6, Uttara, Dhaka</td>
+                <td>
+                  <select class="form-select" aria-label="Default select example" id="userRole" name="userRole">
+                    <option value="admin">Admin</option>
+                    <option value="barNCO">Bar NCO</option>
+                    <option selected value="customer">Customer</option>
+                  </select>
+                </td>
+                <td><button type="submit" class="btn btn-primary">Add</button></td>
+              </tr>
+                <!-- Add more rows as needed -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="tab-pane fade" id="pills-all-users" role="tabpanel" aria-labelledby="all-users-tab">
+      <div class="card p-4">  
+        <div class="card-body">
+          <table class="table sales-summary">
+            <thead>
+              <tr>
+                <th>Picture</th>
+                <th>Username</th>
+                <th>Address</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><img src={% static 'assets/img/default.png' %} alt="Image Preview" class="m-2" style="max-width: 50px; height: auto; border-radius: 8px;"></td>
+                <td>Lt. Asmeer Joy</td>
+                <td>House 123, Road 45, Block C, Gulshan 2, Dhaka</td>
+                <td><button type="submit" class="btn btn-danger">Remove</button></td>
+              </tr>
+              <tr>
+                <td><img src={% static 'assets/img/default.png' %} alt="Image Preview" class="m-2" style="max-width: 50px; height: auto; border-radius: 8px;"></td>
+                <td>Capt. Sakib </td>
+                <td>Apartment B4, House 78, Road 8, Dhanmondi, Dhaka</td>
+                <td><button type="submit" class="btn btn-danger">Remove</button></td>
+              </tr>
+              <tr>
+                <td><img src={% static 'assets/img/default.png' %} alt="Image Preview" class="m-2" style="max-width: 50px; height: auto; border-radius: 8px;"></td>
+                <td>Lt. Natique</td>
+                <td>Plot 17, Sector 6, Uttara, Dhaka</td>
+                <td><button type="submit" class="btn btn-danger">Remove</button></td>
+              </tr>
+              <tr>
+                <td><img src={% static 'assets/img/default.png' %} alt="Image Preview" class="m-2" style="max-width: 50px; height: auto; border-radius: 8px;"></td>
+                <td>Lt. Niamul</td>
+                <td>House 67, Block E, Bashundhara R/A, Dhaka</td>
+                <td><button type="submit" class="btn btn-danger">Remove</button></td>
+              </tr>
+              <tr>
+                <td><img src={% static 'assets/img/default.png' %} alt="Image Preview" class="m-2" style="max-width: 50px; height: auto; border-radius: 8px;"></td>
+                <td>Maj Tahsin</td>
+                <td>House 67, Block E, Bashundhara R/A, Dhaka</td>
+                <td><button type="submit" class="btn btn-danger">Remove</button></td>
+              </tr>
+                <!-- Add more rows as needed -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div><!-- End Pills Tabs -->
+
+</main>
+{% endblock main %}
+
+{% block scripts %}
+<script>
+  $("#users").removeClass("collapsed");
+</script>
+{% endblock scripts %}

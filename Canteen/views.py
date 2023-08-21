@@ -40,3 +40,9 @@ def nco_inventory(request):
 
 
 #<-- ======= Admin ======= -->
+
+def admin_stats(request):
+    return render(request, "Canteen/admin_stats.html")
+
+def admin_users(request):
+    return render(request, "Canteen/admin_users.html")

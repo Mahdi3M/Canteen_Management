@@ -16,4 +16,7 @@ urlpatterns = [
     
     path('nco_order/', views.nco_order, name="nco_order"),
     path('nco_inventory/', views.nco_inventory, name="nco_inventory"),
+    
+    path('admin_stats/', views.admin_stats, name="admin_stats"),
+    path('admin_users/', views.admin_users, name="admin_users"),
 ]
