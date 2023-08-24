@@ -1428,3 +1428,85 @@ h6 {
 .order-remove:hover {
   opacity: 0.8;
 }
+
+
+/*--------------------------------------------------------------
+# Pending User Table
+--------------------------------------------------------------*/
+
+.pending-users td{
+  vertical-align: middle;
+}
+
+.pending-users th.user-sr,
+.pending-users td.user-sr {
+  width: 50px;
+}
+
+.pending-users th.user-image,
+.pending-users td.user-image, 
+.pending-users th.user-ba,
+.pending-users td.user-ba{
+  width: 150px;
+}
+
+.pending-users th.user-unit,
+.pending-users td.user-unit{
+  width: 250px;
+}
+
+.pending-users th.user-name,
+.pending-users td.user-name{
+  width: 300px;
+}
+
+
+/*--------------------------------------------------------------
+# All User Table
+--------------------------------------------------------------*/
+
+.all-users td{
+  vertical-align: middle;
+}
+
+.all-users th.user-sr,
+.all-users td.user-sr {
+  width: 50px;
+}
+
+.all-users th.user-image,
+.all-users td.user-image,
+.all-users th.user-role,
+.all-users td.user-role,
+.all-users th.user-ba,
+.all-users td.user-ba{
+  width: 150px;
+}
+
+.all-users th.user-unit,
+.all-users td.user-unit{
+  width: 250px;
+}
+
+.all-users th.user-name,
+.all-users td.user-name{
+  width: 300px;
+}
+
+
+/*--------------------------------------------------------------
+# Register
+--------------------------------------------------------------*/
+
+.square-image-container {
+  position: relative; /* To position the image inside the container */
+  overflow: hidden; /* Hide any overflow from the image */
+}
+
+.square-image {
+  position: absolute; /* Position the image within the container */
+  width: 100%; /* Make the image cover the container width */
+  height: 100%; /* Make the image height equal to the container width */
+  object-fit: cover; /* Maintain aspect ratio and cover the container */
+  border-radius: 50%;
+}

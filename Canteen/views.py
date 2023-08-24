@@ -68,6 +68,7 @@ def register(request):
         email = request.POST.get('email')
         password = request.POST.get('password')
         confirm_password = request.POST.get('confirmpassword')
+        image_file = request.FILES.get('image')         
         
         if User.objects.all().filter(username=username).exists():
             messages.error(request, "Username is already taken.")
@@ -90,6 +91,7 @@ def register(request):
                 myuser.last_name = name
                 myuser.ba = ba
                 myuser.unit = unit
+                myuser.image = image_file
                 myuser.save() 
                 messages.success(request, "You are succesfully registered.")
                 return redirect('Canteen:signin')
@@ -167,4 +169,23 @@ def admin_stats(request):
 @login_required(redirect_field_name='next', login_url="Canteen:signin")
 @role_required(allowed_roles=['Admin'])
 def admin_users(request):
-    return render(request, "Canteen/admin_users.html")
+    
+    if request.method == "POST":
+        if request.POST.get("user_id_add"):
+            id = request.POST.get("user_id_add")
+            role = request.POST.get("userRole")
+            new_user = User.objects.get(id = id)
+            new_user.is_active = True
+            new_user.role = role
+            new_user.save()
+            
+        if request.POST.get("user_id_remove"):
+            id = request.POST.get("user_id_remove")
+            delete_user = User.objects.get(id = id)
+            delete_user.delete()
+    
+    pending_users = User.objects.filter(is_active = False)
+    all_users = User.objects.filter(is_active = True)
+    
+    context = {"pending_users": pending_users, "all_users":all_users}
+    return render(request, "Canteen/admin_users.html", context)

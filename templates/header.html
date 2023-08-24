@@ -239,7 +239,9 @@
         <li class="nav-item dropdown pe-3">
 
           <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown">
-            <img src={% static 'assets/img/profile-img.jpg' %} alt="Profile" class="rounded-circle">
+            <div class="square-image-container" style="width:35px; height:35px;">
+              <img src={{ user.image.url }} alt="Profile" class="square-image">
+            </div>            
             <span class="d-none d-md-block dropdown-toggle ps-2">{{ user.last_name }}</span>
           </a><!-- End Profile Iamge Icon -->
 
