@@ -32,46 +32,62 @@
               </div>
             </div>
             <div class="col-8">
-              <div class="mb-3">
-                <label for="productName" class="form-label">Product Name or Code</label>
-                <input type="text" class="form-control" id="productName" placeholder="Enter product name" name="productName" required>
-                <div class="invalid-feedback">Please enter the product name.</div>
-              </div>
-              <div class="mb-3">
-                <label for="category" class="form-label">Category</label>
-                <select class="form-control" id="category" name="category">
-                  <option value="electronics">Electronics</option>
-                  <option value="clothes">Clothes</option>
-                  <option value="food">Food</option>
-                  <option value="books">Books</option>
-                </select>
-              </div>
-              <div class="mb-3">
-                <label for="subCategory" class="form-label">Sub Category</label>
-                <select class="form-control" id="subCategory" name="subCategory">
-                  <option value="phones">Phones</option>
-                  <option value="laptops">Laptops</option>
-                  <option value="shirts">Shirts</option>
-                  <option value="pants">Pants</option>
-                </select>
-              </div>
-              <div class="mb-3">
-                <label for="buyingPrice" class="form-label">Buying Price</label>
-                <input type="number" class="form-control" id="buyingPrice" placeholder="Enter buying price" name="buyingPrice" required>
-                <div class="invalid-feedback">Please enter the buying price.</div>
-              </div>
-              <div class="mb-3">
-                <label for="sellingPrice" class="form-label">Selling Price</label>
-                <input type="number" class="form-control" id="sellingPrice" placeholder="Enter selling price" name="sellingPrice" required>
-                <div class="invalid-feedback">Please enter the selling price.</div>
-              </div>
-              <div class="mb-3">
-                <label for="amount" class="form-label">Amount</label>
-                <input type="number" class="form-control" id="amount" placeholder="Enter amount" name="amount" required>
-                <div class="invalid-feedback">Please enter the amount.</div>
-              </div>
-              <div class="d-flex justify-content-end mt-5">
-                <button type="submit" class="btn btn-primary">Add</button>
+              <div class="row g-3">
+                <div class="mb-3 col-md-12">
+                  <label for="productName" class="form-label">Product Name or Code</label>
+                  <input type="text" class="form-control" id="productName" placeholder="Enter product name" name="productName" required>
+                  <div class="invalid-feedback">Please enter the product name.</div>
+                </div>
+                <div class="mb-3 col-md-5">
+                  <label for="category" class="form-label">Category</label>
+                  <select class="form-control" id="category" name="category">
+                    <option value="" selected>Select Category</option>
+                    <option value="electronics">Electronics</option>
+                    <option value="clothes">Clothes</option>
+                    <option value="food">Food</option>
+                    <option value="books">Books</option>
+                  </select>
+                </div>
+                <p class="col-md-1 align-self-end text-center">OR</p>  
+                <div class="mb-3 col-md-6">
+                  <label for="new-category" class="form-label">New Category</label>
+                  <input type="text" class="form-control" id="new-category" placeholder="Enter New Category" name="new-category">
+                  <div class="invalid-feedback">Please enter New Category.</div>
+                </div>
+                <div class="mb-3 col-md-5">
+                  <label for="subCategory" class="form-label">Sub Category</label>
+                  <select class="form-control" id="subCategory" name="subCategory">
+                    <option value="" selected>Select Sub Category</option>
+                    <option value="phones">Phones</option>
+                    <option value="laptops">Laptops</option>
+                    <option value="shirts">Shirts</option>
+                    <option value="pants">Pants</option>
+                  </select>
+                </div>
+                <p class="col-md-1 align-self-end text-center">OR</p> 
+                <div class="mb-3 col-md-6">
+                  <label for="new-category" class="form-label">New Sub Category</label>
+                  <input type="text" class="form-control" id="new-sub-category" placeholder="Enter New Sub Category" name="new-sub-category">
+                  <div class="invalid-feedback">Please enter New Sub Category.</div>
+                </div>
+                <div class="mb-3 col-md-12">
+                  <label for="buyingPrice" class="form-label">Buying Price</label>
+                  <input type="number" class="form-control" id="buyingPrice" placeholder="Enter buying price" name="buyingPrice" required>
+                  <div class="invalid-feedback">Please enter the buying price.</div>
+                </div>
+                <div class="mb-3 col-md-12">
+                  <label for="sellingPrice" class="form-label">Selling Price</label>
+                  <input type="number" class="form-control" id="sellingPrice" placeholder="Enter selling price" name="sellingPrice" required>
+                  <div class="invalid-feedback">Please enter the selling price.</div>
+                </div>
+                <div class="mb-3 col-md-12">
+                  <label for="amount" class="form-label">Amount</label>
+                  <input type="number" class="form-control" id="amount" placeholder="Enter amount" name="amount" required>
+                  <div class="invalid-feedback">Please enter the amount.</div>
+                </div>
+                <div class="d-flex justify-content-end mt-5">
+                  <button type="submit" class="btn btn-primary">Add</button>
+                </div>
               </div>              
             </div>
           </div>

@@ -23,3 +23,36 @@ class User(AbstractUser):
         words = [self.first_name, self.last_name]
         result = ' '.join([word for word in words if word is not None])
         return result
+    
+
+
+class Category(models.Model):
+    name = models.CharField(max_length=255)
+
+    def __str__(self):
+        return self.name
+    
+
+class Subcategory(models.Model):
+    name = models.CharField(max_length=255)
+    category = models.ForeignKey(Category, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.name
+    
+
+class Product(models.Model):
+    name = models.CharField(max_length=255)
+    barcode = models.CharField(max_length=50, unique=True)
+    description = models.TextField(blank=True, null=True)
+    buying_price = models.DecimalField(max_digits=10, decimal_places=2)
+    selling_price = models.DecimalField(max_digits=10, decimal_places=2)
+    stock_quantity = models.PositiveIntegerField(default=0)
+    category = models.ForeignKey(Category, on_delete=models.SET_NULL, null=True)
+    subcategory = models.ForeignKey(Subcategory, on_delete=models.SET_NULL, null=True)
+
+    def __str__(self):
+        return self.name
+
+    def calculate_profit(self):
+        return self.selling_price - self.buying_price
