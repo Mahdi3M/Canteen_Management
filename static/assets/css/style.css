@@ -1510,3 +1510,22 @@ h6 {
   object-fit: cover; /* Maintain aspect ratio and cover the container */
   border-radius: 50%;
 }
+
+
+.auto-suggestions {
+  position: absolute;
+  width: 100%;
+  max-height: 150px;
+  overflow-y: auto;
+  background-color: #fff;
+  z-index: 999;
+}
+
+.suggestion {
+  padding: 5px 10px;
+  cursor: pointer;
+}
+
+.suggestion:hover {
+  background-color: #f0f0f0;
+}

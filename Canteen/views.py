@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
-from django.http import HttpResponse
+from django.http import JsonResponse
 from .models import *
 from functools import wraps
 import time
@@ -22,7 +22,6 @@ def role_required(allowed_roles=[]):
                 return redirect('Canteen:signin')
         return _wrapped_view
     return decorator
-
 
 
 #<-- ======= Pages ======= -->
@@ -120,9 +119,20 @@ def contact(request):
 def customer_catalog(request):
     context = {}
     
-    context["categories"] = Category.objects.all()
-    context["subcategories"] = Subcategory.objects.all()
-    context["products"] = Product.objects.all()
+    category_names = Category.objects.values_list('name', flat=True)
+    subcategory_names = Subcategory.objects.values_list('name', flat=True)
+    context["keywords"] = list(category_names) + list(subcategory_names)
+    
+    if request.method == "POST":
+        query = request.POST.get('query')
+        if query in category_names:
+            context["products"] = Product.objects.filter(category__name = query).order_by('category__name', 'subcategory__name', 'name')
+        elif query in subcategory_names:
+            context["products"] = Product.objects.filter(subcategory__name = query).order_by('category__name', 'subcategory__name', 'name')
+        else:
+            context["products"] = Product.objects.all().order_by('category__name', 'subcategory__name', 'name')
+    else:        
+        context["products"] = Product.objects.all().order_by('category__name', 'subcategory__name', 'name')
     
     return render(request, "Canteen/catalog.html", context)
 

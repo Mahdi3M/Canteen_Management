@@ -10,50 +10,45 @@
 
 {% block main %}
 <main id="main" class="main">
-  <div class="pagetitle">
+  <div class="pagetitle d-flex justify-content-between align-items-center">
     <h1>Catalog</h1>
-    {% comment %} <nav>
-      <ol class="breadcrumb">
-        <li class="breadcrumb-item"><a href="index.html">{Customer Name}</a></li>
-        <li class="breadcrumb-item active">Home</li>
-      </ol>
-    </nav> {% endcomment %}
+    <div class="search-bar flex-fill" style="max-width: 200px">
+      <form class="search-form d-flex align-items-center" method=POST action={% url 'Canteen:customer_catalog' %}>
+        {% csrf_token %}
+        <input type="text" name="query" id="search-input" placeholder="Enter search keyword" title="Enter search keyword">
+        <button type="submit" title="Search"><i class="bi bi-search"></i></button>
+      </form>
+      <div id="auto-suggestions" class="auto-suggestions"></div>
+    </div>
   </div><!-- End Page Title -->
-  <div class="search-bar flex-fill mt-5">
-    <form class="search-form d-flex align-items-center" method="POST" action="#">
-      <input type="text" name="query" placeholder="Enter search keyword" title="Enter search keyword">
-      <button type="submit" title="Search"><i class="bi bi-search"></i></button>
-    </form>
-  </div><!-- End Search Bar -->
-
+  
 
   <div class="wrapper-container">
-    {% for category in categories %}
+    
+    {% regroup products by category as category_list %}
+    {% for c in category_list %}
     <div class="cards p-3">
-      <h3 class="card text-center my-3 p-3">{{ category.name }} Category</h3>
+      <h3 class="card text-center my-3 p-3">{{ c.grouper }} Category</h3>
     </div>
-      {% for subcategory in subcategories %}
-      {% if subcategory.category.id == category.id %}
-        <h3 class="card-title mb-3 ps-4">{{ subcategory.name }}</h3>
+      {% regroup c.list by subcategory as subcategory_list %}
+      {% for s in subcategory_list %}
+        <h3 class="card-title mb-3 ps-4">{{ s.grouper }}</h3>
         <div class="wrapper" id="wrapper 1">
           <ul class="carousel">
-            {% for product in products %}
-            {% if product.subcategory.id == subcategory.id %}
+            {% for product in s.list %}
               <li class="card">
                 <div class="img"><img src={{ product.image.url }} alt="img" draggable="false"></div>
                 <p class="text-center">{{ product.name }}</p>
                 <span>Price: {{ product.selling_price }} Tk</span>
                 <button id="{{ product.id }}" class="mt-4">Add To Cart</button>
               </li>
-            {% endif %}
             {% endfor %}
           </ul>
           <i id="left" class="fa-solid fa-angle-left"></i>
           <i id="right" class="fa-solid fa-angle-right"></i>
         </div>
-      {% endif %}
       {% endfor %}
-    {% endfor %}    
+    {% endfor %}  
     
   </div>  
 </main>
@@ -63,4 +58,36 @@
 <script>
   $("#catalog").removeClass("collapsed");
 </script>
+
+<script>
+  const keywords = {{ keywords|safe }};
+  const searchInput = document.getElementById('search-input');
+  const autoSuggestions = document.getElementById('auto-suggestions');
+
+  searchInput.addEventListener('input', () => {
+    const inputText = searchInput.value.toLowerCase();
+    const matchedKeywords = keywords.filter(keyword => keyword.toLowerCase().includes(inputText));
+
+    if (inputText.length === 0) {
+      autoSuggestions.innerHTML = '';
+    } else {
+      const suggestionsHTML = matchedKeywords.map(keyword => `<div class="suggestion">${keyword}</div>`).join('');
+      autoSuggestions.innerHTML = suggestionsHTML;
+    }
+  });
+
+  autoSuggestions.addEventListener('click', (event) => {
+    if (event.target.classList.contains('suggestion')) {
+      searchInput.value = event.target.textContent;
+      autoSuggestions.innerHTML = '';
+    }
+  });
+
+  document.addEventListener('click', (event) => {
+    if (!autoSuggestions.contains(event.target)) {
+      autoSuggestions.innerHTML = '';
+    }
+  });
+</script>
+
 {% endblock scripts %}
