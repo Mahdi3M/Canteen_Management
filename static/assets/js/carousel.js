@@ -15,13 +15,23 @@ wrappers.forEach(wrapper => {
 
     let cardPerView = Math.round(carousel.offsetWidth / firstCardWidth);
 
-    carouselChildrens.slice(-cardPerView).reverse().forEach(card => {
-        carousel.insertAdjacentHTML("afterbegin", card.outerHTML);
-    });
+    if (carouselChildrens.length > cardPerView) {
+        carouselChildrens.slice(-cardPerView).reverse().forEach(card => {
+            carousel.insertAdjacentHTML("afterbegin", card.outerHTML);
+        });
 
-    carouselChildrens.slice(0, cardPerView).forEach(card => {
-        carousel.insertAdjacentHTML("beforeend", card.outerHTML);
-    });
+        carouselChildrens.slice(0, cardPerView).forEach(card => {
+            carousel.insertAdjacentHTML("beforeend", card.outerHTML);
+        });
+
+        arrowBtns.forEach(btn => {
+            btn.style.display = "block"; // Show the buttons
+        });
+    } else {
+        arrowBtns.forEach(btn => {
+            btn.style.display = "none"; // Hide the buttons
+        });
+    }
 
     carousel.classList.add("no-transition");
     carousel.scrollLeft = carousel.offsetWidth;

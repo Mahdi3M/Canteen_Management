@@ -10,155 +10,51 @@
 
 {% block main %}
 <main id="main" class="main">
-    <div class="pagetitle my-4 d-flex">
-      <h1>Catalog</h1>
-      <div class="search-bar flex-fill ps-5">
-        <form class="search-form d-flex align-items-center" method="POST" action="#">
-          <input type="text" name="query" placeholder="Enter search keyword" title="Enter search keyword">
-          <button type="submit" title="Search"><i class="bi bi-search"></i></button>
-        </form>
-      </div><!-- End Search Bar -->
-      {% comment %} <nav>
-        <ol class="breadcrumb">
-          <li class="breadcrumb-item"><a href="index.html">{Customer Name}</a></li>
-          <li class="breadcrumb-item active">Home</li>
-        </ol>
-      </nav> {% endcomment %}
-    </div><!-- End Page Title -->
+  <div class="pagetitle">
+    <h1>Catalog</h1>
+    {% comment %} <nav>
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="index.html">{Customer Name}</a></li>
+        <li class="breadcrumb-item active">Home</li>
+      </ol>
+    </nav> {% endcomment %}
+  </div><!-- End Page Title -->
+  <div class="search-bar flex-fill mt-5">
+    <form class="search-form d-flex align-items-center" method="POST" action="#">
+      <input type="text" name="query" placeholder="Enter search keyword" title="Enter search keyword">
+      <button type="submit" title="Search"><i class="bi bi-search"></i></button>
+    </form>
+  </div><!-- End Search Bar -->
 
 
   <div class="wrapper-container">
-    <h3 class="card-title">Food Items </h3>
-    <div class="wrapper" id="wrapper 1">
-      <ul class="carousel">
-        <li class="card">
-          <div class="img"><img src={% static 'assets/img/product-1.jpg' %} alt="img" draggable="false"></div>
-          <h2>Blanche Pearson</h2>
-          <span>Price: 1000Tk</span>
-          <button>Add To Cart</button>
-        </li>
-        <li class="card">
-          <div class="img"><img src={% static 'assets/img/product-2.jpg' %} alt="img" draggable="false"></div>
-          <h2>Joenas Brauers</h2>
-          <span>Price: 1000Tkr</span>
-          <button>Add To Cart</button>
-        </li>
-        <li class="card">
-          <div class="img"><img src={% static 'assets/img/product-3.jpg' %} alt="img" draggable="false"></div>
-          <h2>Lariach French</h2>
-          <span>Price: 1000Tk</span>
-          <button>Add To Cart</button>
-        </li>
-        <li class="card">
-          <div class="img"><img src={% static 'assets/img/product-4.jpg' %} alt="img" draggable="false"></div>
-          <h2>James Khosravi</h2>
-          <span>Price: 1000Tk</span>
-          <button>Add To Cart</button>
-        </li>
-        <li class="card">
-          <div class="img"><img src={% static 'assets/img/product-5.jpg' %} alt="img" draggable="false"></div>
-          <h2>Kristina Zasiadko</h2>
-          <span>Price: 1000Tk</span>
-          <button>Add To Cart</button>
-        </li>
-        <li class="card">
-          <div class="img"><img src={% static 'assets/img/product-6.jpg' %} alt="img" draggable="false"></div>
-          <h2>Donald Horton</h2>
-          <span>Price: 1000Tk</span>
-          <button>Add To Cart</button>
-        </li>
-      </ul>
-      <i id="left" class="fa-solid fa-angle-left"></i>
-      <i id="right" class="fa-solid fa-angle-right"></i>
+    {% for category in categories %}
+    <div class="cards p-3">
+      <h3 class="card text-center my-3 p-3">{{ category.name }} Category</h3>
     </div>
-
-    <h3 class="card-title">Cosmetic Items </h3>
-    <div class="wrapper" id="wrapper 2">
-        <ul class="carousel">
-          <li class="card">
-            <div class="img"><img src={% static 'assets/img/product-1.jpg' %} alt="img" draggable="false"></div>
-            <h2>Blanche Pearson</h2>
-            <span>Price: 1000Tk</span>
-            <button>Add To Cart</button>
-          </li>
-          <li class="card">
-            <div class="img"><img src={% static 'assets/img/product-2.jpg' %} alt="img" draggable="false"></div>
-            <h2>Joenas Brauers</h2>
-            <span>Price: 1000Tk</span>
-            <button>Add To Cart</button>
-          </li>
-          <li class="card">
-            <div class="img"><img src={% static 'assets/img/product-3.jpg' %} alt="img" draggable="false"></div>
-            <h2>Lariach French</h2>
-            <span>Price: 1000Tk</span>
-            <button>Add To Cart</button>
-          </li>
-          <li class="card">
-            <div class="img"><img src={% static 'assets/img/product-4.jpg' %} alt="img" draggable="false"></div>
-            <h2>James Khosravi</h2>
-            <span>Price: 1000Tk</span>
-            <button>Add To Cart</button>
-          </li>
-          <li class="card">
-            <div class="img"><img src={% static 'assets/img/product-5.jpg' %} alt="img" draggable="false"></div>
-            <h2>Kristina Zasiadko</h2>
-            <span>Price: 1000Tk</span>
-            <button>Add To Cart</button>
-          </li>
-          <li class="card">
-            <div class="img"><img src={% static 'assets/img/product-6.jpg' %} alt="img" draggable="false"></div>
-            <h2>Donald Horton</h2>
-            <span>Price: 1000Tk</span>
-            <button>Add To Cart</button>
-          </li>
-        </ul>
-        <i id="left" class="fa-solid fa-angle-left"></i>
-        <i id="right" class="fa-solid fa-angle-right"></i>
-    </div>
-
-    <h3 class="card-title">Toiletry Items </h3>
-    <div class="wrapper" id="wrapper 3">
-        <ul class="carousel">
-          <li class="card">
-            <div class="img"><img src={% static 'assets/img/product-1.jpg' %} alt="img" draggable="false"></div>
-            <h2>Blanche Pearson</h2>
-            <span>Price: 1000Tk</span>
-            <button>Add To Cart</button>
-          </li>
-          <li class="card">
-            <div class="img"><img src={% static 'assets/img/product-2.jpg' %} alt="img" draggable="false"></div>
-            <h2>Joenas Brauers</h2>
-            <span>Price: 1000Tk</span>
-            <button>Add To Cart</button>
-          </li>
-          <li class="card">
-            <div class="img"><img src={% static 'assets/img/product-3.jpg' %} alt="img" draggable="false"></div>
-            <h2>Lariach French</h2>
-            <span>Price: 1000Tk</span>
-            <button>Add To Cart</button>
-          </li>
-          <li class="card">
-            <div class="img"><img src={% static 'assets/img/product-4.jpg' %} alt="img" draggable="false"></div>
-            <h2>James Khosravi</h2>
-            <span>Price: 1000Tk</span>
-            <button>Add To Cart</button>
-          </li>
-          <li class="card">
-            <div class="img"><img src={% static 'assets/img/product-5.jpg' %} alt="img" draggable="false"></div>
-            <h2>Kristina Zasiadko</h2>
-            <span>Price: 1000Tk</span>
-            <button>Add To Cart</button>
-          </li>
-          <li class="card">
-            <div class="img"><img src={% static 'assets/img/product-6.jpg' %} alt="img" draggable="false"></div>
-            <h2>Donald Horton</h2>
-            <span>Price: 1000Tk</span>
-            <button>Add To Cart</button>
-          </li>
-        </ul>
-        <i id="left" class="fa-solid fa-angle-left"></i>
-        <i id="right" class="fa-solid fa-angle-right"></i>
-    </div>
+      {% for subcategory in subcategories %}
+      {% if subcategory.category.id == category.id %}
+        <h3 class="card-title mb-3 ps-4">{{ subcategory.name }}</h3>
+        <div class="wrapper" id="wrapper 1">
+          <ul class="carousel">
+            {% for product in products %}
+            {% if product.subcategory.id == subcategory.id %}
+              <li class="card">
+                <div class="img"><img src={{ product.image.url }} alt="img" draggable="false"></div>
+                <p class="text-center">{{ product.name }}</p>
+                <span>Price: {{ product.selling_price }} Tk</span>
+                <button id="{{ product.id }}" class="mt-4">Add To Cart</button>
+              </li>
+            {% endif %}
+            {% endfor %}
+          </ul>
+          <i id="left" class="fa-solid fa-angle-left"></i>
+          <i id="right" class="fa-solid fa-angle-right"></i>
+        </div>
+      {% endif %}
+      {% endfor %}
+    {% endfor %}    
+    
   </div>  
 </main>
 {% endblock main %}

@@ -118,7 +118,13 @@ def contact(request):
 
 @login_required(redirect_field_name='next', login_url="Canteen:signin")
 def customer_catalog(request):
-    return render(request, "Canteen/catalog.html")
+    context = {}
+    
+    context["categories"] = Category.objects.all()
+    context["subcategories"] = Subcategory.objects.all()
+    context["products"] = Product.objects.all()
+    
+    return render(request, "Canteen/catalog.html", context)
 
 
 
@@ -165,7 +171,8 @@ def nco_inventory(request):
         new_Product.stock_quantity = amount
         
         if category:
-            new_Product.category = Category.objects.get(name = category)
+            new_Category = Category.objects.get(name = category)
+            new_Product.category = new_Category
         else:            
             new_Category = Category(name = new_category)
             new_Category.save()
@@ -177,7 +184,6 @@ def nco_inventory(request):
             new_Subcategory = Subcategory(name = new_subcategory, category = new_Category)
             new_Subcategory.save()
             new_Product.subcategory = new_Subcategory
-        print(image_file)
         new_Product.save()    
         
     context = {}
