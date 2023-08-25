@@ -20,7 +20,8 @@
   <div class="tab-content pt-2" id="myTabContent">
     <div class="tab-pane fade show active" id="pills-new-item" role="tabpanel" aria-labelledby="new-item-tab">
       <div class="card p-4 mb-5">
-        <form action="" method="POST" class="needs-validation" novalidate>
+        <form method=POST action={% url 'Canteen:nco_inventory' %} class="needs-validation" enctype="multipart/form-data" novalidate>
+          {% csrf_token %}
           <div class="row">
             <div class="col-4">
               <div class="image-preview">
@@ -28,7 +29,8 @@
               </div>
               <div class="mb-3">
                   <label for="image" class="form-label">Select Image</label>
-                  <input type="file" class="form-control" id="image" name="image" onchange="previewImage()">
+                  <input type="file" class="form-control" id="image" name="image" onchange="previewImage()" required>
+                  <div class="invalid-feedback">Please enter the product image.</div>
               </div>
             </div>
             <div class="col-8">
@@ -42,10 +44,9 @@
                   <label for="category" class="form-label">Category</label>
                   <select class="form-control" id="category" name="category">
                     <option value="" selected>Select Category</option>
-                    <option value="electronics">Electronics</option>
-                    <option value="clothes">Clothes</option>
-                    <option value="food">Food</option>
-                    <option value="books">Books</option>
+                    {% for category in categories %}
+                      <option value="{{ category.name }}">{{ category.name }}</option>
+                    {% endfor %}
                   </select>
                 </div>
                 <p class="col-md-1 align-self-end text-center">OR</p>  
@@ -58,10 +59,9 @@
                   <label for="subCategory" class="form-label">Sub Category</label>
                   <select class="form-control" id="subCategory" name="subCategory">
                     <option value="" selected>Select Sub Category</option>
-                    <option value="phones">Phones</option>
-                    <option value="laptops">Laptops</option>
-                    <option value="shirts">Shirts</option>
-                    <option value="pants">Pants</option>
+                    {% for subcategory in subcategories %}
+                      <option value="{{ subcategory.name }}">{{ subcategory.name }}</option>
+                    {% endfor %}
                   </select>
                 </div>
                 <p class="col-md-1 align-self-end text-center">OR</p> 

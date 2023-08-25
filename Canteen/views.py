@@ -146,7 +146,46 @@ def nco_order(request):
 @login_required(redirect_field_name='next', login_url="Canteen:signin")
 @role_required(allowed_roles=['Bar NCO'])
 def nco_inventory(request):
-    return render(request, "Canteen/nco_inventory.html")
+    if request.method == "POST":
+        image_file = request.FILES.get('image')
+        name = request.POST.get('productName')
+        category = request.POST.get('category')
+        new_category = request.POST.get('new-category')
+        subcategory = request.POST.get('subCategory')
+        new_subcategory = request.POST.get('new-sub-category')
+        buying_price = request.POST.get('buyingPrice')
+        selling_price = request.POST.get('sellingPrice')
+        amount = request.POST.get('amount')           
+        
+        new_Product = Product()        
+        new_Product.name = name
+        new_Product.image = image_file
+        new_Product.buying_price = buying_price
+        new_Product.selling_price = selling_price
+        new_Product.stock_quantity = amount
+        
+        if category:
+            new_Product.category = Category.objects.get(name = category)
+        else:            
+            new_Category = Category(name = new_category)
+            new_Category.save()
+            new_Product.category = new_Category
+        
+        if subcategory:
+            new_Product.subcategory = Subcategory.objects.get(name = subcategory)
+        else:
+            new_Subcategory = Subcategory(name = new_subcategory, category = new_Category)
+            new_Subcategory.save()
+            new_Product.subcategory = new_Subcategory
+        print(image_file)
+        new_Product.save()    
+        
+    context = {}
+    
+    context["categories"] = Category.objects.all()
+    context["subcategories"] = Subcategory.objects.all()
+    
+    return render(request, "Canteen/nco_inventory.html", context)
 
 
 
@@ -184,8 +223,9 @@ def admin_users(request):
             delete_user = User.objects.get(id = id)
             delete_user.delete()
     
-    pending_users = User.objects.filter(is_active = False)
-    all_users = User.objects.filter(is_active = True)
+    context = {}
     
-    context = {"pending_users": pending_users, "all_users":all_users}
+    context["pending_users"] = User.objects.filter(is_active = False)
+    context["all_users"] = User.objects.filter(is_active = True)
+    
     return render(request, "Canteen/admin_users.html", context)
