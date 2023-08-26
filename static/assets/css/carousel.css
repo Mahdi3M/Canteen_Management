@@ -75,8 +75,7 @@
 }
 .carousel .card {
   scroll-snap-align: start;
-  height: 330px;
-  max-width: 300px;
+  height: 342px;
   list-style: none;
   background: #fff;
   cursor: pointer;

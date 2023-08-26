@@ -27,12 +27,12 @@
     
     {% regroup products by category as category_list %}
     {% for c in category_list %}
-    <div class="cards px-3">
-      <h3 class="card text-center mt-3 p-3">{{ c.grouper }} Category</h3>
+    <div class="cards p-3">
+      <h3 class="card text-center my-3 p-3">{{ c.grouper }} Category</h3>
     </div>
       {% regroup c.list by subcategory as subcategory_list %}
       {% for s in subcategory_list %}
-        <h3 class="mb-3 ps-4" style="font-size: 18px; font-weight: 700; color: #012970; font-family: "Poppins", sans-serif;">{{ s.grouper }}</h3>
+        <h3 class="card-title mb-3 ps-4">{{ s.grouper }}</h3>
         <div class="wrapper" id="wrapper 1">
           <ul class="carousel">
             {% for product in s.list %}
