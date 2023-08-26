@@ -85,6 +85,53 @@
       {% endfor %}
   {% endif %}
 
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const cartBadge = document.querySelector('.badge-number.cart');
+      const cartDropdown = document.querySelector('.dropdown-menu.cart');
+      const cartJson = sessionStorage.getItem('cart');
+      const cart = cartJson ? JSON.parse(cartJson) : {};
+  
+      updateCart(cart);
+  
+      function updateCart(cart) {    
+        const cartItemsCount = Object.keys(cart).length;
+        cartBadge.textContent = cartItemsCount;
+        cartDropdown.innerHTML = ''; // Clear previous items
+      
+        if (cartItemsCount > 0) {
+          const cartHeader = document.createElement('li');
+          cartHeader.classList.add('dropdown-header');
+          cartHeader.textContent = `You have ${cartItemsCount} items in cart`;
+          const orderLink = document.createElement('a');
+          orderLink.href = '#';
+          orderLink.innerHTML = `<span class="badge rounded-pill bg-primary p-2 ms-2">Order</span>`;
+          cartHeader.appendChild(orderLink);
+          cartDropdown.appendChild(cartHeader);
+      
+          const cartDivider = document.createElement('li');
+          cartDivider.innerHTML = `<hr class="dropdown-divider">`;
+          cartDropdown.appendChild(cartDivider);
+      
+          for (const productId in cart) {
+            const item = cart[productId];
+            const cartItem = document.createElement('li');
+            cartItem.classList.add('notification-item');
+            cartItem.innerHTML = `
+            <div>
+              <h4 class="mb-0">${item.name}</h4>
+              <p class="mb-1">${item.quantity} x ${item.selling_price.toFixed(2)} Tk</p>
+              <p class="mb-0">${(item.quantity * item.selling_price).toFixed(2)} Tk</p>
+            </div>`;
+            cartDropdown.appendChild(cartItem);
+          };
+        }
+      }
+    });
+  </script>
+  
+  
+
   <!-- Vendor JS Files -->
   <script src={% static 'assets/vendor/apexcharts/apexcharts.min.js' %}></script>
   <script src={% static 'assets/vendor/bootstrap/js/bootstrap.bundle.min.js' %}></script>
