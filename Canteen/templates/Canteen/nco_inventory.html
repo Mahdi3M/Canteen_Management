@@ -11,14 +11,14 @@
   <!-- Pills Tabs -->
   <ul class="nav nav-pills my-4" id="pills-tab" role="tablist">
     <li class="nav-item" role="presentation">
-      <button class="nav-link active" id="pills-new-item-tab" data-bs-toggle="pill" data-bs-target="#pills-new-item" type="button" role="tab" aria-controls="pills-new-item" aria-selected="true">Add New Item</button>
+      <button class="nav-link active" id="pills-new-product-tab" data-bs-toggle="pill" data-bs-target="#pills-new-product" type="button" role="tab" aria-controls="pills-new-product" aria-selected="true">Add New Product</button>
     </li>
     <li class="nav-item" role="presentation">
-      <button class="nav-link" id="pills-manage-tab" data-bs-toggle="pill" data-bs-target="#pills-manage" type="button" role="tab" aria-controls="pills-manage" aria-selected="false">Manage</button>
+      <button class="nav-link" id="pills-manage-product-tab" data-bs-toggle="pill" data-bs-target="#pills-manage-product" type="button" role="tab" aria-controls="pills-manage-product" aria-selected="false">Manage Product</button>
     </li>
   </ul>
   <div class="tab-content pt-2" id="myTabContent">
-    <div class="tab-pane fade show active" id="pills-new-item" role="tabpanel" aria-labelledby="new-item-tab">
+    <div class="tab-pane fade show active" id="pills-new-product" role="tabpanel" aria-labelledby="new-product-tab">
       <div class="card p-4 mb-5">
         <form method=POST action={% url 'Canteen:nco_inventory' %} class="needs-validation" enctype="multipart/form-data" novalidate>
           {% csrf_token %}
@@ -94,9 +94,9 @@
         </form>
       </div>    
     </div>
-    <div class="tab-pane fade" id="pills-manage" role="tabpanel" aria-labelledby="manage-tab">
-      <div class="row">
-        <div class="col-6">
+    <div class="tab-pane fade" id="pills-manage-product" role="tabpanel" aria-labelledby="manage-product-tab">
+      <div class="row d-flex justify-content-center">
+        <div class="col-md-6 col-sm-11">
           <div class="card">
             <div class="d-flex flex-column p-4">
               <div class="d-flex justify-content-center mb-3">
@@ -151,7 +151,7 @@
             </div>  
           </div>
         </div>
-        <div class="col-6">
+        <div class="col-md-6 col-sm-11">
           <div class="card d-flex justify-content-center">
             <div class="d-flex flex-column p-4">
               <div class="d-flex justify-content-center mb-3">
