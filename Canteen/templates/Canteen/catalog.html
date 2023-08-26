@@ -15,7 +15,7 @@
     <div class="search-bar flex-fill" style="max-width: 200px">
       <form class="search-form d-flex align-items-center" method=POST action={% url 'Canteen:customer_catalog' %}>
         {% csrf_token %}
-        <input type="text" name="query" id="search-input" placeholder="Enter search keyword" title="Enter search keyword" value="{{ query }}">
+        <input type="text" name="query" id="search-input" placeholder="Enter search keyword" title="Enter search keyword">
         <button type="submit" title="Search"><i class="bi bi-search"></i></button>
       </form>
       <div id="auto-suggestions" class="auto-suggestions"></div>
@@ -40,7 +40,7 @@
                 <div class="img"><img src={{ product.image.url }} alt="img" draggable="false"></div>
                 <p class="text-center">{{ product.name }}</p>
                 <span>Price: {{ product.selling_price }} Tk</span>
-                <button class="add-to-cart" data-id="{{ product.id }}">Add to Cart</button>
+                <button id="{{ product.id }}" class="mt-4">Add To Cart</button>
               </li>
             {% endfor %}
           </ul>
@@ -89,78 +89,5 @@
     }
   });
 </script>
-
-<script>
-  const addToCartButtons = document.querySelectorAll('.add-to-cart');
-  const csrfToken = "{{ csrf_token }}";
-
-  addToCartButtons.forEach(button => {
-      button.addEventListener('click', addToCart);
-  });
-  
-  function addToCart(event) {
-      const productId = event.target.dataset.id;
-      console.log(productId)
-      const quantity = 1;  // You can adjust this as needed
-  
-      fetch('/Canteen/add_to_cart/', {
-          method: 'POST',
-          headers: {
-              'Content-Type': 'application/x-www-form-urlencoded',
-              'X-CSRFToken': csrfToken,  // Replace with the actual CSRF token value
-          },
-          body: `product_id=${productId}&quantity=${quantity}`,
-      })
-      .then(response => response.json())
-      .then(data => {
-          if (data.success) {
-              console.log('Product added to cart.');
-              updateCartUI(data.cart);
-          } else {
-              console.error('Failed to add product to cart.');
-          }
-      })
-      .catch(error => {
-          console.error('Error adding product to cart:', error);
-      });
-  }
-
-  function updateCartUI(cart) {
-    const cartBadge = document.querySelector('.badge-number.cart');
-    const cartDropdown = document.querySelector('.dropdown-menu.cart');
-
-    const cartItemsCount = Object.keys(cart).length;
-    cartBadge.textContent = cartItemsCount;
-    cartDropdown.innerHTML = ''; // Clear previous items
-
-    if (cartItemsCount > 0) {
-        const cartHeader = document.createElement('li');
-        cartHeader.classList.add('dropdown-header');
-        cartHeader.textContent = `You have ${cartItemsCount} items in cart`;
-        const orderLink = document.createElement('a');
-        orderLink.href = '#';
-        orderLink.innerHTML = `<span class="badge rounded-pill bg-primary p-2 ms-2">Order</span>`;
-        cartHeader.appendChild(orderLink);
-        cartDropdown.appendChild(cartHeader);
-
-        const cartDivider = document.createElement('li');
-        cartDivider.innerHTML = `<hr class="dropdown-divider">`;
-        cartDropdown.appendChild(cartDivider);
-
-        for (const productId in cart) {
-          const item = cart[productId];
-          const cartItem = document.createElement('li');
-          cartItem.classList.add('notification-item');
-          cartItem.innerHTML = `
-          <div>
-            <h4 class="mb-0">${item.name}</h4>
-            <p class="mb-1">${item.quantity} x ${item.selling_price.toFixed(2)} Tk</p>
-            <p class="mb-0">${(item.quantity * item.selling_price).toFixed(2)} Tk</p>
-          </div>`;
-          cartDropdown.appendChild(cartItem);
-        };
-    }
-}
-</script>  
 
 {% endblock scripts %}

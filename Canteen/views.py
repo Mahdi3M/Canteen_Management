@@ -2,12 +2,9 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
-from django.utils.safestring import mark_safe
 from django.http import JsonResponse
-from django.views.decorators.http import require_POST
 from .models import *
 from functools import wraps
-import json
 import time
 import datetime
 
@@ -25,24 +22,6 @@ def role_required(allowed_roles=[]):
                 return redirect('Canteen:signin')
         return _wrapped_view
     return decorator
-
-
-
-@require_POST
-def add_to_cart(request):
-    product_id = request.POST.get('product_id')
-    quantity = 1  # Default to 1 if quantity is not provided
-
-    product = Product.objects.get(id = product_id)
-    if product:
-        cart = request.session.get('cart', {})
-        if product_id in cart:
-            cart[product_id]['quantity'] += quantity
-        else:
-            cart[product_id] = {'name': product.name, 'selling_price': float(product.selling_price), 'quantity': quantity}
-        request.session['cart'] = cart
-        return JsonResponse({'success': True, 'cart': cart})
-    return JsonResponse({'success': False, 'cart': cart})
 
 
 #<-- ======= Pages ======= -->
@@ -97,6 +76,7 @@ def register(request):
             messages.error(request, "Email is already taken.")
             return render(request, "Canteen/register.html")        
         elif password != confirm_password:
+            print(password, confirm_password)         
             messages.error(request, "Password is not correct.")
             return render(request, "Canteen/register.html")
         else:        
@@ -143,9 +123,8 @@ def customer_catalog(request):
     subcategory_names = Subcategory.objects.values_list('name', flat=True)
     context["keywords"] = list(category_names) + list(subcategory_names)
     
-    if (request.method == "POST") and request.POST.get('query'):
+    if request.method == "POST":
         query = request.POST.get('query')
-        context["query"] = query
         if query in category_names:
             context["products"] = Product.objects.filter(category__name = query).order_by('category__name', 'subcategory__name', 'name')
         elif query in subcategory_names:
@@ -154,8 +133,6 @@ def customer_catalog(request):
             context["products"] = Product.objects.all().order_by('category__name', 'subcategory__name', 'name')
     else:        
         context["products"] = Product.objects.all().order_by('category__name', 'subcategory__name', 'name')
-    
-    # print(request.session.get('cart', {}))
     
     return render(request, "Canteen/catalog.html", context)
 

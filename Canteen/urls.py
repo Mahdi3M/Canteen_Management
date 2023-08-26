@@ -20,6 +20,4 @@ urlpatterns = [
     path('home/', views.home, name="home"),
     path('admin_stats/', views.admin_stats, name="admin_stats"),
     path('admin_users/', views.admin_users, name="admin_users"),
-    
-    path('Canteen/add_to_cart/', views.add_to_cart, name='add_to_cart'),
 ]
