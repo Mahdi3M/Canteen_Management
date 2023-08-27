@@ -31,6 +31,13 @@
   <!-- Template Main CSS File -->
   <link href={% static 'assets/css/style.css' %} rel="stylesheet">
 
+  <script>
+    if (localStorage.getItem('cart')) {      
+      localStorage.clear();
+      console.log('Local storage cleared');
+    }
+  </script>
+
   <!-- =======================================================
   * Template Name: NiceAdmin
   * Updated: Jul 27 2023 with Bootstrap v5.3.1

@@ -561,6 +561,48 @@ h6 {
   background-color: #f6f9ff;
 }
 
+
+
+
+
+
+.header-nav .carts {
+  inset: 8px -15px auto auto !important;
+  max-height: 400px;
+  overflow-y: auto;
+}
+
+.header-nav .carts .cart-item {
+  padding: 15px 10px;
+  transition: 0.3s;
+}
+
+.header-nav .carts .cart-item a {
+  display: flex;
+}
+
+.header-nav .carts .cart-item img {
+  margin: 0 20px 0 10px;
+  max-height: 40px;
+}
+
+.header-nav .carts .cart-item h4 {
+  font-size: 16px;
+  font-weight: 600;
+  margin-bottom: 5px;
+  color: #444444;
+}
+
+.header-nav .carts .cart-item p {
+  font-size: 13px;
+  margin-bottom: 3px;
+  color: #919191;
+}
+
+.header-nav .carts .cart-item:hover {
+  background-color: #f6f9ff;
+}
+
 .header-nav .profile {
   min-width: 240px;
   padding-bottom: 0;

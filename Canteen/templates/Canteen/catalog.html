@@ -40,7 +40,14 @@
                 <div class="img"><img src={{ product.image.url }} alt="img" draggable="false"></div>
                 <p class="text-center">{{ product.name }}</p>
                 <span>Price: {{ product.selling_price }} Tk</span>
-                <button id="{{ product.id }}" class="mt-4">Add To Cart</button>
+                <button 
+                  data-id="{{ product.id }}" 
+                  data-image="{{ product.image.url }}" 
+                  data-name="{{ product.name }}" 
+                  data-price="{{ product.selling_price }}" 
+                  class="add-to-cart mt-4">
+                    Add To Cart
+                </button>
               </li>
             {% endfor %}
           </ul>

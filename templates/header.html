@@ -168,73 +168,45 @@
 
         </li><!-- End Messages Nav -->
 
+        <!-- Start Cart Nav -->
+
         <li class="nav-item dropdown">
 
-            <a class="nav-link nav-icon" href="#" data-bs-toggle="dropdown">
-              <i class="bi bi-cart"></i>
-              <span class="badge bg-success badge-number">3</span>
-            </a><!-- End Notification Icon -->
-  
-            <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow notifications">
-              <li class="dropdown-header">
-                You have 3 items in cart
-                <a href="#"><span class="badge rounded-pill bg-primary p-2 ms-2">Order</span></a>
-              </li>
-              <li>
-                <hr class="dropdown-divider">
-              </li>
-  
-              <li class="notification-item">
-                <i class="bi bi-exclamation-circle text-warning"></i>
+          <a class="nav-link nav-icon" href="#" data-bs-toggle="dropdown">
+            <i class="bi bi-cart"></i>
+            <span class="badge bg-success badge-number cart">3</span>
+          </a><!-- End Cart Icon -->
+
+          <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow carts">
+            <li class="dropdown-header">
+              You have 3 products in your cart
+            </li>
+            <li>
+              <hr class="dropdown-divider">
+            </li>
+
+            <li class="cart-item">
+              <a href="#">
+                <img src={% static 'assets/img/default.png' %} alt="" class="rounded-circle">
                 <div>
-                  <h4>Lorem Ipsum</h4>
-                  <p>Quae dolorem earum veritatis oditseno</p>
-                  <p>30 min. ago</p>
+                  <h4>product_name</h4>
+                  <p>Price: product_selling_price</p>
+                  <p>Quantity: Amount</p>
+                  <p>Total: product_selling_price * amount</p>
                 </div>
-              </li>
-  
-              <li>
-                <hr class="dropdown-divider">
-              </li>
-  
-              <li class="notification-item">
-                <i class="bi bi-x-circle text-danger"></i>
-                <div>
-                  <h4>Atque rerum nesciunt</h4>
-                  <p>Quae dolorem earum veritatis oditseno</p>
-                  <p>1 hr. ago</p>
-                </div>
-              </li>
-  
-              <li>
-                <hr class="dropdown-divider">
-              </li>
-  
-              <li class="notification-item">
-                <i class="bi bi-check-circle text-success"></i>
-                <div>
-                  <h4>Sit rerum fuga</h4>
-                  <p>Quae dolorem earum veritatis oditseno</p>
-                  <p>2 hrs. ago</p>
-                </div>
-              </li>
-  
-              <li>
-                <hr class="dropdown-divider">
-              </li>
-  
-              <li class="notification-item">
-                <i class="bi bi-info-circle text-primary"></i>
-                <div>
-                  <h4>Dicta reprehenderit</h4>
-                  <p>Quae dolorem earum veritatis oditseno</p>
-                  <p>4 hrs. ago</p>
-                </div>
-              </li>
-  
-            </ul><!-- End Notification Dropdown Items -->
-  
-          </li><!-- End Notification Nav -->
+              </a>
+            </li>
+            <li>
+              <hr class="dropdown-divider">
+            </li>
+
+            <li class="dropdown-footer">
+              <a href="#">Show all</a>
+            </li>
+
+          </ul>
+
+        </li><!-- End Cart Nav -->
 
         <li class="nav-item dropdown pe-3">
 
