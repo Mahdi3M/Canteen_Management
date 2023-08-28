@@ -1,11 +1,11 @@
 if (localStorage.getItem('cart') == null) {
     var cart = {};
     updateCartUI(cart);
-    console.log("Hello",cart);
+    // console.log("Hello",cart);
 } else {
     cart = JSON.parse(localStorage.getItem('cart'));
     updateCartUI(cart);
-    console.log("Hello",cart);
+    // console.log("Hello",cart);
 }
 
 document.querySelectorAll('.add-to-cart').forEach(button => {
@@ -20,7 +20,7 @@ function addToCart(event) {
     const productPrice = parseFloat(button.dataset.price);
     const productImage = button.dataset.image;
 
-    console.log(productId, productName, productPrice, productImage, productAvailable)
+    // console.log(productId, productName, productPrice, productImage, productAvailable)
     
     if (cart[productId]) {
         if(cart[productId].quantity<cart[productId].available){
