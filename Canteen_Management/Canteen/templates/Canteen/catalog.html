@@ -43,7 +43,7 @@
                 <button 
                   data-id="{{ product.id }}" 
                   data-image="{{ product.image.url }}" 
-                  data-name="{{ product.name }}" 
+                  data-name="{{ product.name|slice:"0:22" }}" 
                   data-price="{{ product.selling_price }}" 
                   data-available="{{ product.stock_quantity }}"
                   class="add-to-cart mt-4" 

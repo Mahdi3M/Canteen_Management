@@ -140,8 +140,8 @@ def customer_catalog(request):
 
 
 @login_required(redirect_field_name='next', login_url="Canteen:signin")
-def customer_cart(request):
-    return render(request, "Canteen/customer_cart.html")
+def customer_checkout(request):
+    return render(request, "Canteen/customer_checkout.html")
 
 
 

@@ -138,19 +138,19 @@ function updateCartUI(cart) {
       cartFooter.classList.add('d-flex');
       cartFooter.classList.add('justify-content-between');
 
+      const checkoutLink = document.createElement('a');
+      checkoutLink.classList.add('btn', 'btn-primary', 'text-decoration-none', 'text-white', 'checkout-link');
+      checkoutLink.textContent = 'Checkout';
+      checkoutLink.href = '/customer_checkout/';
+      checkoutLink.classList.add('checkout-link');
+      cartFooter.appendChild(checkoutLink);
+
       const clearCartButton = document.createElement('button');
       clearCartButton.classList.add('btn', 'btn-danger');
       clearCartButton.textContent = 'Clear Cart';
       clearCartButton.classList.add('clear-cart-button');
       clearCartButton.setAttribute('onclick', 'clearCart()');
       cartFooter.appendChild(clearCartButton);
-
-      const checkoutLink = document.createElement('a');
-      checkoutLink.classList.add('btn', 'btn-primary', 'text-decoration-none', 'text-white', 'checkout-link');
-      checkoutLink.textContent = 'Checkout';
-      checkoutLink.href = "#";
-      checkoutLink.classList.add('checkout-link');
-      cartFooter.appendChild(checkoutLink);
       
       cartDropdown.appendChild(cartFooter);
   } else {
