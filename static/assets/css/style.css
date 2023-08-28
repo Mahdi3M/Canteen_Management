@@ -577,10 +577,6 @@ h6 {
   transition: 0.3s;
 }
 
-.header-nav .carts .cart-item a {
-  display: flex;
-}
-
 .header-nav .carts .cart-item img {
   margin: 0 20px 0 10px;
   max-height: 40px;

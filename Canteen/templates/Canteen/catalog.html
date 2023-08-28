@@ -45,7 +45,9 @@
                   data-image="{{ product.image.url }}" 
                   data-name="{{ product.name }}" 
                   data-price="{{ product.selling_price }}" 
-                  class="add-to-cart mt-4">
+                  data-available="{{ product.stock_quantity }}"
+                  class="add-to-cart mt-4" 
+                  title="Available in inventory: {{ product.stock_quantity }}">
                     Add To Cart
                 </button>
               </li>

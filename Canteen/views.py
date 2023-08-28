@@ -90,7 +90,8 @@ def register(request):
                 myuser.last_name = name
                 myuser.ba = ba
                 myuser.unit = unit
-                myuser.image = image_file
+                if image_file:
+                    myuser.image = image_file
                 myuser.save() 
                 messages.success(request, "You are succesfully registered.")
                 return redirect('Canteen:signin')

@@ -33,7 +33,7 @@
 
   <script>
     if (localStorage.getItem('cart')) {      
-      localStorage.clear();
+      localStorage.removeItem('cart');
       console.log('Local storage cleared');
     }
   </script>
