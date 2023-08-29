@@ -3,6 +3,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from django.http import JsonResponse
+from django.db import transaction
 from .models import *
 from functools import wraps
 import json
@@ -128,13 +129,13 @@ def customer_catalog(request):
     if request.method == "POST":
         query = request.POST.get('query')
         if query in category_names:
-            context["products"] = Product.objects.filter(category__name = query).order_by('category__name', 'subcategory__name', 'name')
+            context["products"] = Product.objects.filter(category__name = query).exclude(stock_quantity = 0).order_by('category__name', 'subcategory__name', 'name')
         elif query in subcategory_names:
-            context["products"] = Product.objects.filter(subcategory__name = query).order_by('category__name', 'subcategory__name', 'name')
+            context["products"] = Product.objects.filter(subcategory__name = query).exclude(stock_quantity = 0).order_by('category__name', 'subcategory__name', 'name')
         else:
-            context["products"] = Product.objects.all().order_by('category__name', 'subcategory__name', 'name')
+            context["products"] = Product.objects.exclude(stock_quantity = 0).order_by('category__name', 'subcategory__name', 'name')
     else:        
-        context["products"] = Product.objects.all().order_by('category__name', 'subcategory__name', 'name')
+        context["products"] = Product.objects.exclude(stock_quantity = 0).order_by('category__name', 'subcategory__name', 'name')
     
     return render(request, "Canteen/catalog.html", context)
 
@@ -149,18 +150,25 @@ def customer_checkout(request):
         cart = json.loads(cartJSON)
         total = request.POST.get("cartTotal")
         
-        new_Order = Order()
-        new_Order.user = request.user
-        new_Order.total = total
-        new_Order.save()
-        
-        for item in cart:
-            new_Order_List = OrderItem()
-            new_Order_List.order = new_Order
-            new_Order_List.name = cart[item]["name"]
-            new_Order_List.price = cart[item]["price"]
-            new_Order_List.quantity = cart[item]["quantity"]
-            new_Order_List.save()
+        with transaction.atomic():
+            new_Order = Order()
+            new_Order.user = request.user
+            new_Order.total = total
+            new_Order.save()
+            
+            for item in cart:
+                new_Order_List = OrderItem()
+                new_Order_List.order = new_Order
+                new_Order_List.product_id = cart[item]["id"]
+                new_Order_List.name = cart[item]["name"]
+                new_Order_List.price = cart[item]["price"]
+                new_Order_List.quantity = cart[item]["quantity"]
+                new_Order_List.total = cart[item]["quantity"] * cart[item]["price"]
+                new_Order_List.save()
+                
+                product = Product.objects.get(id = cart[item]["id"])
+                product.stock_quantity -= cart[item]["quantity"]
+                product.save()
             
         context['thank'] = True
     return render(request, "Canteen/customer_checkout.html", context)
@@ -178,7 +186,31 @@ def customer_history(request):
 @login_required(redirect_field_name='next', login_url="Canteen:signin")
 @role_required(allowed_roles=['Bar NCO'])
 def nco_order(request):
-    return render(request, "Canteen/nco_order.html")
+    context = {}
+    context['orders_pending'] = OrderItem.objects.filter(order__status = 'Pending').order_by('order__id')
+    context['orders_complete'] = OrderItem.objects.filter(order__status = 'Complete').order_by('-order__timestamp')
+    
+    if request.method == "POST":
+        
+        if request.POST.get('complete-order'):
+            id = request.POST.get('complete-order')
+            order = Order.objects.get(id = id)
+            order.status = 'Complete'
+            order.save()
+            
+        if request.POST.get('remove-order'):
+            id = request.POST.get('remove-order')
+            order = Order.objects.get(id = id)
+            products = OrderItem.objects.filter(order = order)
+            with transaction.atomic():
+                for p in products:
+                    product = Product.objects.get(id = p.product_id)
+                    product.stock_quantity += p.quantity
+                    product.save()
+                order.delete()
+            print("Order Removed")
+    
+    return render(request, "Canteen/nco_order.html", context)
 
 
 

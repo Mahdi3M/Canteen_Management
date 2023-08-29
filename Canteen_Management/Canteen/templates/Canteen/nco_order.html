@@ -87,10 +87,15 @@
     <div class="tab-pane fade show active" id="pills-on-process" role="tabpanel" aria-labelledby="on-process-tab">
       <section id="order">
         <ul class="cards p-3">
+          {% regroup orders_pending by order as order_list %}
+          {% for o in order_list %}
           <li class="card mb-3 p-3">
             <div class="row g-0">
               <div class="col-md-12">
-                <h3>Order: #123456</h3>
+                <div class="d-flex justify-content-between">
+                  <h3>Order: #{{ o.grouper.id }}</h3>
+                  <h4>BA-{{ o.grouper.user.ba }}</h4>
+                </div>
                     <div class="p-4 pb-5">
                       <table class="product-table">
                         <tr>
@@ -100,110 +105,83 @@
                           <th id="order-price">Rate</th>
                           <th id="order-total">Total Price</th>
                         </tr>
+                        {% for p in o.list %}
                         <tr>
-                          <th id="sr">1</th>
-                          <td id="order-product">Chips Potato Cracker</td>
-                          <td id="order-quantity">2</td>
-                          <td id="order-price">10</td>
-                          <td id="order-total">20</td>
+                          <th id="sr">{{ forloop.counter }}</th>
+                          <td id="order-product">{{ p.name }}</td>
+                          <td id="order-quantity">{{ p.quantity }}</td>
+                          <td id="order-price">{{ p.price }} Tk</td>
+                          <td id="order-total">{{ p.total }} Tk</td>
                         </tr>
-                        <tr>
-                          <th id="sr">2</th>
-                          <td id="order-product">Chips Sun Family</td>
-                          <td id="order-quantity">1</td>
-                          <td id="order-price">50</td>
-                          <td id="order-total">50</td>
-                        </tr>
+                        {% endfor %}
                       </table>
                     </div>
                     <div class="total d-flex justify-content-between align-items-center">
-                      <p id="order-total">Total: ৳70</p>
-                      <button class="order-complete me-2">Complete</button>
-                      <button class="order-remove">Remove</button>
+                      <p id="order-total">Total: {{ o.grouper.total }} Tk</p>
+                      <form method=POST action={% url 'Canteen:nco_order' %}>
+                        {% csrf_token %}
+                        <input type="hidden" name="complete-order" value="{{ o.grouper.id }}">
+                        <button type="submit" class="order-complete me-2">Complete</button>
+                      </form>
+                      <form method=POST action={% url 'Canteen:nco_order' %}>
+                        {% csrf_token %}
+                        <input type="hidden" name="remove-order" value="{{ o.grouper.id }}">
+                        <button type="submit" class="order-remove">Remove</button>
+                      </form>
                     </div>
               </div>
             </div>
           </li>
-          <li class="card mb-3 p-3">
-            <div class="row g-0">
-              <div class="col-md-12">
-                <h3>Order: #123457</h3>
-                    <div class="p-4 pb-5">
-                      <table class="product-table">
-                        <tr>
-                          <th id="sr">#</th>
-                          <th id="order-product">Product</th>
-                          <th id="order-quantity">Quantity</th>
-                          <th id="order-price">Rate</th>
-                          <th id="order-total">Total Price</th>
-                        </tr>
-                        <tr>
-                          <th id="sr">1</th>
-                          <td id="order-product">Chips Pringles Large</td>
-                          <td id="order-quantity">1</td>
-                          <td id="order-price">190</td>
-                          <td id="order-total">190</td>
-                        </tr>
-                        <tr>
-                          <th id="sr">2</th>
-                          <td id="order-product">Chips Sun Family</td>
-                          <td id="order-quantity">1</td>
-                          <td id="order-price">50</td>
-                          <td id="order-total">50</td>
-                        </tr>
-                      </table>
-                    </div>
-                    <div class="total d-flex justify-content-between align-items-center">
-                      <p id="order-total">Total: ৳2,40</p>
-                      <button class="order-complete me-2">Complete</button>
-                      <button class="order-remove">Remove</button>
-                    </div>
-              </div>
-            </div>
-          </li>
+          {% endfor %}
+        </ul>  
       </section>
     </div>
     <div class="tab-pane fade" id="pills-completed" role="tabpanel" aria-labelledby="completed-tab">
       <div class="card">
         <div class="card-body">
           <h5 class="card-title"></h5>
-          <!-- Table with stripped rows -->
-          <table class="table table-striped customer-histroy-table">
+          <table class="table order-history">
             <thead>
-                <tr>
-                    <th scope="col">#</th>
-                    <th scope="col">Order No</th>
-                    <th scope="col">Date</th>
-                    <th scope="col">Items</th>
-                    <th scope="col">Price</th>
-                    <th scope="col">Paid</th>
-                </tr>
+              <tr>
+                <th scope="col">#</th>
+                <th scope="col">Order No</th>
+                <th scope="col">User BA</th>
+                <th scope="col">Date and Time</th>
+                <th scope="col">Product Name</th>
+                <th scope="col">Price</th>
+                <th scope="col">Amount</th>
+                <th scope="col">Total</th>
+                <th scope="col">Grand Total</th>
+              </tr>
             </thead>
             <tbody>
-                <tr>
-                    <th scope="row">1</th>
-                    <td>#12345</td>
-                    <td>2023-01-10</td>
-                    <td>Product A, Product B</td>
-                    <td>৳150.00</td>
-                    <td><span style="color: green;">
-                      <i class="bi bi-check-circle-fill" style="color: green;"></i> Paid
-                  </span></td>
-                </tr>
-                <tr>
-                    <th scope="row">2</th>
-                    <td>#12346</td>
-                    <td>2023-01-09</td>
-                    <td>Product C</td>
-                    <td>৳75.50</td>
-                    <td><span style="color: red;">
-                      <i class="bi bi-x-circle-fill" style="color: red;"></i> Not Paid
-                  </span></td>
-                </tr>
-                <!-- Add more rows as needed -->
+              {% regroup orders_complete by order as order_list %}
+              {% for o in order_list %}
+              <tr>
+                <th rowspan='{{ o.list|length }}'>{{ forloop.counter }}</th>
+                <td rowspan='{{ o.list|length }}'>#{{ o.grouper.id }}</td>
+                <td rowspan='{{ o.list|length }}'>BA-{{ o.grouper.user.ba }}</td>
+                <td rowspan='{{ o.list|length }}'>{{ o.grouper.timestamp }}</td>
+                {% for item in o.list %}
+                  {% if forloop.counter0 %}
+                    <tr>
+                  {% endif %}
+                    <td>{{ item.name }}</td>
+                    <td>{{ item.price }}</td>
+                    <td>{{ item.quantity }}</td>
+                    <td>{{ item.total }}</td>
+                  {% if forloop.counter0 %}
+                    </tr>
+                  {% else %}
+                    <td rowspan='{{ o.list|length }}'>750 Tk</td>
+                  </tr>
+                  {% endif %}
+                {% endfor %}
+              {% endfor %}
+              <!-- Add more rows as needed -->
             </tbody>
           </table> 
-          <!-- End Table with stripped rows -->
+          <!-- End Table -->
 
         </div>
       </div>
