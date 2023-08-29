@@ -5,57 +5,22 @@
 <main id="main" class="main">
 
   <div class="pagetitle">
-    <h1>Cart Items</h1>
+    <h1>Checkout Items</h1>
   </div><!-- End Page Title -->
 
   <section id="cart">
-    <ul class="cards p-3">
-      <li class="card mb-3 p-3">
-        <div class="d-flex flex-column">
-          <h3 class="ms-3 mb-0">Product 1</h3>
-          <hr>
-          <div class="d-flex flex-column flex-md-row">
-            <div class="ms-3 my-auto d-flex justify-content-center">
-                <img src="{% static 'assets/img/product-1.jpg' %}" alt="Product 1" class="img-fluid">
-            </div>
-            <div class="d-flex flex-column ms-0 ms-md-5" style="width: 100%;">
-                <div class="ms-4">
-                    <p class="mt-3">Available: 99</p>
-                    <p>Quantity: 1</p>
-                    <p>Price: ৳999</p>
-                </div>
-                <div class="d-flex justify-content-between">
-                    <p id="cart-total" class="my-0 ms-4">Total: ৳999</p>
-                    <button class="remove btn btn-danger my-0 me-3 me-0">Remove</button>
-                </div>
-            </div>
-          </div>
-        </div>
-    </li>
-    
-      <li class="card mb-3 p-3">
-        <div class="row g-0">
-          <div class="col-md-2 d-flex align-items-center justify-content-center">
-            <img src={% static 'assets/img/product-2.jpg' %} alt="Product 1">
-          </div>
-          <div class="col-md-10 d-flex justify-content-between align-items-center">
-              <div>
-                  <h3>Product 2</h3>
-                  <p>Quantity: 2</p>
-                  <p>Price: ৳1999</p>
-              </div>
-              <div>
-                  <p id="cart-total">Total: ৳3998</p>
-                  <button class="remove">Remove</button>
-              </div>
-          </div>
-        </div>
-      </li>
+    <ul class="cards p-3 row row-cols-auto" id="checkout-list">
+      
     </ul>
-    <div class="total">
-      <p>Grand Total: ৳4,997</p>
-      <button class="checkout">Checkout</button>
-    </div>
+    <form method=POST action={% url 'Canteen:customer_checkout' %}>
+      <div class="total mb-5">
+          {% csrf_token %}
+          <b>Grand Total: <span id="checkout-grand-total"> </span> Tk</b>
+          <input type="hidden" id="cartJson" name="cartJSON" value="">
+          <input type="hidden" id="cartTotal" name="cartTotal" value="">
+          <button type="submit" class="checkout me-md-5" on>Checkout</button>
+      </div>
+    </form>
   </section>
 
 </main>
@@ -65,4 +30,17 @@
 <script>
   $("#cart").removeClass("collapsed");
 </script>
+
+{% if thank %}
+  <script>
+    alert('Thanks for ordering with us. Your order id is {{id}}. Use it to track your order using our order tracker');
+    cart = {};
+    localStorage.removeItem('cart');
+    updateCartUI(cart);
+    if (checkoutList) {
+      updateCheckoutUI(cart);
+    }
+    document.location="/customer_checkout/";
+  </script>
+{%endif%}
 {% endblock scripts %}

@@ -1,12 +1,16 @@
+const checkoutList = document.getElementById('checkout-list');
+
 if (localStorage.getItem('cart') == null) {
     var cart = {};
-    updateCartUI(cart);
-    // console.log("Hello",cart);
 } else {
     cart = JSON.parse(localStorage.getItem('cart'));
-    updateCartUI(cart);
-    // console.log("Hello",cart);
 }
+
+updateCartUI(cart);
+if (checkoutList) {
+  updateCheckoutUI(cart);
+}
+
 
 document.querySelectorAll('.add-to-cart').forEach(button => {
     button.addEventListener('click', addToCart);
@@ -41,12 +45,22 @@ function addToCart(event) {
     localStorage.setItem('cart', JSON.stringify(cart));
 
     updateCartUI(cart);
+    if (checkoutList) {
+      updateCheckoutUI(cart);
+    }
+
+    if (checkoutList) {
+      console.log("Checkout Page");
+    }
 }
 
 function clearCart(){
   cart = {};
   localStorage.removeItem('cart');
   updateCartUI(cart);
+  if (checkoutList) {
+    updateCheckoutUI(cart);
+  }
 }
 
 function plusProduct(productId){
@@ -56,6 +70,9 @@ function plusProduct(productId){
       item.quantity += 1;
       localStorage.setItem('cart', JSON.stringify(cart));
       updateCartUI(cart);
+      if (checkoutList) {
+        updateCheckoutUI(cart);
+      }
     } else{
       alert("No Items Left...");
     }   
@@ -70,13 +87,30 @@ function minusProduct(productId) {
       item.quantity--;
       localStorage.setItem('cart', JSON.stringify(cart));
       updateCartUI(cart);
+      if (checkoutList) {
+        updateCheckoutUI(cart);
+      }
   } 
   // else {
   //   delete cart[productId];
   //   localStorage.setItem('cart', JSON.stringify(cart));
   //   updateCartUI(cart);
+    // if (checkoutList) {
+    //   updateCheckoutUI(cart);
+    // }
   // }
 }
+
+
+function removeProduct(productId){
+  delete cart[productId];
+  localStorage.setItem('cart', JSON.stringify(cart));
+  updateCartUI(cart);
+  if (checkoutList) {
+    updateCheckoutUI(cart);
+  }
+}
+
 
 function updateCartUI(cart) {
   const cartDropdown = document.querySelector('.dropdown-menu.carts');
@@ -108,7 +142,7 @@ function updateCartUI(cart) {
           cartItem.innerHTML = `
             <div class="d-flex">
               <div>
-                <img src="${item.image}" alt="" class="rounded-circle">
+                <img src="${item.image}" class="rounded-circle">
                 <div class="me-2 mt-3">
                   <button class="plus-button border-0 bg-white p-0" onclick="plusProduct('${productId}')">
                     <h6><span class="badge bg-success">+</span></h6>
@@ -159,4 +193,68 @@ function updateCartUI(cart) {
       emptyCartMessage.textContent = 'Your cart is empty';
       cartDropdown.appendChild(emptyCartMessage);
   }
+}
+
+function updateCheckoutUI (cart){
+  checkoutList.innerHTML = '';
+
+  var sum = 0;
+  for(var prd in cart){
+    sum = sum + (cart[prd].price * cart[prd].quantity);
+  }
+
+  for (const productId in cart) {
+    const item = cart[productId];
+
+    const listItem = document.createElement('li');
+    listItem.classList.add('card', 'mb-3', 'mx-5', 'p-3', 'col-lg-5', 'col-md-7');
+
+    const itemDetails = `
+    <div class="d-flex flex-column">
+      <h3 class="ms-md-3 mb-0">${item.name.length > 15 ? item.name.substring(0, 12) + '...' : item.name}</h3>
+
+      <hr>
+      <div class="d-flex flex-column flex-md-row">
+        <div class="d-flex justify-content-center" style="width:150px; border-radius:8px">
+            <img src="${item.image}" alt="Product 1" class="mx-auto my-auto">
+        </div>
+        <div class="d-flex flex-column" style="width: 100%;">
+          <div class="ms-lg-3">
+            <p class="mt-3">Available: ${item.available}</p>
+            <p>
+              Quantity: ${item.quantity}
+              <button class="plus-button border-0 bg-white p-0 ms-4" onclick="plusProduct('${productId}')">
+                <h6><span class="badge bg-success">+</span></h6>
+              </button>
+              <button class="minus-button border-0 bg-white p-0" onclick="minusProduct('${productId}')">
+                <h6><span class="badge bg-danger">-</span></h6>
+              </button>
+            </p>
+            <p>Price: ${item.price} Tk</p>
+          </div>
+          <div class="d-flex flex-column flex-md-row justify-content-between align-items-center">
+            <p id="cart-total" class="my-0 ms-lg-3 ms-sm-0 mb-3 mb-md-0">Total: ${item.quantity * item.price} Tk</p>
+            <button class="checkout-remove btn btn-danger my-0" onclick="removeProduct('${productId}')">Remove</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    `;
+
+    listItem.innerHTML = itemDetails;
+    checkoutList.appendChild(listItem);
+  }
+
+  if (Object.keys(cart).length == 0) {
+    document.querySelector('.total').style.display = 'none';
+  } else {
+    document.getElementById('checkout-grand-total').textContent = sum;
+    $('#cartJson').val(JSON.stringify(cart));
+    $('#cartTotal').val(JSON.stringify(sum));
+  }
+
+// const totalCost = calculateTotalCost(cart);
+// const totalCostElement = document.getElementById('cart-total');
+// totalCostElement.textContent = `Total: ৳${totalCost.toFixed(2)}`;
+
 }

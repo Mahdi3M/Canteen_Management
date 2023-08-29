@@ -5,6 +5,7 @@ from django.contrib import messages
 from django.http import JsonResponse
 from .models import *
 from functools import wraps
+import json
 import time
 import datetime
 
@@ -141,7 +142,28 @@ def customer_catalog(request):
 
 @login_required(redirect_field_name='next', login_url="Canteen:signin")
 def customer_checkout(request):
-    return render(request, "Canteen/customer_checkout.html")
+    context = {}
+    context['thank'] = False
+    if request.method == "POST":
+        cartJSON = request.POST.get("cartJSON")
+        cart = json.loads(cartJSON)
+        total = request.POST.get("cartTotal")
+        
+        new_Order = Order()
+        new_Order.user = request.user
+        new_Order.total = total
+        new_Order.save()
+        
+        for item in cart:
+            new_Order_List = OrderItem()
+            new_Order_List.order = new_Order
+            new_Order_List.name = cart[item]["name"]
+            new_Order_List.price = cart[item]["price"]
+            new_Order_List.quantity = cart[item]["quantity"]
+            new_Order_List.save()
+            
+        context['thank'] = True
+    return render(request, "Canteen/customer_checkout.html", context)
 
 
 

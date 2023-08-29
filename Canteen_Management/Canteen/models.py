@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
+from django.utils import timezone
 
 # Create your models here.
 
@@ -57,3 +58,21 @@ class Product(models.Model):
 
     def calculate_profit(self):
         return self.selling_price - self.buying_price
+
+
+class Order(models.Model):
+    STATUS = (
+        ('Pending', 'Pending'),
+        ('Complete', 'Complete'),
+    )
+    user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
+    timestamp = models.DateTimeField(default=timezone.now)
+    status = models.CharField(max_length=10, choices=STATUS, default='Pending')
+    total = models.DecimalField(max_digits=10, decimal_places=2)
+    
+
+class OrderItem(models.Model):
+    order = models.ForeignKey(Order, on_delete=models.SET_NULL, null=True)
+    name = models.CharField(max_length=255)
+    price = models.DecimalField(max_digits=10, decimal_places=2)
+    quantity = models.PositiveIntegerField(default=0)

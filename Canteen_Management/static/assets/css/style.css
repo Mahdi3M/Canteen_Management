@@ -1549,6 +1549,14 @@ h6 {
   border-radius: 50%;
 }
 
+.rounded-image {
+  position: absolute; /* Position the image within the container */
+  width: 100%; /* Make the image cover the container width */
+  height: 100%; /* Make the image height equal to the container width */
+  object-fit: cover; /* Maintain aspect ratio and cover the container */
+  border-radius: 8px;
+}
+
 
 .auto-suggestions {
   position: absolute;
