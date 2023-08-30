@@ -253,8 +253,14 @@ def nco_inventory(request):
         
     context = {}
     
-    context["categories"] = Category.objects.all()
-    context["subcategories"] = Subcategory.objects.all()
+    categories = Category.objects.all().prefetch_related('subcategory_set')
+    category_dict = {}
+
+    for category in categories:
+        subcategory_names = [subcategory.name for subcategory in category.subcategory_set.all()]
+        category_dict[category.name] = subcategory_names
+
+    context['category_dict'] = category_dict
     
     return render(request, "Canteen/nco_inventory.html", context)
 
