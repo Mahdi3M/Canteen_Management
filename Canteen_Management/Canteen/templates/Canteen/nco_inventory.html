@@ -59,9 +59,6 @@
                   <label for="subCategory" class="form-label">Sub Category</label>
                   <select class="form-control" id="subCategory" name="subCategory">
                     <option value="" selected>Select Sub Category</option>
-                    {% comment %} {% for subcategory in subcategories %}
-                      <option value="{{ subcategory.name }}">{{ subcategory.name }}</option>
-                    {% endfor %} {% endcomment %}
                   </select>
                 </div>
                 <p class="col-md-1 align-self-end text-center">OR</p> 
@@ -216,9 +213,7 @@
   const categoryDropdown = document.getElementById('category');
   const subCategoryDropdown = document.getElementById('subCategory');
 
-  // This data should be provided by your Django view as a JSON object
   const categorySubcategoryMapping = {{ category_dict|safe }};
-  console.log(categorySubcategoryMapping);
 
   categoryDropdown.addEventListener('change', () => {
       const selectedCategory = categoryDropdown.value;

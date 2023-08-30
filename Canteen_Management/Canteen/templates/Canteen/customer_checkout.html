@@ -8,7 +8,7 @@
     <h1>Checkout Items</h1>
   </div><!-- End Page Title -->
 
-  <section id="cart">
+  <section id="cart-section">
     <ul class="cards p-3 row row-cols-auto" id="checkout-list">
       
     </ul>
@@ -33,7 +33,7 @@
 
 {% if thank %}
   <script>
-    alert('Thanks for ordering with us. Your order id is {{id}}. Use it to track your order using our order tracker');
+    alert('Thanks for shopping with us.');
     cart = {};
     localStorage.removeItem('cart');
     updateCartUI(cart);

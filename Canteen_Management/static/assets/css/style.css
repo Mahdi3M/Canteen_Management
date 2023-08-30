@@ -1319,8 +1319,8 @@ h6 {
 }
 
 .total {
-  display: flex;
-  justify-content: space-between;
+  display: none;
+  justify-content:space-between;
   align-items: center;
   background-color: #f5f5f5;
   padding: 10px 20px;

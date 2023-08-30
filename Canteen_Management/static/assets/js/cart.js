@@ -195,8 +195,16 @@ function updateCartUI(cart) {
   }
 }
 
+
+
 function updateCheckoutUI (cart){
-  checkoutList.innerHTML = '';
+  if (Object.keys(cart).length == 0) {
+    checkoutList.innerHTML = '<div class="d-flex justify-content-center" style="width:100%;"><h1>Your Cart is Empty.</h1></div>';
+    document.querySelector('.total').style.display = 'none';
+  } else {
+    checkoutList.innerHTML = '';
+    document.querySelector('.total').style.display = 'flex';
+  }
 
   var sum = 0;
   for(var prd in cart){
@@ -215,8 +223,8 @@ function updateCheckoutUI (cart){
 
       <hr>
       <div class="d-flex flex-column flex-md-row">
-        <div class="d-flex justify-content-center" style="width:150px; border-radius:8px">
-            <img src="${item.image}" alt="Product 1" class="mx-auto my-auto">
+        <div class="d-flex justify-content-center" style="width:150px">
+            <img src="${item.image}" alt="Product 1" class="mx-auto my-auto" width=100px>
         </div>
         <div class="d-flex flex-column" style="width: 100%;">
           <div class="ms-lg-3">
@@ -245,9 +253,7 @@ function updateCheckoutUI (cart){
     checkoutList.appendChild(listItem);
   }
 
-  if (Object.keys(cart).length == 0) {
-    document.querySelector('.total').style.display = 'none';
-  } else {
+  if (Object.keys(cart).length != 0) {
     document.getElementById('checkout-grand-total').textContent = sum;
     $('#cartJson').val(JSON.stringify(cart));
     $('#cartTotal').val(JSON.stringify(sum));

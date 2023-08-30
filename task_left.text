@@ -1,0 +1,14 @@
+Customer:
+    1. History Page : Full
+
+Bar NCO:
+    1. Orders Page: Scan Order
+    2. Inventory Page: Manage Products
+
+    3. Bill Generation (Full)
+
+Admin:
+    1. Statistics Page: Full
+    2. Home Page: Full (Optional)
+
+    3. Report Generation (Full)
