@@ -17,13 +17,16 @@
       <button class="nav-link" id="pills-manage-product-tab" data-bs-toggle="pill" data-bs-target="#pills-manage-product" type="button" role="tab" aria-controls="pills-manage-product" aria-selected="false">Manage Product</button>
     </li>
   </ul>
+
+  <!-- Add New Product -->
+
   <div class="tab-content pt-2" id="myTabContent">
     <div class="tab-pane fade show active" id="pills-new-product" role="tabpanel" aria-labelledby="new-product-tab">
       <div class="card p-4 mb-5">
         <form method=POST action={% url 'Canteen:nco_inventory' %} class="needs-validation" enctype="multipart/form-data" novalidate>
           {% csrf_token %}
-          <div class="row">
-            <div class="col-4">
+          <div class="d-sm-flex d-md-row">
+            <div class="col-md-4 me-md-3 container">
               <div class="image-preview">
                   <img id="preview" src={% static 'assets/img/default.png' %} alt="Image Preview" class="p-3 mb-2" style="max-width: 100%; height: auto; border-radius: 8px;">
               </div>
@@ -33,14 +36,14 @@
                   <div class="invalid-feedback">Please enter the product image.</div>
               </div>
             </div>
-            <div class="col-8">
+            <div class="col-md-8 me-md-3 container">
               <div class="row g-3">
                 <div class="mb-3 col-md-12">
-                  <label for="productName" class="form-label">Product Name or Code</label>
+                  <label for="productName" class="form-label">Product Name</label>
                   <input type="text" class="form-control" id="productName" placeholder="Enter product name" name="productName" required>
                   <div class="invalid-feedback">Please enter the product name.</div>
                 </div>
-                <div class="mb-3 col-md-5">
+                <div class="mb-3 col-10 col-md-5">
                   <label for="category" class="form-label">Category</label>
                   <select class="form-control" id="category" name="category">
                     <option value="" selected>Select Category</option>
@@ -49,30 +52,30 @@
                     {% endfor %}
                   </select>
                 </div>
-                <p class="col-md-1 align-self-end text-center">OR</p>  
-                <div class="mb-3 col-md-6">
+                <p class="col-2 col-md-1 align-self-end text-center">OR</p>  
+                <div class="mb-3 col-md-6 col-sm-12">
                   <label for="new-category" class="form-label">New Category</label>
                   <input type="text" class="form-control" id="new-category" placeholder="Enter New Category" name="new-category">
                   <div class="invalid-feedback">Please enter New Category.</div>
                 </div>
-                <div class="mb-3 col-md-5">
+                <div class="mb-3 col-10 col-md-5">
                   <label for="subCategory" class="form-label">Sub Category</label>
                   <select class="form-control" id="subCategory" name="subCategory">
                     <option value="" selected>Select Sub Category</option>
                   </select>
                 </div>
-                <p class="col-md-1 align-self-end text-center">OR</p> 
-                <div class="mb-3 col-md-6">
+                <p class="col-2 col-md-1 align-self-end text-center">OR</p> 
+                <div class="mb-3 col-12 col-md-6">
                   <label for="new-category" class="form-label">New Sub Category</label>
                   <input type="text" class="form-control" id="new-sub-category" placeholder="Enter New Sub Category" name="new-sub-category">
                   <div class="invalid-feedback">Please enter New Sub Category.</div>
                 </div>
-                <div class="mb-3 col-md-12">
+                <div class="mb-3 col-md-6">
                   <label for="buyingPrice" class="form-label">Buying Price</label>
                   <input type="number" class="form-control" id="buyingPrice" placeholder="Enter buying price" name="buyingPrice" required>
                   <div class="invalid-feedback">Please enter the buying price.</div>
                 </div>
-                <div class="mb-3 col-md-12">
+                <div class="mb-3 col-md-6">
                   <label for="sellingPrice" class="form-label">Selling Price</label>
                   <input type="number" class="form-control" id="sellingPrice" placeholder="Enter selling price" name="sellingPrice" required>
                   <div class="invalid-feedback">Please enter the selling price.</div>
@@ -91,95 +94,122 @@
         </form>
       </div>    
     </div>
+
+    <!-- Manage Product -->
+
     <div class="tab-pane fade" id="pills-manage-product" role="tabpanel" aria-labelledby="manage-product-tab">
       <div class="row d-flex justify-content-center">
-        <div class="col-md-6 col-sm-11">
+
+        <!-- Edit Products -->
+        <div class="col-md-7 col-sm-11">
           <div class="card">
-            <div class="d-flex flex-column p-4">
+            <div class="row g-3 p-4">
               <div class="d-flex justify-content-center mb-3">
-                <h3> Add Items </h3>
+                <h3> Edit Product </h3>
               </div>
-              <div class="mb-3">
-                <label for="productName" class="form-label">Product Name</label>
-                <input type="text" class="form-control" id="productName" placeholder="Enter product name" name="productName" required>
-                <div class="invalid-feedback">Please enter the product name.</div>
-              </div>
-              <div class="mb-3">
-                <label for="productCode" class="form-label">Product Code</label>
-                <input type="text" class="form-control" id="productCode" placeholder="Enter product code" name="productCode" required>
-                <div class="invalid-feedback">Please enter the product code.</div>
-              </div>
-              <div class="mb-3">
+              <div class="mb-3 col-md-4">
                 <label for="category" class="form-label">Category</label>
-                <select class="form-control" id="category" name="category">
-                  <option value="electronics">Electronics</option>
-                  <option value="clothes">Clothes</option>
-                  <option value="food">Food</option>
-                  <option value="books">Books</option>
+                <select class="form-control" id="category" name="category" required>
+                  <option value="" selected>Select Category</option>
                 </select>
               </div>
-              <div class="mb-3">
+              <div class="mb-3 col-md-4">
                 <label for="subCategory" class="form-label">Sub Category</label>
-                <select class="form-control" id="subCategory" name="subCategory">
-                  <option value="phones">Phones</option>
-                  <option value="laptops">Laptops</option>
-                  <option value="shirts">Shirts</option>
-                  <option value="pants">Pants</option>
+                <select class="form-control" id="subCategory" name="subCategory" required>
+                  <option value="" selected>Select Sub Category</option>
                 </select>
               </div>
-              <div class="mb-3">
-                <label for="buyingPrice" class="form-label">Buying Price</label>
-                <input type="number" class="form-control" id="buyingPrice" placeholder="Enter buying price" name="buyingPrice" required>
-                <div class="invalid-feedback">Please enter the buying price.</div>
+              <div class="mb-3 col-md-4">
+                <label for="productName" class="form-label">Product Name</label>
+                <select class="form-control" id="productName" name="productName" required>
+                  <option value="" selected>Select Product</option>
+                </select>
               </div>
-              <div class="mb-3">
-                <label for="sellingPrice" class="form-label">Selling Price</label>
-                <input type="number" class="form-control" id="sellingPrice" placeholder="Enter selling price" name="sellingPrice" required>
-                <div class="invalid-feedback">Please enter the selling price.</div>
+              <div class="mb-3 col-md-12">
+                <label for="editProductName" class="form-label">Edit Product Name</label>
+                <input type="text" class="form-control" id="editProductName" placeholder="Change Product Name" name="editProductName">
               </div>
-              <div class="mb-3">
-                <label for="amount" class="form-label">Amount</label>
-                <input type="number" class="form-control" id="amount" placeholder="Enter amount" name="amount" required>
-                <div class="invalid-feedback">Please enter the amount.</div>
-              </div>           
+              <div class="mb-3 col-10 col-md-5">
+                <label for="amount" class="form-label">Add to Inventory</label>
+                <input type="number" class="form-control" id="amount" placeholder="Enter amount" name="amount">
+              </div>
+              <p class="col-2 col-md-1 align-self-end text-center">OR</p>  
+              <div class="mb-3 col-12 col-md-6">
+                <label for="amount" class="form-label">Remove from Inventory</label>
+                <input type="number" class="form-control" id="amount" placeholder="Enter amount" name="amount">
+              </div>
+              <div class="mb-3 col-md-6">
+                <label for="buyingPrice" class="form-label">Edit Buying Price</label>
+                <input type="number" class="form-control" id="buyingPrice" placeholder="Enter buying price" name="buyingPrice">
+              </div>
+              <div class="mb-3 col-md-6">
+                <label for="sellingPrice" class="form-label">Edit Selling Price</label>
+                <input type="number" class="form-control" id="sellingPrice" placeholder="Enter selling price" name="sellingPrice">
+              </div>
+              <div class="mb-3 col-md-12">
+                <label for="amount" class="form-label">Comment</label>
+                <textarea class="form-control" placeholder="Leave a comment here" id="floatingTextarea" style="height: 120px;"></textarea>
+              </div>          
             </div>
             <div class="d-flex justify-content-end m-4">
-              <button type="submit" class="btn btn-primary">Add Item</button>
+              <button type="submit" class="btn btn-primary">Save</button>
             </div>  
           </div>
         </div>
-        <div class="col-md-6 col-sm-11">
+
+        <!-- Edit Category -->
+        <div class="col-md-5 col-sm-11">
           <div class="card d-flex justify-content-center">
-            <div class="d-flex flex-column p-4">
-              <div class="d-flex justify-content-center mb-3">
-                <h3> Remove Items </h3>
+            <div class="row g-3 p-4">
+              <div class="col-md-12 d-flex justify-content-center mb-3">
+                <h3> Edit Category </h3>
               </div>
-              <div class="mb-3">
-                <label for="productName" class="form-label">Product Name or Code</label>
-                <input type="text" class="form-control" id="productName" placeholder="Enter product name" name="productName" required>
-                <div class="invalid-feedback">Please enter the product name.</div>
+              <div class="mb-3 col-md-12">
+                <label for="category" class="form-label">Category</label>
+                <select class="form-control" id="category" name="category" required>
+                  <option value="" selected>Select Category</option>
+                </select>
               </div>
-              <div class="mb-3">
-                <label for="buyingPrice" class="form-label">Buying Price</label>
-                <input type="number" class="form-control" id="buyingPrice" placeholder="Enter buying price" name="buyingPrice" required>
-                <div class="invalid-feedback">Please enter the buying price.</div>
-              </div>
-              <div class="mb-3">
-                <label for="amount" class="form-label">Amount</label>
-                <input type="number" class="form-control" id="amount" placeholder="Enter amount" name="amount" required>
-                <div class="invalid-feedback">Please enter the amount.</div>
-              </div>    
-              <div class="mb-3">
-                <label for="amount" class="form-label">Comment</label>
-                <textarea class="form-control" placeholder="Leave a comment here" id="floatingTextarea" style="height: 300px;"></textarea>
-                <div class="invalid-feedback">Please enter the reason for removing items.</div>
-              </div>             
+              <div class="mb-3 col-md-12">
+                <label for="editCategoryName" class="form-label">Edit Category Name</label>
+                <input type="text" class="form-control" id="editCategoryName" placeholder="Change Product Name" name="editCategoryName">
+              </div>           
             </div>
             <div class="d-flex justify-content-end m-4">
-              <button type="submit" class="btn btn-primary">Remove</button>
+              <button type="submit" class="btn btn-primary">Save</button>
+            </div> 
+          </div>
+
+        <!-- Edit Sub Category -->
+          <div class="card d-flex justify-content-center">
+            <div class="row g-3 p-4">
+              <div class="col-md-12 d-flex justify-content-center mb-3">
+                <h3> Edit Sub Category </h3>
+              </div>
+              <div class="mb-3 col-md-6">
+                <label for="category" class="form-label">Category</label>
+                <select class="form-control" id="category" name="category" required>
+                  <option value="" selected>Select Category</option>
+                </select>
+              </div>
+              <div class="mb-3 col-md-6">
+                <label for="subCategory" class="form-label">Sub Category</label>
+                <select class="form-control" id="subCategory" name="subCategory" required>
+                  <option value="" selected>Select Sub Category</option>
+                </select>
+              </div>
+              <div class="mb-3 col-md-12">
+                <label for="editCategoryName" class="form-label">Edit Category Name</label>
+                <input type="text" class="form-control" id="editCategoryName" placeholder="Change Product Name" name="editCategoryName">
+              </div>           
+            </div>
+            <div class="d-flex justify-content-end m-4">
+              <button type="submit" class="btn btn-primary">Save</button>
             </div> 
           </div>
         </div>
+
+
       </div>
     </div>
   </div><!-- End Pills Tabs -->

@@ -44,12 +44,14 @@
         </a>
       </li>
 
-      <li class="nav-item">
-        <a id="history" class="nav-link collapsed" href={% url 'Canteen:customer_history' %}>
-          <i class="bi bi-clock-history"></i>
-          <span>History</span>
-        </a>
-      </li>
+      {% if user.role != "Bar NCO" %}
+        <li class="nav-item">
+          <a id="history" class="nav-link collapsed" href={% url 'Canteen:customer_history' %}>
+            <i class="bi bi-clock-history"></i>
+            <span>History</span>
+          </a>
+        </li>
+      {% endif %}
 
       <!-- ======= Bar NCO ======= -->
       {% if user.role == "Bar NCO" %}

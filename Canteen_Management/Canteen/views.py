@@ -176,6 +176,7 @@ def customer_checkout(request):
 
 
 @login_required(redirect_field_name='next', login_url="Canteen:signin")
+@role_required(allowed_roles=['Admin', 'Customer'])
 def customer_history(request):
     return render(request, "Canteen/customer_history.html")
 
