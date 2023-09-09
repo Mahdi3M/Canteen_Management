@@ -140,7 +140,10 @@ function updateCartUI(cart) {
           const cartItem = document.createElement('li');
           cartItem.classList.add('cart-item');
           cartItem.innerHTML = `
-            <div class="d-flex">
+            <div class="d-flex position-relative">
+              <button class="btn btn-circle position-absolute top-0 end-0 p-0 m-0" aria-label="Close" onclick="removeProduct('${productId}')">
+                  <i class="bi bi-x-circle"></i>
+              </button>
               <div>
                 <img src="${item.image}" class="rounded-circle">
                 <div class="me-2 mt-3">

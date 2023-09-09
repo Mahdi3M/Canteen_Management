@@ -11,7 +11,10 @@
   <!-- Pills Tabs -->
   <ul class="nav nav-pills my-4" id="pills-tab" role="tablist">
     <li class="nav-item" role="presentation">
-      <button class="nav-link active" id="pills-new-product-tab" data-bs-toggle="pill" data-bs-target="#pills-new-product" type="button" role="tab" aria-controls="pills-new-product" aria-selected="true">Add New Product</button>
+      <button class="nav-link active" id="pills-all-product-tab" data-bs-toggle="pill" data-bs-target="#pills-all-product" type="button" role="tab" aria-controls="pills-new-product" aria-selected="true">All Product</button>
+    </li>
+    <li class="nav-item" role="presentation">
+      <button class="nav-link" id="pills-new-product-tab" data-bs-toggle="pill" data-bs-target="#pills-new-product" type="button" role="tab" aria-controls="pills-new-product" aria-selected="true">Add New Product</button>
     </li>
     <li class="nav-item" role="presentation">
       <button class="nav-link" id="pills-manage-product-tab" data-bs-toggle="pill" data-bs-target="#pills-manage-product" type="button" role="tab" aria-controls="pills-manage-product" aria-selected="false">Manage Product</button>
@@ -21,7 +24,45 @@
   <!-- Add New Product -->
 
   <div class="tab-content pt-2" id="myTabContent">
-    <div class="tab-pane fade show active" id="pills-new-product" role="tabpanel" aria-labelledby="new-product-tab">
+    <div class="tab-pane fade show active" id="pills-all-product" role="tabpanel" aria-labelledby="all-product-tab">
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-title">All Products List</h5>
+          {% comment %} <p>Add lightweight datatables to your project with using the <a href="https://github.com/fiduswriter/Simple-DataTables" target="_blank">Simple DataTables</a> library. Just add <code>.datatable</code> class name to any table you wish to conver to a datatable</p> {% endcomment %}
+
+          <!-- Table with stripped rows -->
+          <table class="table datatable">
+            <thead>
+              <tr>
+                <th scope="col">#</th>
+                <th scope="col">Product Name</th>
+                <th scope="col">Quantity</th>
+                <th scope="col">Sub Category</th>
+                <th scope="col">Category</th>
+                <th scope="col">Buying Price</th>
+                <th scope="col">Selling Price</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for product in all_products %}
+                <tr>
+                  <th scope="row">{{ forloop.count }}</th>
+                  <td>{{ product.name }}</td>
+                  <td>{{ product.stock_quantity }}</td>
+                  <td>{{ product.subcategory.name }}</td>
+                  <td>{{ product.category.name }}</td>
+                  <td>{{ product.buying_price }}</td>
+                  <td>{{ product.selling_price }}</td>
+                </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+          <!-- End Table with stripped rows -->
+
+        </div>
+      </div>
+    </div>
+    <div class="tab-pane fade" id="pills-new-product" role="tabpanel" aria-labelledby="new-product-tab">
       <div class="card p-4 mb-5">
         <form method=POST action={% url 'Canteen:nco_inventory' %} class="needs-validation" enctype="multipart/form-data" novalidate>
           {% csrf_token %}

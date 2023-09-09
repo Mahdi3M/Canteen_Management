@@ -124,7 +124,8 @@ def customer_catalog(request):
     
     category_names = Category.objects.values_list('name', flat=True)
     subcategory_names = Subcategory.objects.values_list('name', flat=True)
-    context["keywords"] = list(category_names) + list(subcategory_names)
+    product_names = Product.objects.values_list('name', flat=True)
+    context["keywords"] = list(category_names) + list(subcategory_names) + list(product_names)
     
     if request.method == "POST":
         query = request.POST.get('query')
@@ -132,6 +133,8 @@ def customer_catalog(request):
             context["products"] = Product.objects.filter(category__name = query).exclude(stock_quantity = 0).order_by('category__name', 'subcategory__name', 'name')
         elif query in subcategory_names:
             context["products"] = Product.objects.filter(subcategory__name = query).exclude(stock_quantity = 0).order_by('category__name', 'subcategory__name', 'name')
+        elif query in product_names:
+            context["products"] = Product.objects.filter(name = query).exclude(stock_quantity = 0).order_by('category__name', 'subcategory__name', 'name')
         else:
             context["products"] = Product.objects.exclude(stock_quantity = 0).order_by('category__name', 'subcategory__name', 'name')
     else:        
@@ -152,7 +155,8 @@ def customer_checkout(request):
         
         with transaction.atomic():
             new_Order = Order()
-            new_Order.user = request.user
+            new_Order.name = request.user.name
+            new_Order.ba = request.user.ba
             new_Order.total = total
             new_Order.save()
             
@@ -262,6 +266,7 @@ def nco_inventory(request):
         category_dict[category.name] = subcategory_names
 
     context['category_dict'] = category_dict
+    context['all_products'] = Product.objects.all()
     
     return render(request, "Canteen/nco_inventory.html", context)
 

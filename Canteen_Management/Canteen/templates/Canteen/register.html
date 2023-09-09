@@ -37,28 +37,32 @@
                     
                     <div class="col-12">
                       <label for="yourName" class="form-label">Your Name</label>
-                      <input type="text" name="name" class="form-control" id="yourName" required>
+                      <input type="text" name="name" class="form-control reg-form-input" id="yourName" required>
                       <div class="invalid-feedback">Please, enter your name!</div>
                     </div>
 
                     <div class="col-12 mb-3">
                         <label for="image" class="form-label">Select Image</label>
-                        <input type="file" class="form-control" id="image" name="image" onchange="previewImage()">
+                        <input type="file" class="form-control reg-form-input" id="image" name="image" onchange="previewImage()">
                     </div>
 
                     <div class="col-12">
-                      <label for="yourBA" class="form-label">Your BA No.</label>
+                      <label for="yourBA" class="form-label">Your Personal No.</label>
                       <div class="input-group">
-                          <span class="input-group-text">BA-</span>
-                          <input type="number" name="ba" class="form-control" id="yourBA" required>
-                          <div class="invalid-feedback">Please enter a valid BA Number!</div>
+                        <select class="form-select" id="prefixSelect" style="max-width: 110px;">
+                          <option value="BA">BA-</option>
+                          <option value="BSS">BSS-</option>
+                          <option value="Foreign">Foreign Officers</option>
+                        </select>
+                        <input type="number" name="ba" class="form-control reg-form-input" id="yourBA" placeholder="XXXX"required>
+                        <div class="invalid-feedback">Please enter a valid BA Number!</div>
                       </div>
                     </div>
 
                     <div class="col-12">
                       <label for="yourUnit" class="form-label">Unit Name</label>
                       <div class="input-group has-validation">
-                        <input type="text" name="unit" class="form-control" id="yourUnit" required>
+                        <input type="text" name="unit" class="form-control reg-form-input" id="yourUnit" required>
                         <div class="invalid-feedback">Please choose an unit.</div>
                       </div>
                     </div>
@@ -66,7 +70,7 @@
                     <div class="col-12">
                       <label for="yourRank" class="form-label">Rank</label>
                       <div class="input-group has-validation">
-                        <input type="text" name="rank" class="form-control" id="yourRank" required>
+                        <input type="text" name="rank" class="form-control reg-form-input" id="yourRank" required>
                         <div class="invalid-feedback">Please enter your rank.</div>
                       </div>
                     </div>
@@ -74,26 +78,26 @@
                     <div class="col-12">
                       <label for="yourUsername" class="form-label">Username</label>
                       <div class="input-group has-validation">
-                        <input type="text" name="username" class="form-control" id="yourUsername" required>
+                        <input type="text" name="username" class="form-control reg-form-input" id="yourUsername" required>
                         <div class="invalid-feedback">Please choose a username.</div>
                       </div>
                     </div>
 
                     <div class="col-12">
                       <label for="yourEmail" class="form-label">Your Email</label>
-                      <input type="email" name="email" class="form-control" id="yourEmail" required>
+                      <input type="email" name="email" class="form-control reg-form-input" id="yourEmail" required>
                       <div class="invalid-feedback">Please enter a valid Email adddress!</div>
                     </div>
 
                     <div class="col-12">
                       <label for="yourPassword" class="form-label">Password</label>
-                      <input type="password" name="password" class="form-control" id="yourPassword" required>
+                      <input type="password" name="password" class="form-control reg-form-input" id="yourPassword" required>
                       <div class="invalid-feedback">Please enter your password!</div>
                     </div>
 
                     <div class="col-12">
                       <label for="confirmPassword" class="form-label">Confirm Password</label>
-                      <input type="password" name="confirmpassword" class="form-control" id="confirmPassword" required>
+                      <input type="password" name="confirmpassword" class="form-control reg-form-input" id="confirmPassword" required>
                       <div class="invalid-feedback">Please re-enter your password!</div>
                     </div>
 
@@ -143,5 +147,25 @@
           reader.readAsDataURL(imageInput.files[0]);
       }
   }
+</script>
+
+<script>
+  // Save form data when the user inputs data
+  const formInputs = document.querySelectorAll('.reg-form-input');
+
+  formInputs.forEach(input => {
+      input.addEventListener('input', () => {
+          const inputData = input.value;
+          // Save inputData to localStorage or perform other actions
+      });
+  });
+
+// Retrieve and populate the form with saved data when the page loads
+window.addEventListener('load', () => {
+    const formData = localStorage.getItem('formData');
+    if (formData) {
+        document.querySelector('#yourFormInput').value = formData;
+    }
+});
 </script>
 {% endblock scripts %}

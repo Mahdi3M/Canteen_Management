@@ -65,7 +65,8 @@ class Order(models.Model):
         ('Pending', 'Pending'),
         ('Complete', 'Complete'),
     )
-    user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
+    name = models.CharField(max_length=255, default="None")
+    ba = models.CharField(blank=True, null=True, max_length=6)
     timestamp = models.DateTimeField(default=timezone.now)
     status = models.CharField(max_length=10, choices=STATUS, default='Pending')
     total = models.DecimalField(max_digits=10, decimal_places=2)
