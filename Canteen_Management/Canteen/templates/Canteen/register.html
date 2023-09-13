@@ -7,76 +7,104 @@
 
       <section class="section register min-vh-100 d-flex flex-column align-items-center justify-content-center py-4">
         <div class="container">
-          <div class="row justify-content-center">
-            <div class="col-lg-4 col-md-6 d-flex flex-column align-items-center justify-content-center">
-
-              <div class="d-flex justify-content-center py-4">
-                <a href={% url 'Canteen:home' %} class="logo d-flex align-items-center w-auto">
-                  <img src={% static 'assets/img/logo.png' %} alt="">
-                  <span class="d-none d-lg-block">STC&S Offrs' Mess Cafe</span>
-                </a>
-              </div><!-- End Logo -->
-
-              <div class="card mb-3">
-
-                <div class="card-body">
-
-                  <div class="pt-4 pb-2">
-                    <h5 class="card-title text-center pb-0 fs-4">Create an Account</h5>
-                    <p class="text-center small">Enter your personal details to create account</p>
-                  </div>
-
-                  <form method=POST action={% url 'Canteen:register' %} class="row g-3 needs-validation" enctype="multipart/form-data" novalidate>
-                    {% csrf_token %}
-
+          <div class="row d-flex justify-content-center">
+            <div class="d-flex justify-content-center py-4">
+              <a href={% url 'Canteen:home' %} class="logo d-flex align-items-center w-auto">
+                <img src={% static 'assets/img/logo.png' %} alt="">
+                <span class="d-none d-lg-block">STC&S Offrs' Mess Cafe</span>
+              </a>
+            </div><!-- End Logo -->
+            
+                  
+            <form method="POST" action="{% url 'Canteen:register' %}" class="d-flex flex-column align-items-center justify-content-center needs-validation" enctype="multipart/form-data" novalidate>
+              <!-- Form Fields for Step 1 -->
+              {% csrf_token %}
+              <div class="col-lg-4 col-md-6 d-flex flex-column align-items-center justify-content-center">
+                <!-- Step 1 Content -->
+                <div class="card mb-3">
+                  <div class="card-body row g-3 ">
+                    <div class="pt-4 pb-2">
+                      <h5 class="card-title text-center pb-0 fs-4">Step 1: Personal Information</h5>
+                      <p class="text-center small">Enter your personal details</p>
+                    </div>
                     <div class="col-12 image-preview d-flex justify-content-center">
                       <div class="square-image-container" style="width:150px; height:150px;">
                         <img id="preview" src={% static 'assets/img/default.png' %} alt="Image Preview" class="p-3 mb-2 square-image">
                       </div>
                     </div>
-                    
                     <div class="col-12">
-                      <label for="yourName" class="form-label">Your Name</label>
+                      <label for="yourName" class="form-label">Your Name<span class="text-danger">*</span></label>
                       <input type="text" name="name" class="form-control reg-form-input" id="yourName" required>
                       <div class="invalid-feedback">Please, enter your name!</div>
                     </div>
-
                     <div class="col-12 mb-3">
-                        <label for="image" class="form-label">Select Image</label>
-                        <input type="file" class="form-control reg-form-input" id="image" name="image" onchange="previewImage()">
+                      <label for="image" class="form-label">Select Image</label>
+                      <input type="file" class="form-control reg-form-input" id="image" name="image" onchange="previewImage()">
                     </div>
-
+                    <!-- Next Button -->
+                    <div class="col-12 mt-5">
+                      <button class="btn btn-primary w-100" type="button" onclick="nextStep(2)">Next</button>
+                    </div>
+                  </div>
+                </div>
+            
+                <!-- Step 2 -->
+                <!-- Step 2 Content -->
+                <div class="card mb-3" style="display: none;">
+                  <div class="card-body row g-3">
+                    <div class="pt-4 pb-2">
+                      <h5 class="card-title text-center pb-0 fs-4">Step 2: Additional Information</h5>
+                      <p class="text-center small">Provide more details</p>
+                    </div>
                     <div class="col-12">
-                      <label for="yourBA" class="form-label">Your Personal No.</label>
+                      <label for="yourBA" class="form-label">Your Personal No.<span class="text-danger">*</span></label>
                       <div class="input-group">
                         <select class="form-select" id="prefixSelect" style="max-width: 110px;">
                           <option value="BA">BA-</option>
                           <option value="BSS">BSS-</option>
                           <option value="Foreign">Foreign Officers</option>
                         </select>
-                        <input type="number" name="ba" class="form-control reg-form-input" id="yourBA" placeholder="XXXX"required>
+                        <input type="number" name="ba" class="form-control reg-form-input" id="yourBA" placeholder="XXXX" required>
                         <div class="invalid-feedback">Please enter a valid BA Number!</div>
-                      </div>
-                    </div>
-
-                    <div class="col-12">
-                      <label for="yourUnit" class="form-label">Unit Name</label>
-                      <div class="input-group has-validation">
-                        <input type="text" name="unit" class="form-control reg-form-input" id="yourUnit" required>
-                        <div class="invalid-feedback">Please choose an unit.</div>
                       </div>
                     </div>
 
                     <div class="col-12">
                       <label for="yourRank" class="form-label">Rank</label>
                       <div class="input-group has-validation">
-                        <input type="text" name="rank" class="form-control reg-form-input" id="yourRank" required>
+                        <input type="text" name="rank" class="form-control reg-form-input" id="yourRank">
                         <div class="invalid-feedback">Please enter your rank.</div>
                       </div>
                     </div>
 
                     <div class="col-12">
-                      <label for="yourUsername" class="form-label">Username</label>
+                      <label for="yourUnit" class="form-label">Unit Name</label>
+                      <div class="input-group has-validation">
+                        <input type="text" name="unit" class="form-control reg-form-input" id="yourUnit">
+                        <div class="invalid-feedback">Please choose an unit.</div>
+                      </div>
+                    </div>
+                    <!-- Previous and Next Buttons -->
+                    <div class="col-6 mt-5">
+                      <button class="btn btn-secondary w-100" type="button" onclick="prevStep(1)">Previous</button>
+                    </div>
+                    <div class="col-6 mt-5">
+                      <button class="btn btn-primary w-100" type="button" onclick="nextStep(3)">Next</button>
+                    </div>
+                  </div>
+                </div>
+            
+                <!-- Step 3 -->
+                <!-- Step 3 Content -->
+                <div class="card mb-3" style="display: none;">
+                  <div class="card-body row g-3">
+                    <div class="pt-4 pb-2">
+                      <h5 class="card-title text-center pb-0 fs-4">Step 3: Account Information</h5>
+                      <p class="text-center small">Set up your account</p>
+                    </div>                 
+
+                    <div class="col-12">
+                      <label for="yourUsername" class="form-label">Username<span class="text-danger">*</span></label>
                       <div class="input-group has-validation">
                         <input type="text" name="username" class="form-control reg-form-input" id="yourUsername" required>
                         <div class="invalid-feedback">Please choose a username.</div>
@@ -84,42 +112,44 @@
                     </div>
 
                     <div class="col-12">
-                      <label for="yourEmail" class="form-label">Your Email</label>
+                      <label for="yourEmail" class="form-label">Your Email<span class="text-danger">*</span></label>
                       <input type="email" name="email" class="form-control reg-form-input" id="yourEmail" required>
                       <div class="invalid-feedback">Please enter a valid Email adddress!</div>
                     </div>
 
                     <div class="col-12">
-                      <label for="yourPassword" class="form-label">Password</label>
+                      <label for="yourPassword" class="form-label">Password<span class="text-danger">*</span></label>
                       <input type="password" name="password" class="form-control reg-form-input" id="yourPassword" required>
                       <div class="invalid-feedback">Please enter your password!</div>
                     </div>
 
                     <div class="col-12">
-                      <label for="confirmPassword" class="form-label">Confirm Password</label>
+                      <label for="confirmPassword" class="form-label">Confirm Password<span class="text-danger">*</span></label>
                       <input type="password" name="confirmpassword" class="form-control reg-form-input" id="confirmPassword" required>
                       <div class="invalid-feedback">Please re-enter your password!</div>
                     </div>
 
-                    <div class="col-12 mt-5">
-                      <button class="btn btn-primary w-100" type="submit">Create Account</button>
+                      <!-- Previous and Submit Buttons -->
+                      <div class="col-6 mt-5">
+                        <button class="btn btn-secondary w-100" type="button" onclick="prevStep(2)">Previous</button>
+                      </div>
+                      <div class="col-6 mt-5">
+                        <button class="btn btn-primary w-100" type="submit">Create Account</button>
+                      </div>
                     </div>
-                    <div class="col-12">
-                      <p class="small mb-0">Already have an account? <a href={% url 'Canteen:signin' %}>Sign In</a></p>
-                    </div>
-                  </form>
-
+                  </div>
                 </div>
               </div>
+            </form>
+            
 
-              <div class="credits">
-                <!-- All the links in the footer should remain intact. -->
-                <!-- You can delete the links only if you purchased the pro version. -->
-                <!-- Licensing information: https://bootstrapmade.com/license/ -->
-                <!-- Purchase the pro version with working PHP/AJAX contact form: https://bootstrapmade.com/nice-admin-bootstrap-admin-html-template/ -->
-                <!-- Designed by <a href="https://bootstrapmade.com/">BootstrapMade</a> -->
-              </div>
 
+            <div class="credits">
+              <!-- All the links in the footer should remain intact. -->
+              <!-- You can delete the links only if you purchased the pro version. -->
+              <!-- Licensing information: https://bootstrapmade.com/license/ -->
+              <!-- Purchase the pro version with working PHP/AJAX contact form: https://bootstrapmade.com/nice-admin-bootstrap-admin-html-template/ -->
+              <!-- Designed by <a href="https://bootstrapmade.com/">BootstrapMade</a> -->
             </div>
           </div>
         </div>
@@ -150,22 +180,19 @@
 </script>
 
 <script>
-  // Save form data when the user inputs data
-  const formInputs = document.querySelectorAll('.reg-form-input');
+  var currentStep = 1;
 
-  formInputs.forEach(input => {
-      input.addEventListener('input', () => {
-          const inputData = input.value;
-          // Save inputData to localStorage or perform other actions
-      });
-  });
+  function nextStep(step) {
+      document.querySelector(`.card:nth-child(${currentStep})`).style.display = "none";
+      currentStep = step;
+      document.querySelector(`.card:nth-child(${currentStep})`).style.display = "block";
+  }
 
-// Retrieve and populate the form with saved data when the page loads
-window.addEventListener('load', () => {
-    const formData = localStorage.getItem('formData');
-    if (formData) {
-        document.querySelector('#yourFormInput').value = formData;
-    }
-});
+  function prevStep(step) {
+      document.querySelector(`.card:nth-child(${currentStep})`).style.display = "none";
+      currentStep = step;
+      document.querySelector(`.card:nth-child(${currentStep})`).style.display = "block";
+  }
 </script>
+
 {% endblock scripts %}

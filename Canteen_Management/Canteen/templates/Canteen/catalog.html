@@ -40,16 +40,18 @@
                 <div class="img"><img src={{ product.image.url }} alt="img" draggable="false"></div>
                 <p class="text-center">{{ product.name }}</p>
                 <span>Price: {{ product.selling_price }} Tk</span>
-                <button 
-                  data-id="{{ product.id }}" 
-                  data-image="{{ product.image.url }}" 
-                  data-name="{{ product.name|slice:"0:22" }}" 
-                  data-price="{{ product.selling_price }}" 
-                  data-available="{{ product.stock_quantity }}"
-                  class="add-to-cart mt-4" 
-                  title="Available in inventory: {{ product.stock_quantity }}">
-                    Add To Cart
-                </button>
+                {% if not user.role == "Bar NCO" %}
+                  <button 
+                    data-id="{{ product.id }}" 
+                    data-image="{{ product.image.url }}" 
+                    data-name="{{ product.name|slice:"0:22" }}" 
+                    data-price="{{ product.selling_price }}" 
+                    data-available="{{ product.stock_quantity }}"
+                    class="add-to-cart mt-4" 
+                    title="Available in inventory: {{ product.stock_quantity }}">
+                      Add To Cart
+                  </button>
+                {% endif %}
               </li>
             {% endfor %}
           </ul>
