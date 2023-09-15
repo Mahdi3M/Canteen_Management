@@ -1,6 +1,27 @@
 {% extends 'base.html' %}
 {% load static %}
 
+{% block head %}
+<style>
+  /* Set the minimum width for the specific columns */
+  th:nth-child(2) { /* Second column (Order No.) */
+    min-width: 100px; /* Adjust the width as needed */
+  }
+
+  th:nth-child(3) { /* Third column (Date and Time) */
+    min-width: 140px; /* Adjust the width as needed */
+  }
+
+  th:nth-child(4) { /* Fourth column (Product Name, Price, Quantity, Total) */
+    min-width: 400px; /* Adjust the width as needed */
+  }
+
+  th:nth-child(5) { /* Fifth column (Total Price) */
+    min-width: 150px; /* Adjust the width as needed */
+  }
+</style>
+{% endblock head %}
+
 {% block main %}
 <main id="main" class="main">
 
@@ -12,473 +33,47 @@
     <div class="card-body">
       <h5 class="card-title">Monthly Bills</h5>
 
-      <!-- Default Tabs -->
-      <ul class="nav nav-tabs d-flex" id="myTabjustified" role="tablist">
-        <li class="nav-item flex-fill" role="presentation">
-          <button class="nav-link w-100 active" id="jan-tab" data-bs-toggle="tab" data-bs-target="#jan-justified" type="button" role="tab" aria-controls="jan" aria-selected="true">January</button>
-        </li>
-        <li class="nav-item flex-fill" role="presentation">
-          <button class="nav-link w-100" id="feb-tab" data-bs-toggle="tab" data-bs-target="#feb-justified" type="button" role="tab" aria-controls="feb" aria-selected="false">February</button>
-        </li>
-        <li class="nav-item flex-fill" role="presentation">
-          <button class="nav-link w-100" id="mar-tab" data-bs-toggle="tab" data-bs-target="#mar-justified" type="button" role="tab" aria-controls="mar" aria-selected="false">March</button>
-        </li>
-        <li class="nav-item flex-fill" role="presentation">
-          <button class="nav-link w-100" id="apr-tab" data-bs-toggle="tab" data-bs-target="#apr-justified" type="button" role="tab" aria-controls="apr" aria-selected="true">April</button>
-        </li>
-        <li class="nav-item flex-fill" role="presentation">
-          <button class="nav-link w-100" id="may-tab" data-bs-toggle="tab" data-bs-target="#may-justified" type="button" role="tab" aria-controls="may" aria-selected="false">May</button>
-        </li>
-        <li class="nav-item flex-fill" role="presentation">
-          <button class="nav-link w-100" id="jun-tab" data-bs-toggle="tab" data-bs-target="#jun-justified" type="button" role="tab" aria-controls="jun" aria-selected="false">June</button>
-        </li>
-        <li class="nav-item flex-fill" role="presentation">
-          <button class="nav-link w-100" id="jul-tab" data-bs-toggle="tab" data-bs-target="#jul-justified" type="button" role="tab" aria-controls="jul" aria-selected="true">July</button>
-        </li>
-        <li class="nav-item flex-fill" role="presentation">
-          <button class="nav-link w-100" id="aug-tab" data-bs-toggle="tab" data-bs-target="#aug-justified" type="button" role="tab" aria-controls="aug" aria-selected="false">August</button>
-        </li>
-        <li class="nav-item flex-fill" role="presentation">
-          <button class="nav-link w-100" id="sep-tab" data-bs-toggle="tab" data-bs-target="#sep-justified" type="button" role="tab" aria-controls="sep" aria-selected="false">September</button>
-        </li>
-        <li class="nav-item flex-fill" role="presentation">
-          <button class="nav-link w-100" id="oct-tab" data-bs-toggle="tab" data-bs-target="#oct-justified" type="button" role="tab" aria-controls="oct" aria-selected="true">October</button>
-        </li>
-        <li class="nav-item flex-fill" role="presentation">
-          <button class="nav-link w-100" id="nov-tab" data-bs-toggle="tab" data-bs-target="#nov-justified" type="button" role="tab" aria-controls="nov" aria-selected="false">November</button>
-        </li>
-        <li class="nav-item flex-fill" role="presentation">
-          <button class="nav-link w-100" id="dec-tab" data-bs-toggle="tab" data-bs-target="#dec-justified" type="button" role="tab" aria-controls="dec" aria-selected="false">December</button>
-        </li>
-      </ul>
-      <div class="tab-content pt-2" id="myTabjustifiedContent">
-        <div class="tab-pane fade show active" id="jan-justified" role="tabpanel" aria-labelledby="jan-tab">
-          <!-- Table with stripped rows -->
-          <table class="table table-striped customer-histroy-table">
-            <thead>
-                <tr>
-                    <th scope="col" id="sr">#</th>
-                    <th scope="col" id="order-id">Order No</th>
-                    <th scope="col" id="order-date">Date and Time</th>
-                    <th scope="col" id="order-items">Items</th>
-                    <th scope="col" id="order-price">Price</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <th scope="row" id="sr">1</th>
-                    <td id="order-id">#12345</td>
-                    <td id="order-date">16/01/2023 <br> 09:05</td>
-                    <td id="order-items">Product C</td>
-                    <td id="order-price">৳75.50</td>
-                </tr>
-                <tr>
-                    <th scope="row" id="sr">2</th>
-                    <td id="order-id">#12346</td>
-                    <td id="order-date">29/01/2023 <br> 11:25</td>
-                    <td id="order-items">Product A, Product B, Product A,</td>
-                    <td id="order-price">৳150.00</td>
-                </tr>
-                <!-- Add more rows as needed -->
-            </tbody>
-          </table>        
-          <!-- End Table with stripped rows -->          
-          <div class="total">
-            <p>Total Bill: ৳225.50</p>
-          </div>
-        </div>
-        <div class="tab-pane fade" id="feb-justified" role="tabpanel" aria-labelledby="feb-tab">
-          <table class="table table-striped customer-histroy-table">
-            <thead>
-                <tr>
-                    <th scope="col" id="sr">#</th>
-                    <th scope="col" id="order-id">Order No</th>
-                    <th scope="col" id="order-date">Date and Time</th>
-                    <th scope="col" id="order-items">Items</th>
-                    <th scope="col" id="order-price">Price</th>
-                </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <th scope="row" id="sr">1</th>
-                <td id="order-id">#98765</td>
-                <td id="order-date">12/02/2023 <br> 15:30</td>
-                <td id="order-items">Product A</td>
-                <td id="order-price">৳50.00</td>
-              </tr>
-                <!-- Add more rows as needed -->
-            </tbody>
-          </table>
-            
-          <div class="total">
-            <p>Total Bill: ৳50.00</p>
-          </div>
-        </div>
-        <div class="tab-pane fade" id="mar-justified" role="tabpanel" aria-labelledby="mar-tab">
-          <!-- Table with stripped rows -->
-          <table class="table table-striped customer-histroy-table">
-            <thead>
-                <tr>
-                    <th scope="col" id="sr">#</th>
-                    <th scope="col" id="order-id">Order No</th>
-                    <th scope="col" id="order-date">Date and Time</th>
-                    <th scope="col" id="order-items">Items</th>
-                    <th scope="col" id="order-price">Price</th>
-                </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <th scope="row" id="sr">1</th>
-                <td id="order-id">#98769</td>
-                <td id="order-date">03/03/2023 <br> 16:55</td>
-                <td id="order-items">Product H, Product I</td>
-                <td id="order-price">৳90.00</td>
-              </tr>
-              <tr>
-                <th scope="row" id="sr">2</th>
-                <td id="order-id">#98766</td>
-                <td id="order-date">20/03/2023 <br> 10:15</td>
-                <td id="order-items">Product B, Product C</td>
-                <td id="order-price">৳120.00</td>
-              </tr>
-              <tr>
-                <th scope="row" id="sr">3</th>
-                <td id="order-id">#98767</td>
-                <td id="order-date">05/03/2023 <br> 08:45</td>
-                <td id="order-items">Product D, Product E, Product F</td>
-                <td id="order-price">৳180.50</td>
-              </tr>
-              <tr>
-                <th scope="row" id="sr">4</th>
-                <td id="order-id">#98768</td>
-                <td id="order-date">28/03/2023 <br> 14:20</td>
-                <td id="order-items">Product G</td>
-                <td id="order-price">৳35.00</td>
-              </tr>
-                <!-- Add more rows as needed -->
-            </tbody>
-          </table>       
-          <!-- End Table with stripped rows -->          
-          <div class="total">
-            <p>Total Bill: ৳425.50</p>
-          </div>
-        </div>
-        <div class="tab-pane fade" id="apr-justified" role="tabpanel" aria-labelledby="apr-tab">
-          <!-- Table with stripped rows -->
-          <table class="table table-striped customer-histroy-table">
-            <thead>
-                <tr>
-                    <th scope="col" id="sr">#</th>
-                    <th scope="col" id="order-id">Order No</th>
-                    <th scope="col" id="order-date">Date and Time</th>
-                    <th scope="col" id="order-items">Items</th>
-                    <th scope="col" id="order-price">Price</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <th scope="row" id="sr">1</th>
-                    <td id="order-id">#12345</td>
-                    <td id="order-date">16/01/2023 <br> 09:05</td>
-                    <td id="order-items">Product C</td>
-                    <td id="order-price">৳75.50</td>
-                </tr>
-                <tr>
-                    <th scope="row" id="sr">2</th>
-                    <td id="order-id">#12346</td>
-                    <td id="order-date">29/01/2023 <br> 11:25</td>
-                    <td id="order-items">Product A, Product B, Product A,</td>
-                    <td id="order-price">৳150.00</td>
-                </tr>
-                <!-- Add more rows as needed -->
-            </tbody>
-          </table>       
-          <!-- End Table with stripped rows -->          
-          <div class="total">
-            <p>Total Bill: ৳225.50</p>
-          </div>
-        </div>
-        <div class="tab-pane fade" id="may-justified" role="tabpanel" aria-labelledby="may-tab">
-          <!-- Table with stripped rows -->
-          <table class="table table-striped customer-histroy-table">
-            <thead>
-                <tr>
-                    <th scope="col" id="sr">#</th>
-                    <th scope="col" id="order-id">Order No</th>
-                    <th scope="col" id="order-date">Date and Time</th>
-                    <th scope="col" id="order-items">Items</th>
-                    <th scope="col" id="order-price">Price</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <th scope="row" id="sr">1</th>
-                    <td id="order-id">#12345</td>
-                    <td id="order-date">16/01/2023 <br> 09:05</td>
-                    <td id="order-items">Product C</td>
-                    <td id="order-price">৳75.50</td>
-                </tr>
-                <tr>
-                    <th scope="row" id="sr">2</th>
-                    <td id="order-id">#12346</td>
-                    <td id="order-date">29/01/2023 <br> 11:25</td>
-                    <td id="order-items">Product A, Product B, Product A,</td>
-                    <td id="order-price">৳150.00</td>
-                </tr>
-                <!-- Add more rows as needed -->
-            </tbody>
-          </table>
-          <!-- End Table with stripped rows -->          
-          <div class="total">
-            <p>Total Bill: ৳75.50</p>
-          </div>
-        </div>
-        <div class="tab-pane fade" id="jun-justified" role="tabpanel" aria-labelledby="jun-tab">
-          <!-- Table with stripped rows -->
-          <table class="table table-striped customer-histroy-table">
-            <thead>
-                <tr>
-                    <th scope="col" id="sr">#</th>
-                    <th scope="col" id="order-id">Order No</th>
-                    <th scope="col" id="order-date">Date and Time</th>
-                    <th scope="col" id="order-items">Items</th>
-                    <th scope="col" id="order-price">Price</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <th scope="row" id="sr">1</th>
-                    <td id="order-id">#12345</td>
-                    <td id="order-date">16/01/2023 <br> 09:05</td>
-                    <td id="order-items">Product C</td>
-                    <td id="order-price">৳75.50</td>
-                </tr>
-                <tr>
-                    <th scope="row" id="sr">2</th>
-                    <td id="order-id">#12346</td>
-                    <td id="order-date">29/01/2023 <br> 11:25</td>
-                    <td id="order-items">Product A, Product B, Product A,</td>
-                    <td id="order-price">৳150.00</td>
-                </tr>
-                <!-- Add more rows as needed -->
-            </tbody>
-          </table>    
-          <!-- End Table with stripped rows -->          
-          <div class="total">
-            <p>Total Bill: ৳225.50</p>
-          </div>
-        </div>
-        <div class="tab-pane fade " id="jul-justified" role="tabpanel" aria-labelledby="jul-tab">
-          <!-- Table with stripped rows -->
-          <table class="table table-striped customer-histroy-table">
-            <thead>
-                <tr>
-                    <th scope="col" id="sr">#</th>
-                    <th scope="col" id="order-id">Order No</th>
-                    <th scope="col" id="order-date">Date and Time</th>
-                    <th scope="col" id="order-items">Items</th>
-                    <th scope="col" id="order-price">Price</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <th scope="row" id="sr">1</th>
-                    <td id="order-id">#12345</td>
-                    <td id="order-date">16/01/2023 <br> 09:05</td>
-                    <td id="order-items">Product C</td>
-                    <td id="order-price">৳75.50</td>
-                </tr>
-                <tr>
-                    <th scope="row" id="sr">2</th>
-                    <td id="order-id">#12346</td>
-                    <td id="order-date">29/01/2023 <br> 11:25</td>
-                    <td id="order-items">Product A, Product B, Product A,</td>
-                    <td id="order-price">৳150.00</td>
-                </tr>
-                <!-- Add more rows as needed -->
-            </tbody>
-          </table>      
-          <!-- End Table with stripped rows -->          
-          <div class="total">
-            <p>Total Bill: ৳75.50</p>
-          </div>
-        </div>
-        <div class="tab-pane fade" id="aug-justified" role="tabpanel" aria-labelledby="aug-tab">
-          <!-- Table with stripped rows -->
-          <table class="table table-striped customer-histroy-table">
-            <thead>
-                <tr>
-                    <th scope="col" id="sr">#</th>
-                    <th scope="col" id="order-id">Order No</th>
-                    <th scope="col" id="order-date">Date and Time</th>
-                    <th scope="col" id="order-items">Items</th>
-                    <th scope="col" id="order-price">Price</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <th scope="row" id="sr">1</th>
-                    <td id="order-id">#12345</td>
-                    <td id="order-date">16/01/2023 <br> 09:05</td>
-                    <td id="order-items">Product C</td>
-                    <td id="order-price">৳75.50</td>
-                </tr>
-                <tr>
-                    <th scope="row" id="sr">2</th>
-                    <td id="order-id">#12346</td>
-                    <td id="order-date">29/01/2023 <br> 11:25</td>
-                    <td id="order-items">Product A, Product B, Product A,</td>
-                    <td id="order-price">৳150.00</td>
-                </tr>
-                <!-- Add more rows as needed -->
-            </tbody>
-          </table>       
-          <!-- End Table with stripped rows -->          
-          <div class="total">
-            <p>Total Bill: ৳75.50</p>
-          </div>
-        </div>
-        <div class="tab-pane fade" id="sep-justified" role="tabpanel" aria-labelledby="sep-tab">
-          <!-- Table with stripped rows -->
-          <table class="table table-striped customer-histroy-table">
-            <thead>
-                <tr>
-                    <th scope="col" id="sr">#</th>
-                    <th scope="col" id="order-id">Order No</th>
-                    <th scope="col" id="order-date">Date and Time</th>
-                    <th scope="col" id="order-items">Items</th>
-                    <th scope="col" id="order-price">Price</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <th scope="row" id="sr">1</th>
-                    <td id="order-id">#12345</td>
-                    <td id="order-date">16/01/2023 <br> 09:05</td>
-                    <td id="order-items">Product C</td>
-                    <td id="order-price">৳75.50</td>
-                </tr>
-                <tr>
-                    <th scope="row" id="sr">2</th>
-                    <td id="order-id">#12346</td>
-                    <td id="order-date">29/01/2023 <br> 11:25</td>
-                    <td id="order-items">Product A, Product B, Product A,</td>
-                    <td id="order-price">৳150.00</td>
-                </tr>
-                <!-- Add more rows as needed -->
-            </tbody>
-          </table>      
-          <!-- End Table with stripped rows -->          
-          <div class="total">
-            <p>Total Bill: ৳75.50</p>
-          </div>
-        </div>
-        <div class="tab-pane fade" id="oct-justified" role="tabpanel" aria-labelledby="oct-tab">
-          <!-- Table with stripped rows -->
-          <table class="table table-striped customer-histroy-table">
-            <thead>
-                <tr>
-                    <th scope="col" id="sr">#</th>
-                    <th scope="col" id="order-id">Order No</th>
-                    <th scope="col" id="order-date">Date and Time</th>
-                    <th scope="col" id="order-items">Items</th>
-                    <th scope="col" id="order-price">Price</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <th scope="row" id="sr">1</th>
-                    <td id="order-id">#12345</td>
-                    <td id="order-date">16/01/2023 <br> 09:05</td>
-                    <td id="order-items">Product C</td>
-                    <td id="order-price">৳75.50</td>
-                </tr>
-                <tr>
-                    <th scope="row" id="sr">2</th>
-                    <td id="order-id">#12346</td>
-                    <td id="order-date">29/01/2023 <br> 11:25</td>
-                    <td id="order-items">Product A, Product B, Product A,</td>
-                    <td id="order-price">৳150.00</td>
-                </tr>
-                <!-- Add more rows as needed -->
-            </tbody>
-          </table>         
-          <!-- End Table with stripped rows -->          
-          <div class="total">
-            <p>Total Bill: ৳75.50</p>
-          </div>
-        </div>
-        <div class="tab-pane fade" id="nov-justified" role="tabpanel" aria-labelledby="nov-tab">
-          <!-- Table with stripped rows -->
-          <table class="table table-striped customer-histroy-table">
-            <thead>
-                <tr>
-                    <th scope="col" id="sr">#</th>
-                    <th scope="col" id="order-id">Order No</th>
-                    <th scope="col" id="order-date">Date and Time</th>
-                    <th scope="col" id="order-items">Items</th>
-                    <th scope="col" id="order-price">Price</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <th scope="row" id="sr">1</th>
-                    <td id="order-id">#12345</td>
-                    <td id="order-date">16/01/2023 <br> 09:05</td>
-                    <td id="order-items">Product C</td>
-                    <td id="order-price">৳75.50</td>
-                </tr>
-                <tr>
-                    <th scope="row" id="sr">2</th>
-                    <td id="order-id">#12346</td>
-                    <td id="order-date">29/01/2023 <br> 11:25</td>
-                    <td id="order-items">Product A, Product B, Product A,</td>
-                    <td id="order-price">৳150.00</td>
-                </tr>
-                <!-- Add more rows as needed -->
-            </tbody>
-          </table>        
-          <!-- End Table with stripped rows -->          
-          <div class="total">
-            <p>Total Bill: ৳75.50</p>
-          </div>
-        </div>
-        <div class="tab-pane fade" id="dec-justified" role="tabpanel" aria-labelledby="dec-tab">
-          <!-- Table with stripped rows -->
-          <table class="table table-striped customer-histroy-table">
-            <thead>
-                <tr>
-                    <th scope="col" id="sr">#</th>
-                    <th scope="col" id="order-id">Order No</th>
-                    <th scope="col" id="order-date">Date and Time</th>
-                    <th scope="col" id="order-items">Items</th>
-                    <th scope="col" id="order-price">Price</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <th scope="row" id="sr">1</th>
-                    <td id="order-id">#12345</td>
-                    <td id="order-date">16/01/2023 <br> 09:05</td>
-                    <td id="order-items">Product C</td>
-                    <td id="order-price">৳75.50</td>
-                </tr>
-                <tr>
-                    <th scope="row" id="sr">2</th>
-                    <td id="order-id">#12346</td>
-                    <td id="order-date">29/01/2023 <br> 11:25</td>
-                    <td id="order-items">Product A, Product B, Product A,</td>
-                    <td id="order-price">৳150.00</td>
-                </tr>
-                <!-- Add more rows as needed -->
-            </tbody>
-          </table>        
-          <!-- End Table with stripped rows -->          
-          <div class="total">
-            <p>Total Bill: ৳75.50</p>
-          </div>
-        </div>
-      </div><!-- End Default Tabs -->
+      <!-- Table with stripped rows -->
+      <table class="table datatable">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">Order No.</th>
+            <th scope="col">Date and Time</th>
+            <th scope="col">
+              <div class="row">
+                <div class="col-5">Product Name</div>
+                <div class="col-2">Price</div>
+                <div class="col-2">Qnt.</div>
+                <div class="col-2">Total</div>
+              </div>
+            </th>
+            <th scope="col">Total Price</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% regroup order_list by order as order_list %}
+          {% for o in order_list %}
+            <tr>
+              <th scope="row"><b>{{ forloop.counter }}</b></th>
+              <td>#{{ o.grouper.id }}</td>
+              <td>{{ o.grouper.timestamp }}</td>
+              <td>
+                {% for product in o.list %}
+                <div class="row">
+                  <div class="col-5">{{ product.name }}</div>
+                  <div class="col-2">{{ product.price }} Tk</div>
+                  <div class="col-2">{{ product.quantity }}</div>
+                  <div class="col-2">{{ product.total }} Tk</div>
+                </div>
+                {% endfor %}
+              </td>
+              <td>{{ o.grouper.total }} Tk</td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+      <!-- End Table with stripped rows -->
 
     </div>
   </div>

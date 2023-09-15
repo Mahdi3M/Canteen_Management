@@ -86,7 +86,7 @@
                 </div>
                 <div class="mb-3 col-10 col-md-5">
                   <label for="category" class="form-label">Category</label>
-                  <select class="form-control" id="category" name="category">
+                  <select class="form-control category" id="category" name="category">
                     <option value="" selected>Select Category</option>
                     {% for category in category_dict %}
                       <option value="{{ category }}">{{ category }}</option>
@@ -101,7 +101,7 @@
                 </div>
                 <div class="mb-3 col-10 col-md-5">
                   <label for="subCategory" class="form-label">Sub Category</label>
-                  <select class="form-control" id="subCategory" name="subCategory">
+                  <select class="form-control subCategory" id="subCategory" name="subCategory">
                     <option value="" selected>Select Sub Category</option>
                   </select>
                 </div>
@@ -150,19 +150,22 @@
               </div>
               <div class="mb-3 col-md-4">
                 <label for="category" class="form-label">Category</label>
-                <select class="form-control" id="category" name="category" required>
-                  <option value="" selected>Select Category</option>
+                <select class="form-control category" id="category" name="category" required>
+                  <option value="" selected>Select Category</option>                  
+                  {% for category in category_dict %}
+                    <option value="{{ category }}">{{ category }}</option>
+                  {% endfor %}
                 </select>
               </div>
               <div class="mb-3 col-md-4">
                 <label for="subCategory" class="form-label">Sub Category</label>
-                <select class="form-control" id="subCategory" name="subCategory" required>
+                <select class="form-control subCategory" id="subCategory" name="subCategory" required>
                   <option value="" selected>Select Sub Category</option>
                 </select>
               </div>
               <div class="mb-3 col-md-4">
                 <label for="productName" class="form-label">Product Name</label>
-                <select class="form-control" id="productName" name="productName" required>
+                <select class="form-control product" id="productName" name="productName" required>
                   <option value="" selected>Select Product</option>
                 </select>
               </div>
@@ -209,6 +212,9 @@
                 <label for="category" class="form-label">Category</label>
                 <select class="form-control" id="category" name="category" required>
                   <option value="" selected>Select Category</option>
+                  {% for category in category_dict %}
+                    <option value="{{ category }}">{{ category }}</option>
+                  {% endfor %}
                 </select>
               </div>
               <div class="mb-3 col-md-12">
@@ -229,13 +235,16 @@
               </div>
               <div class="mb-3 col-md-6">
                 <label for="category" class="form-label">Category</label>
-                <select class="form-control" id="category" name="category" required>
+                <select class="form-control category" id="category" name="category" required>
                   <option value="" selected>Select Category</option>
+                  {% for category in category_dict %}
+                    <option value="{{ category }}">{{ category }}</option>
+                  {% endfor %}
                 </select>
               </div>
               <div class="mb-3 col-md-6">
                 <label for="subCategory" class="form-label">Sub Category</label>
-                <select class="form-control" id="subCategory" name="subCategory" required>
+                <select class="form-control subCategory" id="subCategory" name="subCategory" required>
                   <option value="" selected>Select Sub Category</option>
                 </select>
               </div>
@@ -281,24 +290,64 @@
 </script>
 
 <script>
-  const categoryDropdown = document.getElementById('category');
-  const subCategoryDropdown = document.getElementById('subCategory');
+  const categoryDropdowns = document.querySelectorAll('.category');
+  const subCategoryDropdowns = document.querySelectorAll('.subCategory');
+  const productDropdown = document.querySelector('.product');
 
-  const categorySubcategoryMapping = {{ category_dict|safe }};
+  const categoryDict = {{ category_dict|safe }};
 
-  categoryDropdown.addEventListener('change', () => {
-      const selectedCategory = categoryDropdown.value;
-      const subcategories = categorySubcategoryMapping[selectedCategory] || [];
+  // Function to update subcategory dropdown based on the selected category
+  function updateSubCategoryDropdown(categoryDropdown, subCategoryDropdown) {
+    const selectedCategory = categoryDropdown.value;
+    const subcategories = categoryDict[selectedCategory] || {};
 
-      subCategoryDropdown.innerHTML = '<option value="" selected>Select Sub Category</option>';
-      
-      subcategories.forEach(subcategory => {
-          const option = document.createElement('option');
-          option.value = subcategory;
-          option.textContent = subcategory;
-          subCategoryDropdown.appendChild(option);
-      });
+    subCategoryDropdown.innerHTML = '<option value="" selected>Select Sub Category</option>';
+
+    for (const subcategory in subcategories) {
+      if (subcategories.hasOwnProperty(subcategory)) {
+        const option = document.createElement('option');
+        option.value = subcategory;
+        option.textContent = subcategory;
+        subCategoryDropdown.appendChild(option);
+      }
+    }
+  }
+
+  // Function to update products based on the selected subcategory
+  function updateProducts(categoryDropdown, subCategoryDropdown, productDropdown) {
+    const selectedSubCategory = subCategoryDropdown.value;
+    const selectedCategory = categoryDropdown.value;
+    const subcategories = categoryDict[selectedCategory] || {};
+    const products = subcategories[selectedSubCategory] || [];
+
+    productDropdown.innerHTML = '<option value="" selected>Select Product</option>';
+
+    products.forEach(product => {
+      const option = document.createElement('option');
+      option.value = product;
+      option.textContent = product;
+      productDropdown.appendChild(option);
+    });
+  }
+
+  // Attach event listeners to all pairs of category and subcategory dropdowns
+  categoryDropdowns.forEach((categoryDropdown, index) => {
+    const subCategoryDropdown = subCategoryDropdowns[index];
+
+    // Initial updates
+    updateSubCategoryDropdown(categoryDropdown, subCategoryDropdown);
+
+    // Event listener for category change
+    categoryDropdown.addEventListener('change', () => {
+      updateSubCategoryDropdown(categoryDropdown, subCategoryDropdown);
+    });
+
+    // Event listener for subcategory change
+    subCategoryDropdown.addEventListener('change', () => { // Assuming you have a product dropdown
+      updateProducts(categoryDropdown, subCategoryDropdown, productDropdown);
+    });
   });
-
 </script>
+
+
 {% endblock scripts %}

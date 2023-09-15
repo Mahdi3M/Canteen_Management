@@ -2,7 +2,6 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
-from django.http import JsonResponse
 from django.db import transaction
 from .models import *
 from functools import wraps
@@ -182,7 +181,12 @@ def customer_checkout(request):
 @login_required(redirect_field_name='next', login_url="Canteen:signin")
 @role_required(allowed_roles=['Admin', 'Customer'])
 def customer_history(request):
-    return render(request, "Canteen/customer_history.html")
+    context = {}
+    
+    orders = Order.objects.filter(ba = request.user.ba)
+    context['order_list'] = OrderItem.objects.filter(order__in = orders)
+    
+    return render(request, "Canteen/customer_history.html", context)
 
 
 
@@ -258,13 +262,22 @@ def nco_inventory(request):
         
     context = {}
     
-    categories = Category.objects.all().prefetch_related('subcategory_set')
+    categories = Category.objects.all()
+
     category_dict = {}
 
     for category in categories:
-        subcategory_names = [subcategory.name for subcategory in category.subcategory_set.all()]
-        category_dict[category.name] = subcategory_names
+        subcategories = Subcategory.objects.filter(category=category)
+        subcategory_dict = {}
+        
+        for subcategory in subcategories:
+            products = Product.objects.filter(subcategory=subcategory)
+            product_names = [product.name for product in products]
+            subcategory_dict[subcategory.name] = product_names
+        
+        category_dict[category.name] = subcategory_dict
 
+    print(category_dict)
     context['category_dict'] = category_dict
     context['all_products'] = Product.objects.all()
     
