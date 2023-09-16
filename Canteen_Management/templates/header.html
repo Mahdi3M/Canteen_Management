@@ -96,6 +96,7 @@
 
         </li><!-- End Notification Nav -->
         {% endif %}
+        {% if not user.role == "Bar NCO" %}
         <!-- Start Cart Nav -->
 
         <li class="nav-item dropdown">
@@ -135,6 +136,7 @@
           </ul>
 
         </li><!-- End Cart Nav -->
+        {% endif %}
 
         <li class="nav-item dropdown pe-3">
 

@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
+from django.utils.dateparse import parse_date
 from django.db import transaction
 from .models import *
 from functools import wraps
@@ -144,6 +145,7 @@ def customer_catalog(request):
 
 
 @login_required(redirect_field_name='next', login_url="Canteen:signin")
+@role_required(allowed_roles=['Admin', 'Customer'])
 def customer_checkout(request):
     context = {}
     context['thank'] = False
@@ -180,11 +182,27 @@ def customer_checkout(request):
 
 @login_required(redirect_field_name='next', login_url="Canteen:signin")
 @role_required(allowed_roles=['Admin', 'Customer'])
-def customer_history(request):
+def customer_history(request):    
     context = {}
     
-    orders = Order.objects.filter(ba = request.user.ba)
-    context['order_list'] = OrderItem.objects.filter(order__in = orders)
+    if request.method == "POST":        
+        start_date = request.POST.get('start_date')
+        s_date = parse_date(start_date)
+        finish_date = request.POST.get('finish_date')
+        f_date = parse_date(finish_date)
+        
+        if start_date and finish_date:
+            orders = Order.objects.filter(ba = request.user.ba, timestamp__gte = s_date, timestamp__lte=f_date)
+        elif start_date:
+            orders = Order.objects.filter(ba = request.user.ba, timestamp__gte = s_date)
+        elif finish_date:
+            orders = Order.objects.filter(ba = request.user.ba, timestamp__lte=f_date)
+        else:
+            orders = Order.objects.filter(ba = request.user.ba)
+    else:
+        orders = Order.objects.filter(ba = request.user.ba)
+        
+    context['order_list'] = OrderItem.objects.filter(order__in = orders, order__status = 'Complete').order_by('order__id')
     
     return render(request, "Canteen/customer_history.html", context)
 
@@ -227,39 +245,71 @@ def nco_order(request):
 @role_required(allowed_roles=['Bar NCO'])
 def nco_inventory(request):
     if request.method == "POST":
-        image_file = request.FILES.get('image')
-        name = request.POST.get('productName')
-        category = request.POST.get('category')
-        new_category = request.POST.get('new-category')
-        subcategory = request.POST.get('subCategory')
-        new_subcategory = request.POST.get('new-sub-category')
-        buying_price = request.POST.get('buyingPrice')
-        selling_price = request.POST.get('sellingPrice')
-        amount = request.POST.get('amount')           
+        if request.POST.get('form_name') == "add_new_product":            
+            new_Product = Product()        
+            new_Product.name = request.POST.get('productName')
+            new_Product.image = request.FILES.get('image')
+            new_Product.buying_price = request.POST.get('buyingPrice')
+            new_Product.selling_price = request.POST.get('sellingPrice')
+            new_Product.stock_quantity = request.POST.get('amount')
+            
+            category = request.POST.get('category')
+            new_category = request.POST.get('new-category')
+            subcategory = request.POST.get('subCategory')
+            new_subcategory = request.POST.get('new-sub-category') 
+            
+            if category:
+                new_Category = Category.objects.get(name = category)
+                new_Product.category = new_Category
+            else:            
+                new_Category = Category(name = new_category)
+                new_Category.save()
+                new_Product.category = new_Category
+            
+            if subcategory:
+                new_Product.subcategory = Subcategory.objects.get(name = subcategory)
+            else:
+                new_Subcategory = Subcategory(name = new_subcategory, category = new_Category)
+                new_Subcategory.save()
+                new_Product.subcategory = new_Subcategory
+            new_Product.save()
         
-        new_Product = Product()        
-        new_Product.name = name
-        new_Product.image = image_file
-        new_Product.buying_price = buying_price
-        new_Product.selling_price = selling_price
-        new_Product.stock_quantity = amount
+        elif request.POST.get('form_name') == "edit_product":
+            product_name = request.POST.get('productName')
+            product = Product.objects.get(name = product_name)
+            
+            if request.POST.get('editProductName'):
+                product.name = request.POST.get('editProductName')               
+            if request.POST.get('add_amount'):
+                product.stock_quantity += request.POST.get('add_amount')                
+            if request.POST.get('remove_amount'):
+                product.stock_quantity -= request.POST.get('remove_amount')               
+            if request.POST.get('buyingPrice'):
+                product.buying_price = request.POST.get('buyingPrice')               
+            if request.POST.get('sellingPrice'):
+                product.selling_price = request.POST.get('sellingPrice')
+                
+            product.save()
         
-        if category:
-            new_Category = Category.objects.get(name = category)
-            new_Product.category = new_Category
-        else:            
-            new_Category = Category(name = new_category)
-            new_Category.save()
-            new_Product.category = new_Category
+        elif request.POST.get('form_name') == "edit_category":
+            category_name = request.POST.get('category')
+            category = Category.objects.get(name = category_name)
+            
+            if request.POST.get('editCategoryName'):
+                category.name = request.POST.get('editCategoryName')
+                
+            category.save()
         
-        if subcategory:
-            new_Product.subcategory = Subcategory.objects.get(name = subcategory)
-        else:
-            new_Subcategory = Subcategory(name = new_subcategory, category = new_Category)
-            new_Subcategory.save()
-            new_Product.subcategory = new_Subcategory
-        new_Product.save()    
-        
+        elif request.POST.get('form_name') == "edit_subcategory":
+            subcategory_name = request.POST.get('subCategory')
+            subcategory = Subcategory.objects.get(name = subcategory_name)
+            
+            if request.POST.get('editSubCategoryName'):
+                subcategory.name = request.POST.get('editSubCategoryName')
+                
+            subcategory.save()
+            
+            
     context = {}
     
     categories = Category.objects.all()
@@ -277,7 +327,6 @@ def nco_inventory(request):
         
         category_dict[category.name] = subcategory_dict
 
-    print(category_dict)
     context['category_dict'] = category_dict
     context['all_products'] = Product.objects.all()
     

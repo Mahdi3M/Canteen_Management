@@ -29,50 +29,72 @@
     <h1>Order History</h1>
   </div><!-- End Page Title -->
 
+  
+  <form method=POST action={% url "Canteen:customer_history" %} class="row my-4">
+    {% csrf_token %}
+    <div class="col-3">
+      <label for="start_date" class="form-label">Start Date</label>
+      <div class="input-group has-validation">
+        <input type="date" class="form-control reg-form-input" name="start_date" id="start_date">
+      </div>
+    </div>
+    <div class="col-3">
+      <label for="finish_date" class="form-label">Finish Date</label>
+      <div class="input-group has-validation">
+        <input type="date" class="form-control reg-form-input" name="finish_date" id="finish_date">
+      </div>
+    </div>
+    <div class="col-6 d-flex align-self-end justify-content-start">
+      <button class="btn btn-primary w-80 h-50 ms-3" type="submit">Submit</button>
+    </div>
+  </form>
+
   <div class="card my-4">
     <div class="card-body">
-      <h5 class="card-title">Monthly Bills</h5>
+      <h5 class="card-title">Order History</h5>
 
       <!-- Table with stripped rows -->
-      <table class="table datatable">
-        <thead>
-          <tr>
-            <th scope="col">#</th>
-            <th scope="col">Order No.</th>
-            <th scope="col">Date and Time</th>
-            <th scope="col">
-              <div class="row">
-                <div class="col-5">Product Name</div>
-                <div class="col-2">Price</div>
-                <div class="col-2">Qnt.</div>
-                <div class="col-2">Total</div>
-              </div>
-            </th>
-            <th scope="col">Total Price</th>
-          </tr>
-        </thead>
-        <tbody>
-          {% regroup order_list by order as order_list %}
-          {% for o in order_list %}
+      <div style="width:100%; overflow-x:auto;">
+        <table class="table datatable">
+          <thead>
             <tr>
-              <th scope="row"><b>{{ forloop.counter }}</b></th>
-              <td>#{{ o.grouper.id }}</td>
-              <td>{{ o.grouper.timestamp }}</td>
-              <td>
-                {% for product in o.list %}
+              <th scope="col">#</th>
+              <th scope="col">Order No.</th>
+              <th scope="col">Date and Time</th>
+              <th scope="col">
                 <div class="row">
-                  <div class="col-5">{{ product.name }}</div>
-                  <div class="col-2">{{ product.price }} Tk</div>
-                  <div class="col-2">{{ product.quantity }}</div>
-                  <div class="col-2">{{ product.total }} Tk</div>
+                  <div class="col-5">Product Name</div>
+                  <div class="col-2">Price</div>
+                  <div class="col-2 d-flex justify-content-center">Amount</div>
+                  <div class="col-2">Total</div>
                 </div>
-                {% endfor %}
-              </td>
-              <td>{{ o.grouper.total }} Tk</td>
+              </th>
+              <th scope="col">Total Price</th>
             </tr>
-          {% endfor %}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            {% regroup order_list by order as order_list %}
+            {% for o in order_list %}
+              <tr>
+                <th scope="row"><b>{{ forloop.counter }}</b></th>
+                <td>#{{ o.grouper.id }}</td>
+                <td>{{ o.grouper.timestamp }}</td>
+                <td>
+                  {% for product in o.list %}
+                  <div class="row">
+                    <div class="col-5">{{ forloop.counter }}. {{ product.name }}</div>
+                    <div class="col-2">{{ product.price }} Tk</div>
+                    <div class="col-2 d-flex justify-content-center">{{ product.quantity }}</div>
+                    <div class="col-2">{{ product.total }} Tk</div>
+                  </div>
+                  {% endfor %}
+                </td>
+                <td>{{ o.grouper.total }} Tk</td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
       <!-- End Table with stripped rows -->
 
     </div>
@@ -84,5 +106,12 @@
 {% block scripts %}
 <script>
   $("#history").removeClass("collapsed");
+</script>
+
+
+<script>
+  $(function () {
+      $("#start_date").datepicker({dateFormat: 'dd-mm-yy'});
+  });
 </script>
 {% endblock scripts %}
