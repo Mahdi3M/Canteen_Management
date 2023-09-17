@@ -70,6 +70,7 @@ class Order(models.Model):
     timestamp = models.DateTimeField(default=timezone.now)
     status = models.CharField(max_length=10, choices=STATUS, default='Pending')
     total = models.DecimalField(max_digits=10, decimal_places=2)
+    paid = models.BooleanField(default=False)
     
 
 class OrderItem(models.Model):

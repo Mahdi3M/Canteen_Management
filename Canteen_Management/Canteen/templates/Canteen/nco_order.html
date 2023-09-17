@@ -8,20 +8,10 @@
     <h1>Orders</h1>
   </div><!-- End Page Title -->
 
-  <!-- Pills Tabs -->
-  <div class="d-flex justify-content-between align-items-center">
-    <div>
-      <ul class="nav nav-pills mb-4 mt-3" id="pills-tab" role="tablist">
-        <li class="nav-item" role="presentation">
-          <button class="nav-link active" id="pills-on-process-tab" data-bs-toggle="pill" data-bs-target="#pills-on-process" type="button" role="tab" aria-controls="pills-on-process" aria-selected="true">On-process</button>
-        </li>
-        <li class="nav-item" role="presentation">
-          <button class="nav-link" id="pills-completed-tab" data-bs-toggle="pill" data-bs-target="#pills-completed" type="button" role="tab" aria-controls="pills-completed" aria-selected="false">Completed</button>
-        </li>
-      </ul>
-    </div>
+  <!-- Barcode Scan -->
+  <div class="d-flex justify-content-start align-items-center">
     <div class="p-3 me-4 mt-3">      
-      <button type="button" class="btn btn-primary" id="scan-button" data-toggle="modal" data-target="#addProductModal">Scan</button>
+      <button type="button" class="btn btn-primary py-2 px-4" id="scan-button" data-toggle="modal" data-target="#addProductModal">Scan</button>
 
       <!-- Modal -->
       <div class="modal fade" id="addProductModal" tabindex="-1" role="dialog" aria-labelledby="addProductModalLabel" aria-hidden="true">
@@ -83,111 +73,62 @@
 
     </div>
   </div>
-  <div class="tab-content pt-2 mb-5" id="myTabContent">
-    <div class="tab-pane fade show active" id="pills-on-process" role="tabpanel" aria-labelledby="on-process-tab">
-      <section id="order">
-        <ul class="cards p-3">
-          {% regroup orders_pending by order as order_list %}
-          {% for o in order_list %}
-          <li class="card mb-3 p-3">
-            <div class="row g-0">
-              <div class="col-md-12">
-                <div class="d-flex justify-content-between">
-                  <h3>Order: #{{ o.grouper.id }}</h3>
-                  <h4>BA-{{ o.grouper.ba }}</h4>
-                </div>
-                    <div class="p-4 pb-5">
-                      <table class="product-table">
-                        <tr>
-                          <th id="sr">#</th>
-                          <th id="order-product">Product</th>
-                          <th id="order-quantity">Quantity</th>
-                          <th id="order-price">Rate</th>
-                          <th id="order-total">Total Price</th>
-                        </tr>
-                        {% for p in o.list %}
-                        <tr>
-                          <th id="sr">{{ forloop.counter }}</th>
-                          <td id="order-product">{{ p.name }}</td>
-                          <td id="order-quantity">{{ p.quantity }}</td>
-                          <td id="order-price">{{ p.price }} Tk</td>
-                          <td id="order-total">{{ p.total }} Tk</td>
-                        </tr>
-                        {% endfor %}
-                      </table>
-                    </div>
-                    <div class="total d-flex justify-content-between align-items-center">
-                      <p id="order-total">Total: {{ o.grouper.total }} Tk</p>
-                      <form method=POST action={% url 'Canteen:nco_order' %}>
-                        {% csrf_token %}
-                        <input type="hidden" name="complete-order" value="{{ o.grouper.id }}">
-                        <button type="submit" class="order-complete me-2">Complete</button>
-                      </form>
-                      <form method=POST action={% url 'Canteen:nco_order' %}>
-                        {% csrf_token %}
-                        <input type="hidden" name="remove-order" value="{{ o.grouper.id }}">
-                        <button type="submit" class="order-remove">Remove</button>
-                      </form>
-                    </div>
-              </div>
+  <section id="order">
+    <ul class="cards p-3">
+      {% regroup orders_pending by order as order_list %}
+      {% for o in order_list %}
+      <li class="card mb-3 p-3">
+        <div class="row g-0">
+          <div class="col-md-12">
+            <div class="d-flex justify-content-between">
+              <h3>Order: #{{ o.grouper.id }}</h3>
+              <h4>BA-{{ o.grouper.ba }}</h4>
             </div>
-          </li>
-          {% endfor %}
-        </ul>  
-      </section>
-    </div>
-    <div class="tab-pane fade" id="pills-completed" role="tabpanel" aria-labelledby="completed-tab">
-      <div class="card">
-        <div class="card-body">
-          <h5 class="card-title"></h5>
-          <table class="table order-history">
-            <thead>
-              <tr>
-                <th scope="col">#</th>
-                <th scope="col">Order No</th>
-                <th scope="col">User BA</th>
-                <th scope="col">Date and Time</th>
-                <th scope="col">Product Name</th>
-                <th scope="col">Price</th>
-                <th scope="col">Amount</th>
-                <th scope="col">Total</th>
-                <th scope="col">Grand Total</th>
-              </tr>
-            </thead>
-            <tbody>
-              {% regroup orders_complete by order as order_list %}
-              {% for o in order_list %}
-              <tr>
-                <th rowspan='{{ o.list|length }}'>{{ forloop.counter }}</th>
-                <td rowspan='{{ o.list|length }}'>#{{ o.grouper.id }}</td>
-                <td rowspan='{{ o.list|length }}'>BA-{{ o.grouper.ba }}</td>
-                <td rowspan='{{ o.list|length }}'>{{ o.grouper.timestamp }}</td>
-                {% for item in o.list %}
-                  {% if forloop.counter0 %}
+                <div class="p-4 pb-5">
+                  <table class="product-table">
                     <tr>
-                  {% endif %}
-                    <td>{{ item.name }}</td>
-                    <td>{{ item.price }}</td>
-                    <td>{{ item.quantity }}</td>
-                    <td>{{ item.total }}</td>
-                  {% if forloop.counter0 %}
+                      <th id="sr">#</th>
+                      <th id="order-product">Product</th>
+                      <th id="order-quantity">Quantity</th>
+                      <th id="order-price">Rate</th>
+                      <th id="order-total">Total Price</th>
                     </tr>
-                  {% else %}
-                    <td rowspan='{{ o.list|length }}'>750 Tk</td>
-                  </tr>
-                  {% endif %}
-                {% endfor %}
-              {% endfor %}
-              <!-- Add more rows as needed -->
-            </tbody>
-          </table> 
-          <!-- End Table -->
-
+                    {% for p in o.list %}
+                    <tr>
+                      <th id="sr">{{ forloop.counter }}</th>
+                      <td id="order-product">{{ p.name }}</td>
+                      <td id="order-quantity">{{ p.quantity }}</td>
+                      <td id="order-price">{{ p.price }} Tk</td>
+                      <td id="order-total">{{ p.total }} Tk</td>
+                    </tr>
+                    {% endfor %}
+                  </table>
+                </div>
+                <div class="total d-flex justify-content-between align-items-center">
+                  <p id="order-total">Total: {{ o.grouper.total }} Tk</p>
+                  <form method=POST action={% url 'Canteen:nco_order' %}>
+                    {% csrf_token %}
+                    <input type="hidden" name="complete-order" value="{{ o.grouper.id }}">
+                    <input type="hidden" name="paid-order" value="{{ o.grouper.id }}">
+                    <button type="submit" class="btn btn-primary me-2">Paid</button>
+                  </form>
+                  <form method=POST action={% url 'Canteen:nco_order' %}>
+                    {% csrf_token %}
+                    <input type="hidden" name="complete-order" value="{{ o.grouper.id }}">
+                    <button type="submit" class="btn btn-success me-2">Complete</button>
+                  </form>
+                  <form method=POST action={% url 'Canteen:nco_order' %}>
+                    {% csrf_token %}
+                    <input type="hidden" name="remove-order" value="{{ o.grouper.id }}">
+                    <button type="submit" class="btn btn-danger">Remove</button>
+                  </form>
+                </div>
+          </div>
         </div>
-      </div>
-    </div>
-  </div><!-- End Pills Tabs -->
-
+      </li>
+      {% endfor %}
+    </ul>  
+  </section>
 </main>
 {% endblock main %}
 

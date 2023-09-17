@@ -218,10 +218,11 @@ def nco_order(request):
     context['orders_complete'] = OrderItem.objects.filter(order__status = 'Complete').order_by('-order__timestamp')
     
     if request.method == "POST":
-        
-        if request.POST.get('complete-order'):
+        if request.POST.get('complete-order') or request.POST.get('paid-order'):
             id = request.POST.get('complete-order')
             order = Order.objects.get(id = id)
+            if request.POST.get('paid-order'):
+                order.paid = True            
             order.status = 'Complete'
             order.save()
             
@@ -238,6 +239,39 @@ def nco_order(request):
             print("Order Removed")
     
     return render(request, "Canteen/nco_order.html", context)
+
+@login_required(redirect_field_name='next', login_url="Canteen:signin")
+@role_required(allowed_roles=['Bar NCO'])
+def nco_bills(request):
+    context = {}
+
+    if request.method == "POST":
+        if "date_btn" in request.POST:
+            start_date = request.POST.get('start_date')
+            s_date = parse_date(start_date)
+            finish_date = request.POST.get('finish_date')
+            f_date = parse_date(finish_date)
+            
+            print(s_date, f_date)
+            
+            if start_date and finish_date:
+                orders = Order.objects.filter(timestamp__gte = s_date, timestamp__lte=f_date)
+            elif start_date:
+                orders = Order.objects.filter(timestamp__gte = s_date)
+            elif finish_date:
+                orders = Order.objects.filter(timestamp__lte=f_date)
+            else:
+                orders = Order.objects.all()
+                
+        elif "bill_btn" in request.POST:
+            print("Bill Generated")
+            orders = Order.objects.all()
+    else:
+        orders = Order.objects.all()
+        
+    context['order_list'] = OrderItem.objects.filter(order__in = orders, order__status = 'Complete').order_by('order__id')
+    
+    return render(request, "Canteen/nco_bills.html", context)
 
 
 
