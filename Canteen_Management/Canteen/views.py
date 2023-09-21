@@ -216,6 +216,7 @@ def nco_order(request):
     context = {}
     context['orders_pending'] = OrderItem.objects.filter(order__status = 'Pending').order_by('order__id')
     context['orders_complete'] = OrderItem.objects.filter(order__status = 'Complete').order_by('-order__timestamp')
+    context['notification'] = Product.objects.filter(stock_quantity__lte = 5)
     
     if request.method == "POST":
         if request.POST.get('complete-order') or request.POST.get('paid-order'):
@@ -270,6 +271,7 @@ def nco_bills(request):
         orders = Order.objects.all()
         
     context['order_list'] = OrderItem.objects.filter(order__in = orders, order__status = 'Complete').order_by('order__id')
+    context['notification'] = Product.objects.filter(stock_quantity__lte = 5)
     
     return render(request, "Canteen/nco_bills.html", context)
 
@@ -363,6 +365,7 @@ def nco_inventory(request):
 
     context['category_dict'] = category_dict
     context['all_products'] = Product.objects.all()
+    context['notification'] = Product.objects.filter(stock_quantity__lte = 5)
     
     return render(request, "Canteen/nco_inventory.html", context)
 
