@@ -270,7 +270,7 @@ def nco_bills(request):
     else:
         orders = Order.objects.all()
         
-    context['order_list'] = OrderItem.objects.filter(order__in = orders, order__status = 'Complete').order_by('order__id')
+    context['order_list'] = OrderItem.objects.filter(order__in = orders, order__status = 'Complete').order_by('-order__timestamp')
     context['notification'] = Product.objects.filter(stock_quantity__lte = 5)
     
     return render(request, "Canteen/nco_bills.html", context)
@@ -382,8 +382,8 @@ def home(request):
 
 @login_required(redirect_field_name='next', login_url="Canteen:signin")
 @role_required(allowed_roles=['Admin'])
-def admin_stats(request):
-    return render(request, "Canteen/admin_stats.html")
+def admin_summary(request):
+    return render(request, "Canteen/admin_summary.html")
 
 
 

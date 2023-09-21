@@ -19,6 +19,6 @@ urlpatterns = [
     path('nco_bills/', views.nco_bills, name="nco_bills"),
     
     path('home/', views.home, name="home"),
-    path('admin_stats/', views.admin_stats, name="admin_stats"),
+    path('admin_summary/', views.admin_summary, name="admin_summary"),
     path('admin_users/', views.admin_users, name="admin_users"),
 ]
