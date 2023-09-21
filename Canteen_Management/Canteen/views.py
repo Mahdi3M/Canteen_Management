@@ -2,13 +2,14 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
+from django.utils import timezone
 from django.utils.dateparse import parse_date
 from django.db import transaction
+from django.db.models import Sum, Count
 from .models import *
 from functools import wraps
+from datetime import timedelta
 import json
-import time
-import datetime
 
 # Create your views here.
 
@@ -24,6 +25,52 @@ def role_required(allowed_roles=[]):
                 return redirect('Canteen:signin')
         return _wrapped_view
     return decorator
+
+def get_sales_data(timespan):
+    today = timezone.now()
+    if timespan == "one_month_ago":
+        start_time = today - timedelta(days = 30)
+        diff = timedelta(days = 1)
+        spans = [start_time + timedelta(days=i) for i in range(30)]
+    elif timespan == "one_week_ago":
+        start_time = today - timedelta(weeks = 1)
+        diff = timedelta(days = 1)
+        spans = [start_time + timedelta(days=i) for i in range(7)]
+    elif timespan == "one_day_ago":
+        start_time = today - timedelta(days = 1)
+        diff = timedelta(hours = 1)
+        spans = [start_time + timedelta(hours=i) for i in range(24)]
+        
+    sales_list = []
+    revenue_list = []
+    customer_list = []
+    time_list = []
+    
+    for ti in spans:
+        next_ti = ti + diff
+        sales = OrderItem.objects.filter(
+            order__timestamp__gte=ti,
+            order__timestamp__lte=next_ti
+        ).aggregate(
+            sold=Sum('quantity'), 
+            revenue=Sum('total'),
+            customer=Count('id')
+        )
+        
+        sales_list.append(sales['sold'] or 0)
+        revenue_list.append(float(str(sales['revenue'] or 0))/100)
+        customer_list.append(sales['customer'] or 0)
+        time_list.append(ti.isoformat())
+    
+    return {
+        'sales':sales_list, 
+        'revenue':revenue_list, 
+        'customer': customer_list, 
+        'time':time_list, 
+        'total_sales': sum(sales_list), 
+        'total_revenue': sum(revenue_list)*100, 
+        'total_customer':sum(customer_list)
+        }
 
 
 #<-- ======= Pages ======= -->
@@ -126,6 +173,8 @@ def customer_catalog(request):
     subcategory_names = Subcategory.objects.values_list('name', flat=True)
     product_names = Product.objects.values_list('name', flat=True)
     context["keywords"] = list(category_names) + list(subcategory_names) + list(product_names)
+    if request.user.role == "Bar NCO":        
+        context['notification'] = Product.objects.filter(stock_quantity__lte = 5)
     
     if request.method == "POST":
         query = request.POST.get('query')
@@ -376,13 +425,21 @@ def nco_inventory(request):
 @login_required(redirect_field_name='next', login_url="Canteen:signin")
 @role_required(allowed_roles=['Admin'])
 def home(request):
-    return render(request, "Canteen/index.html")
+    
+    context = {}
+
+    context['monthly'] = get_sales_data("one_month_ago")
+    context['weekly'] = get_sales_data("one_week_ago")
+    context['daily'] = get_sales_data("one_day_ago")
+    
+    return render(request, "Canteen/index.html", context)
 
 
 
 @login_required(redirect_field_name='next', login_url="Canteen:signin")
 @role_required(allowed_roles=['Admin'])
 def admin_summary(request):
+
     return render(request, "Canteen/admin_summary.html")
 
 
