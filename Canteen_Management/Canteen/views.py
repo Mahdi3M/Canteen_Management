@@ -371,9 +371,9 @@ def nco_inventory(request):
             if request.POST.get('editProductName'):
                 product.name = request.POST.get('editProductName')               
             if request.POST.get('add_amount'):
-                product.stock_quantity += request.POST.get('add_amount')                
+                product.stock_quantity += int(request.POST.get('add_amount'))                
             if request.POST.get('remove_amount'):
-                product.stock_quantity -= request.POST.get('remove_amount')               
+                product.stock_quantity -= int(request.POST.get('remove_amount'))               
             if request.POST.get('buyingPrice'):
                 product.buying_price = request.POST.get('buyingPrice')               
             if request.POST.get('sellingPrice'):
