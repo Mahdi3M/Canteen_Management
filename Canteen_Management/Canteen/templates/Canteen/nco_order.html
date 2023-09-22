@@ -109,12 +109,6 @@
                   <form method=POST action={% url 'Canteen:nco_order' %}>
                     {% csrf_token %}
                     <input type="hidden" name="complete-order" value="{{ o.grouper.id }}">
-                    <input type="hidden" name="paid-order" value="{{ o.grouper.id }}">
-                    <button type="submit" class="btn btn-primary me-2">Paid</button>
-                  </form>
-                  <form method=POST action={% url 'Canteen:nco_order' %}>
-                    {% csrf_token %}
-                    <input type="hidden" name="complete-order" value="{{ o.grouper.id }}">
                     <button type="submit" class="btn btn-success me-2">Complete</button>
                   </form>
                   <form method=POST action={% url 'Canteen:nco_order' %}>

@@ -53,6 +53,7 @@
                 </div>
               </th>
               <th scope="col">Total Price</th>
+              <th scope="col">Payment</th>
             </tr>
           </thead>
           <tbody>
@@ -74,6 +75,13 @@
                   {% endfor %}
                 </td>
                 <td>{{ o.grouper.total }} Tk</td>
+                <td>
+                  {% if o.grouper.paid %}
+                    <span class="badge bg-success">Paid</span>
+                  {% else %}
+                    <span class="badge bg-danger">Due</span>
+                  {% endif %}
+                </td>
               </tr>
             {% endfor %}
           </tbody>

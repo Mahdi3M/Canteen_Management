@@ -167,6 +167,16 @@
                         customer_data = {{ monthly.customer|safe }};
                         time_data = {{ monthly.time|safe }};
                       }
+
+                      const time_data_local = [];
+
+                      // Convert UTC timestamps to local standard time
+                      for (const utcTimestamp of time_data) {
+                        const utcMoment = moment.utc(utcTimestamp); // Use a library like Moment.js
+                        const localMoment = utcMoment.local(); // Convert to local time
+                        time_data_local.push(localMoment.format('YYYY-MM-DD HH:mm:ss')); // Format as needed
+                      }
+                      console.log(time_data_local);
                 
                       // Draw the chart with updated data
                       chart = new ApexCharts(document.querySelector("#reportsChart"), {
@@ -209,7 +219,7 @@
                         },
                         xaxis: {
                           type: 'datetime',
-                          categories: time_data,
+                          categories: time_data_local,
                         },
                         tooltip: {
                           x: {

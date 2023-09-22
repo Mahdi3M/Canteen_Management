@@ -27,7 +27,7 @@ def role_required(allowed_roles=[]):
     return decorator
 
 def get_sales_data(timespan):
-    today = timezone.localtime(timezone.now())
+    today = timezone.localtime().now() #timezone.localtime(timezone.now())
     if timespan == "one_month_ago":
         start_time = today - timedelta(days = 30)
         diff = timedelta(days = 1)
@@ -54,11 +54,11 @@ def get_sales_data(timespan):
     
     for ti in spans:
         next_ti = ti + diff
-        sales = OrderItem.objects.filter(order__timestamp__gte=ti, order__timestamp__lte=next_ti).aggregate(
+        sales = OrderItem.objects.filter(order__timestamp__gte=ti, order__timestamp__lte=next_ti, order__status='Complete').aggregate(
             sold=Sum('quantity'), 
             revenue=Sum('total')
         )        
-        sales['customer'] = Order.objects.filter(timestamp__gte=ti,timestamp__lte=next_ti).count()
+        sales['customer'] = Order.objects.filter(timestamp__gte=ti,timestamp__lte=next_ti, status='Complete').count()
         
         sales_list.append(sales['sold'] or 0)
         revenue_list.append(float(str(sales['revenue'] or 0))/100)
@@ -256,7 +256,7 @@ def customer_history(request):
     else:
         orders = Order.objects.filter(ba = request.user.ba)
         
-    context['order_list'] = OrderItem.objects.filter(order__in = orders, order__status = 'Complete').order_by('order__id')
+    context['order_list'] = OrderItem.objects.filter(order__in = orders, order__status = 'Complete').order_by('-order__timestamp')
     
     return render(request, "Canteen/customer_history.html", context)
 
@@ -273,11 +273,9 @@ def nco_order(request):
     context['notification'] = Product.objects.filter(stock_quantity__lte = 5)
     
     if request.method == "POST":
-        if request.POST.get('complete-order') or request.POST.get('paid-order'):
+        if request.POST.get('complete-order'):
             id = request.POST.get('complete-order')
-            order = Order.objects.get(id = id)
-            if request.POST.get('paid-order'):
-                order.paid = True            
+            order = Order.objects.get(id = id)          
             order.status = 'Complete'
             order.save()
             
