@@ -27,7 +27,7 @@ def role_required(allowed_roles=[]):
     return decorator
 
 def get_sales_data(timespan):
-    today = timezone.now()
+    today = timezone.localtime(timezone.now())
     if timespan == "one_month_ago":
         start_time = today - timedelta(days = 30)
         diff = timedelta(days = 1)
@@ -46,20 +46,25 @@ def get_sales_data(timespan):
     customer_list = []
     time_list = []        
     top_sales = OrderItem.objects.filter(order__timestamp__gte=start_time, order__timestamp__lte=today).values('product_id').annotate(total_sold=Sum('quantity')).order_by('-total_sold')[:5]
-    top_products = [item['product_id'] for item in top_sales]
+    top_products = [{
+        'sold': item['total_sold'], 
+        'product': Product.objects.get(id = item['product_id']),
+        'revenue': Product.objects.get(id = item['product_id']).selling_price * item['total_sold']
+        } for item in top_sales]
     
     for ti in spans:
         next_ti = ti + diff
         sales = OrderItem.objects.filter(order__timestamp__gte=ti, order__timestamp__lte=next_ti).aggregate(
             sold=Sum('quantity'), 
-            revenue=Sum('total'),
-            customer=Count('id')
-        )
+            revenue=Sum('total')
+        )        
+        sales['customer'] = Order.objects.filter(timestamp__gte=ti,timestamp__lte=next_ti).count()
         
         sales_list.append(sales['sold'] or 0)
         revenue_list.append(float(str(sales['revenue'] or 0))/100)
         customer_list.append(sales['customer'] or 0)
-        time_list.append(ti.isoformat())
+        time_list.append(next_ti.isoformat())
+        print(next_ti)
     
     return {
         'sales':sales_list, 
@@ -69,8 +74,7 @@ def get_sales_data(timespan):
         'total_sales': sum(sales_list), 
         'total_revenue': round(sum(revenue_list)*100), 
         'total_customer':sum(customer_list),
-        'top_sales': top_sales,
-        'top_products': Product.objects.filter(id__in = top_products)
+        'top_products': top_products,
         }
 
 

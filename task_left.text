@@ -1,14 +1,16 @@
 Customer:
-    1. History Page : Full
+    1. Edit Account Page
 
 Bar NCO:
-    1. Orders Page: Scan Order
-    2. Inventory Page: Manage Products
-
-    3. Bill Generation (Full)
-
+    1. Orders Page: BarCode Scanner
+        a. BarCode Scanner Buy
+        b. BarCode Scan Modal Dynamic
+        c. BarCodes Print
+    2. Bill Generation
+        a. Get Template
+        b. Bill Print
 Admin:
-    1. Statistics Page: Full
-    2. Home Page: Full (Optional)
-
-    3. Report Generation (Full)
+    1. Report Generation
+        a. Get Template
+    2. Email System
+        a. Kinbo naki spam e korbo?

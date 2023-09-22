@@ -130,7 +130,7 @@
                 </div>
                 
                 <div class="card-body">
-                  <h5 class="card-title">Reports <span>/Today</span></h5>
+                  <h5 class="card-title report-title">Reports <span>/This Week</span></h5>
 
                   <!-- Line Chart -->
                   <div id="reportsChart"></div>
@@ -143,6 +143,9 @@
                       if (chart) {
                         chart.destroy();
                       }
+
+                      const cardTitle = document.querySelector(".report-title");
+                      cardTitle.innerHTML = `Report <span>/${value}</span>`;
                 
                       // Update the chart data
                       let sales_data, revenue_data, customer_data, time_data;
@@ -230,6 +233,7 @@
 
               </div>
             </div><!-- End Reports -->
+
             <!-- Top Selling -->
             <div class="col-12">
               <div class="card top-selling overflow-auto">
@@ -260,41 +264,33 @@
                       </tr>
                     </thead>
                     <tbody>
-                      <tr>
-                        <th scope="row"><a href="#"><img src={% static 'assets/img/product-1.jpg' %} alt=""></a></th>
-                        <td><a href="#" class="text-primary fw-bold">Ut inventore ipsa voluptas nulla</a></td>
-                        <td>৳64</td>
-                        <td class="fw-bold">124</td>
-                        <td>৳5,828</td>
-                      </tr>
-                      <tr>
-                        <th scope="row"><a href="#"><img src={% static 'assets/img/product-2.jpg' %} alt=""></a></th>
-                        <td><a href="#" class="text-primary fw-bold">Exercitationem similique doloremque</a></td>
-                        <td>৳46</td>
-                        <td class="fw-bold">98</td>
-                        <td>৳4,508</td>
-                      </tr>
-                      <tr>
-                        <th scope="row"><a href="#"><img src={% static 'assets/img/product-3.jpg' %} alt=""></a></th>
-                        <td><a href="#" class="text-primary fw-bold">Doloribus nisi exercitationem</a></td>
-                        <td>৳59</td>
-                        <td class="fw-bold">74</td>
-                        <td>৳4,366</td>
-                      </tr>
-                      <tr>
-                        <th scope="row"><a href="#"><img src={% static 'assets/img/product-4.jpg' %} alt=""></a></th>
-                        <td><a href="#" class="text-primary fw-bold">Officiis quaerat sint rerum error</a></td>
-                        <td>৳32</td>
-                        <td class="fw-bold">63</td>
-                        <td>৳2,016</td>
-                      </tr>
-                      <tr>
-                        <th scope="row"><a href="#"><img src={% static 'assets/img/product-5.jpg' %} alt=""></a></th>
-                        <td><a href="#" class="text-primary fw-bold">Sit unde debitis delectus repellendus</a></td>
-                        <td>৳79</td>
-                        <td class="fw-bold">41</td>
-                        <td>৳3,239</td>
-                      </tr>
+                      {% for top in daily.top_products %}
+                        <tr class="daily" style="display: none">
+                          <th scope="row"><a href="#"><img src={{ top.product.image.url }} alt=""></a></th>
+                          <td><a href="#" class="text-primary fw-bold">{{ top.product.name }}</a></td>
+                          <td>৳{{ top.product.selling_price }}</td>
+                          <td class="fw-bold">{{ top.sold }}</td>
+                          <td>৳{{ top.revenue }}</td>
+                        </tr>
+                      {% endfor %}
+                      {% for top in weekly.top_products %}
+                        <tr class="weekly" style="display: none">
+                          <th scope="row"><a href="#"><img src={{ top.product.image.url }} alt=""></a></th>
+                          <td><a href="#" class="text-primary fw-bold">{{ top.product.name }}</a></td>
+                          <td>৳{{ top.product.selling_price }}</td>
+                          <td class="fw-bold">{{ top.sold }}</td>
+                          <td>৳{{ top.revenue }}</td>
+                        </tr>
+                      {% endfor %}
+                      {% for top in monthly.top_products %}
+                        <tr class="monthly" style="display:">
+                          <th scope="row"><a href="#"><img src={{ top.product.image.url }} alt=""></a></th>
+                          <td><a href="#" class="text-primary fw-bold">{{ top.product.name }}</a></td>
+                          <td>৳{{ top.product.selling_price }}</td>
+                          <td class="fw-bold">{{ top.sold }}</td>
+                          <td>৳{{ top.revenue }}</td>
+                        </tr>
+                      {% endfor %}
                     </tbody>
                   </table>
 
@@ -344,5 +340,43 @@
     if (value == "This Week") {cardTotal.innerHTML = {{ weekly.total_customer|escapejs }};}
     if (value == "This Month") {cardTotal.innerHTML = {{ monthly.total_customer|escapejs }};}
   }
+  
+  function selectTop(value) {
+    const cardTitle = document.querySelector(".top-title");
+    cardTitle.innerHTML = `Top Selling <span>| ${value}</span>`;
+  
+    // Get all rows with a common class name
+    const allRows = document.querySelectorAll(".daily, .weekly, .monthly");
+  
+    if (value == "Today") {
+      allRows.forEach(row => {
+        if (row.classList.contains("daily")) {
+          row.style.display = row.style.display === "none" ? "" : "none";
+        } else {
+          row.style.display = "none";
+        }
+      });
+    }
+  
+    if (value == "This Week") {
+      allRows.forEach(row => {
+        if (row.classList.contains("weekly")) {
+          row.style.display = row.style.display === "none" ? "" : "none";
+        } else {
+          row.style.display = "none";
+        }
+      });
+    }
+  
+    if (value == "This Month") {
+      allRows.forEach(row => {
+        if (row.classList.contains("monthly")) {
+          row.style.display = row.style.display === "none" ? "" : "none";
+        } else {
+          row.style.display = "none";
+        }
+      });
+    }
+  }  
 </script>
 {% endblock scripts %}
