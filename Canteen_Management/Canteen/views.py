@@ -44,14 +44,13 @@ def get_sales_data(timespan):
     sales_list = []
     revenue_list = []
     customer_list = []
-    time_list = []
+    time_list = []        
+    top_sales = OrderItem.objects.filter(order__timestamp__gte=start_time, order__timestamp__lte=today).values('product_id').annotate(total_sold=Sum('quantity')).order_by('-total_sold')[:5]
+    top_products = [item['product_id'] for item in top_sales]
     
     for ti in spans:
         next_ti = ti + diff
-        sales = OrderItem.objects.filter(
-            order__timestamp__gte=ti,
-            order__timestamp__lte=next_ti
-        ).aggregate(
+        sales = OrderItem.objects.filter(order__timestamp__gte=ti, order__timestamp__lte=next_ti).aggregate(
             sold=Sum('quantity'), 
             revenue=Sum('total'),
             customer=Count('id')
@@ -68,8 +67,10 @@ def get_sales_data(timespan):
         'customer': customer_list, 
         'time':time_list, 
         'total_sales': sum(sales_list), 
-        'total_revenue': sum(revenue_list)*100, 
-        'total_customer':sum(customer_list)
+        'total_revenue': round(sum(revenue_list)*100), 
+        'total_customer':sum(customer_list),
+        'top_sales': top_sales,
+        'top_products': Product.objects.filter(id__in = top_products)
         }
 
 

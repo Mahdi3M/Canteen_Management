@@ -25,22 +25,21 @@
                     <li class="dropdown-header text-start">
                       <h6>Filter</h6>
                     </li>
-
-                    <li><a class="dropdown-item" href="#">Today</a></li>
-                    <li><a class="dropdown-item" href="#">This Month</a></li>
-                    <li><a class="dropdown-item" href="#">This Year</a></li>
+                    <li><button class="dropdown-item" type="button" onclick="selectSales('Today')">Today</button></li>
+                    <li><button class="dropdown-item" type="button" onclick="selectSales('This Week')">This Week</button></li>
+                    <li><button class="dropdown-item" type="button" onclick="selectSales('This Month')">This Month</button></li>
                   </ul>
                 </div>
 
                 <div class="card-body">
-                  <h5 class="card-title">Sales <span>| Today</span></h5>
+                  <h5 class="card-title sales-title">Sales <span>| Today</span></h5>
 
                   <div class="d-flex align-items-center">
                     <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
                       <i class="bi bi-cart"></i>
                     </div>
                     <div class="ps-3">
-                      <h6>{{ weekly.total_sales }}</h6>
+                      <h6 class="sales-total">{{ daily.total_sales }}</h6>
                     </div>
                   </div>
                 </div>
@@ -58,22 +57,21 @@
                     <li class="dropdown-header text-start">
                       <h6>Filter</h6>
                     </li>
-
-                    <li><a class="dropdown-item" href="#">Today</a></li>
-                    <li><a class="dropdown-item" href="#">This Month</a></li>
-                    <li><a class="dropdown-item" href="#">This Year</a></li>
+                    <li><button class="dropdown-item" type="button" onclick="selectRevenue('Today')">Today</button></li>
+                    <li><button class="dropdown-item" type="button" onclick="selectRevenue('This Week')">This Week</button></li>
+                    <li><button class="dropdown-item" type="button" onclick="selectRevenue('This Month')">This Month</button></li>
                   </ul>
                 </div>
 
                 <div class="card-body">
-                  <h5 class="card-title">Revenue <span>| This Month</span></h5>
+                  <h5 class="card-title revenue-title">Revenue <span>| This Week</span></h5>
 
                   <div class="d-flex align-items-center">
                     <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
                       <span class="taka-symbol">&#2547;</span>
                     </div>
                     <div class="ps-3">
-                      <h6>৳{{ weekly.total_revenue }}</h6>
+                      <h6 class="revenue-total">৳{{ weekly.total_revenue }}</h6>
                     </div>
                   </div>
                 </div>
@@ -92,22 +90,21 @@
                     <li class="dropdown-header text-start">
                       <h6>Filter</h6>
                     </li>
-
-                    <li><a class="dropdown-item" href="#">Today</a></li>
-                    <li><a class="dropdown-item" href="#">This Month</a></li>
-                    <li><a class="dropdown-item" href="#">This Year</a></li>
+                    <li><button class="dropdown-item" type="button" onclick="selectCustomer('Today')">Today</button></li>
+                    <li><button class="dropdown-item" type="button" onclick="selectCustomer('This Week')">This Week</button></li>
+                    <li><button class="dropdown-item" type="button" onclick="selectCustomer('This Month')">This Month</button></li>
                   </ul>
                 </div>
 
                 <div class="card-body">
-                  <h5 class="card-title">Customers <span>| This Year</span></h5>
+                  <h5 class="card-title customer-title">Customers <span>| This Month</span></h5>
 
                   <div class="d-flex align-items-center">
                     <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
                       <i class="bi bi-people"></i>
                     </div>
                     <div class="ps-3">
-                      <h6>{{ weekly.total_customer }}</h6>
+                      <h6 class="customer-total">{{ monthly.total_customer }}</h6>
                     </div>
                   </div>
 
@@ -126,10 +123,9 @@
                     <li class="dropdown-header text-start">
                       <h6>Filter</h6>
                     </li>
-
-                    <li><a class="dropdown-item" href="#">Today</a></li>
-                    <li><a class="dropdown-item" href="#">This Month</a></li>
-                    <li><a class="dropdown-item" href="#">This Year</a></li>
+                    <li><button class="dropdown-item" type="button" onclick="selectReport('Today')">Today</button></li>
+                    <li><button class="dropdown-item" type="button" onclick="selectReport('This Week')">This Week</button></li>
+                    <li><button class="dropdown-item" type="button" onclick="selectReport('This Month')">This Month</button></li>
                   </ul>
                 </div>
                 
@@ -140,18 +136,46 @@
                   <div id="reportsChart"></div>
 
                   <script>
-                    document.addEventListener("DOMContentLoaded", () => {
-                      console.log({{ weekly.sales|safe }})
-                      new ApexCharts(document.querySelector("#reportsChart"), {
+                    // Initialize the chart with default empty data
+                    let chart = null;
+                
+                    function selectReport(value) {
+                      if (chart) {
+                        chart.destroy();
+                      }
+                
+                      // Update the chart data
+                      let sales_data, revenue_data, customer_data, time_data;
+                      if (value == "Today") {
+                        sales_data = {{ daily.sales|safe }};
+                        revenue_data = {{ daily.revenue|safe }};
+                        customer_data = {{ daily.customer|safe }};
+                        time_data = {{ daily.time|safe }};
+                      }
+                      if (value == "This Week") {
+                        sales_data = {{ weekly.sales|safe }};
+                        revenue_data = {{ weekly.revenue|safe }};
+                        customer_data = {{ weekly.customer|safe }};
+                        time_data = {{ weekly.time|safe }};
+                      }
+                      if (value == "This Month") {
+                        sales_data = {{ monthly.sales|safe }};
+                        revenue_data = {{ monthly.revenue|safe }};
+                        customer_data = {{ monthly.customer|safe }};
+                        time_data = {{ monthly.time|safe }};
+                      }
+                
+                      // Draw the chart with updated data
+                      chart = new ApexCharts(document.querySelector("#reportsChart"), {
                         series: [{
                           name: 'Sales',
-                          data: {{ weekly.sales|safe }},
+                          data: sales_data,
                         }, {
                           name: 'Revenue/100Tk',
-                          data: {{ weekly.revenue|safe }},
+                          data: revenue_data,
                         }, {
                           name: 'Customers',
-                          data: {{ weekly.customer|safe}},
+                          data: customer_data,
                         }],
                         chart: {
                           height: 350,
@@ -182,14 +206,22 @@
                         },
                         xaxis: {
                           type: 'datetime',
-                          categories: {{ weekly.time|safe }},
+                          categories: time_data,
                         },
                         tooltip: {
                           x: {
                             format: 'dd/MM/yy HH:mm'
                           },
                         }
-                      }).render();
+                      });
+                
+                      chart.render();
+                    }
+                
+                    // Initial chart render
+                    document.addEventListener("DOMContentLoaded", () => {
+                      // Load the chart for Today by default
+                      selectReport('This Week');
                     });
                   </script>
                   <!-- End Line Chart -->
@@ -198,7 +230,6 @@
 
               </div>
             </div><!-- End Reports -->
-
             <!-- Top Selling -->
             <div class="col-12">
               <div class="card top-selling overflow-auto">
@@ -209,15 +240,14 @@
                     <li class="dropdown-header text-start">
                       <h6>Filter</h6>
                     </li>
-
-                    <li><a class="dropdown-item" href="#">Today</a></li>
-                    <li><a class="dropdown-item" href="#">This Month</a></li>
-                    <li><a class="dropdown-item" href="#">This Year</a></li>
+                    <li><button class="dropdown-item" type="button" onclick="selectTop('Today')">Today</button></li>
+                    <li><button class="dropdown-item" type="button" onclick="selectTop('This Week')">This Week</button></li>
+                    <li><button class="dropdown-item" type="button" onclick="selectTop('This Month')">This Month</button></li>
                   </ul>
                 </div>
 
                 <div class="card-body pb-0">
-                  <h5 class="card-title">Top Selling <span>| Today</span></h5>
+                  <h5 class="card-title top-title">Top Selling <span>| This Month</span></h5>
 
                   <table class="table table-borderless">
                     <thead>
@@ -285,5 +315,34 @@
 {% block scripts %}
 <script>
   $("#statistics").removeClass("collapsed");
+</script>
+
+<script>
+  function selectSales(value) {
+    const cardTitle = document.querySelector(".sales-title");
+    const cardTotal = document.querySelector(".sales-total");
+    cardTitle.innerHTML = `Sales <span>| ${value}</span>`;
+    if (value == "Today") {cardTotal.innerHTML = {{ daily.total_sales|escapejs }};}
+    if (value == "This Week") {cardTotal.innerHTML = {{ weekly.total_sales|escapejs }};}
+    if (value == "This Month") {cardTotal.innerHTML = {{ monthly.total_sales|escapejs }};}
+  }
+
+  function selectRevenue(value) {
+    const cardTitle = document.querySelector(".revenue-title");
+    const cardTotal = document.querySelector(".revenue-total");
+    cardTitle.innerHTML = `Revenue <span>| ${value}</span>`;
+    if (value == "Today") {cardTotal.innerHTML = {{ daily.total_revenue|escapejs }};}
+    if (value == "This Week") {cardTotal.innerHTML = {{ weekly.total_revenue|escapejs }};}
+    if (value == "This Month") {cardTotal.innerHTML = {{ monthly.total_revenue|escapejs }};}
+  }
+  
+  function selectCustomer(value) {
+    const cardTitle = document.querySelector(".customer-title");
+    const cardTotal = document.querySelector(".customer-total");
+    cardTitle.innerHTML = `Customer <span>| ${value}</span>`;
+    if (value == "Today") {cardTotal.innerHTML = {{ daily.total_customer|escapejs }};}
+    if (value == "This Week") {cardTotal.innerHTML = {{ weekly.total_customer|escapejs }};}
+    if (value == "This Month") {cardTotal.innerHTML = {{ monthly.total_customer|escapejs }};}
+  }
 </script>
 {% endblock scripts %}
