@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.hashers import check_password
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from django.utils.dateparse import parse_date
@@ -53,7 +54,7 @@ def signin(request):
             if request.user.role == "Admin":
                 return redirect("Canteen:home")
             elif request.user.role == "Bar NCO":
-                return redirect("Canteen:nco_order")
+                return redirect("Canteen:nco_inventory")
             elif request.user.role == "Customer":
                 return redirect("Canteen:customer_catalog")
         else:
@@ -117,7 +118,49 @@ def register(request):
 
 @login_required(redirect_field_name='next', login_url="Canteen:signin")
 def profile(request):
-    return render(request, "Canteen/profile.html")
+    if request.method == "POST":
+        
+        user = request.user
+        if "saveChanges" in request.POST:
+            image = request.FILES.get('image')
+            name = request.POST.get('fullName')
+            rank = request.POST.get('rank')
+            unit = request.POST.get('unit')
+            address = request.POST.get('address')
+            phone = request.POST.get('phone')
+            
+            if image:
+                user.image = image
+            if name:
+                user.last_name = name
+            if rank:
+                user.first_name = rank
+            if unit:
+                user.unit = unit
+            if address:
+                user.address = address
+            if phone:
+                user.phone = phone                
+            user.save()
+        
+        elif "changePassword" in request.POST:
+            current = request.POST.get('password')
+            new = request.POST.get('newpassword')
+            renew = request.POST.get('renewpassword')
+            
+            if check_password(current, user.password):
+                if new == renew:
+                    user.set_password(new)
+                    user.save()
+                else:
+                    messages.error(request, "New Password and Re-enter Password did not match")
+            else:
+                messages.error(request, "Current Password Wrong")
+            
+    context = {}
+    if request.user.role == "Bar NCO":
+        context['notification'] = Product.objects.filter(stock_quantity__lte = 5)
+    return render(request, "Canteen/profile.html", context)
 
 
 

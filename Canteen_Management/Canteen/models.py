@@ -15,6 +15,8 @@ class User(AbstractUser):
     unit = models.CharField(blank=True, null=True, max_length=32)
     role = models.CharField(max_length=10, choices=ROLES, default='Customer')
     image = models.ImageField(default='default.jpg', upload_to='profile_pics', blank=True, null=True)
+    address = models.CharField(blank=True, null=True, max_length=256)
+    phone = models.CharField(blank=True, null=True, max_length=15)
 
     def __str__(self):
         return self.username
