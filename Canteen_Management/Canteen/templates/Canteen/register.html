@@ -60,9 +60,9 @@
                       <label for="yourBA" class="form-label">Your Personal No.<span class="text-danger">*</span></label>
                       <div class="input-group">
                         <select class="form-select" id="prefixSelect" name="prefixType" style="max-width: 110px;">
-                          <option value="BA">BA-</option>
-                          <option value="BSS">BSS-</option>
-                          <option value="Foreign">Foreign Officer-</option>
+                          <option value="BA-">BA-</option>
+                          <option value="BSS-">BSS-</option>
+                          <option value="FO-">Foreign Officer-</option>
                         </select>
                         <input type="number" name="number" class="form-control reg-form-input" id="yourBA" placeholder="XXXX" required>
                         <div class="invalid-feedback">Please enter a valid BA Number!</div>
@@ -129,16 +129,42 @@
                       <div class="invalid-feedback">Please re-enter your password!</div>
                     </div>
 
-                      <!-- Previous and Submit Buttons -->
-                      <div class="col-6 mt-5">
-                        <button class="btn btn-secondary w-100" type="button" onclick="prevStep(2)">Previous</button>
-                      </div>
-                      <div class="col-6 mt-5">
-                        <button class="btn btn-primary w-100" type="submit">Create Account</button>
-                      </div>
+                    <!-- Previous and Submit Buttons -->
+                    <div class="col-6 mt-5">
+                      <button class="btn btn-secondary w-100" type="button" onclick="prevStep(2)">Previous</button>
+                    </div>
+                    <div class="col-6 mt-5">
+                      <button class="btn btn-primary w-100" type="button" id="send-otp-button" onclick="nextStep(4)">Send OTP</button>
                     </div>
                   </div>
                 </div>
+                
+                <!-- Step 4 -->
+                <!-- Step 4 Content -->
+                <div class="card mb-3" style="display: none;">
+                  <div class="card-body row g-3">
+                    <div class="pt-4 pb-2">
+                      <h5 class="card-title text-center pb-0 fs-4">Step 4: OTP Verification</h5>
+                      <p class="text-center small">Enter the OTP sent to your email</p>
+                    </div>
+                
+                    <div class="col-12">
+                      <label for="otpCode" class="form-label">OTP Code<span class="text-danger">*</span></label>
+                      <input type="text" name="otp" class="form-control reg-form-input" id="otpCode" required>
+                      <div class="invalid-feedback">Please enter the OTP code sent to your email.</div>
+                    </div>
+                
+                    <!-- Previous and Submit Buttons -->
+                    <div class="col-6 mt-5">
+                      <button class="btn btn-secondary w-100" type="button" onclick="prevStep(3)">Previous</button>
+                    </div>
+                    <div class="col-6 mt-5">
+                      <button class="btn btn-primary w-100" id="verify" type="button" onclick="verifyOTP()" style="display:block;">Verify OTP</button>
+                      <button class="btn btn-success w-100" id="submit" type="submit" style="display:none;">Register</button>
+                    </div>
+                  </div>
+                </div>
+
               </div>
             </form>
             <div class="credits">
@@ -183,6 +209,10 @@
       document.querySelector(`.card:nth-child(${currentStep})`).style.display = "none";
       currentStep = step;
       document.querySelector(`.card:nth-child(${currentStep})`).style.display = "block";
+      if (currentStep == 4){        
+        document.getElementById('verify').style.display = "block";
+        document.getElementById('submit').style.display = "none";
+      }
   }
 
   function prevStep(step) {
@@ -191,5 +221,65 @@
       document.querySelector(`.card:nth-child(${currentStep})`).style.display = "block";
   }
 </script>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+  let otp = null;
+  $(document).ready(function() {
+    $('#send-otp-button').click(function() {
+      var email = $('#yourEmail').val();  // Replace with your email input field ID
+      var csrfToken = getCookie('csrftoken');
+
+      $.ajax({
+        type: 'POST',
+        url: {% url "Canteen:send_otp_email" %},  // Replace with the actual URL of your view
+        data: {'email': email},
+        dataType: 'json',
+        headers: {
+          'X-CSRFToken': csrfToken
+        },
+        success: function(response) {
+          if (response.success) {
+            alert('OTP sent successfully. Check your email.');
+            otp = response.otp
+            // Optionally, you can handle the OTP in your JavaScript here (e.g., display it)
+          } else {
+            alert('Failed to send OTP: ' + response.error);
+          }
+        },
+        error: function() {
+          alert('Failed to send OTP. Please try again later.');
+        }
+      });
+    });
+  });
+
+  function getCookie(name) {
+    var cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+      var cookies = document.cookie.split(';');
+      for (var i = 0; i < cookies.length; i++) {
+        var cookie = cookies[i].trim();
+        if (cookie.substring(0, name.length + 1) === (name + '=')) {
+          cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+          break;
+        }
+      }
+    }
+    return cookieValue;
+  }
+
+  function verifyOTP(){
+    if (otp == $('#otpCode').val()){
+      alert("OTP Verified");
+      document.getElementById('verify').style.display = "none";
+      document.getElementById('submit').style.display = "block";
+    }
+    else{
+      alert("Wrong OTP");
+    }
+  }
+</script>
+
 
 {% endblock scripts %}

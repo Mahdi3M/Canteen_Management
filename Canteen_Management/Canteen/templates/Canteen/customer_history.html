@@ -63,13 +63,13 @@
               <th scope="col">Date and Time</th>
               <th scope="col">
                 <div class="row">
-                  <div class="col-5">Product Name</div>
+                  <div class="col-6">Product Name</div>
                   <div class="col-2">Price</div>
                   <div class="col-2 d-flex justify-content-center">Amount</div>
                   <div class="col-2">Total</div>
                 </div>
               </th>
-              <th scope="col">Total Price</th>
+              <th scope="col"><div class="text-center">Total Price </div></th>
               <th scope="col">Payment</th>
             </tr>
           </thead>
@@ -83,14 +83,14 @@
                 <td>
                   {% for product in o.list %}
                   <div class="row">
-                    <div class="col-5">{{ forloop.counter }}. {{ product.name }}</div>
+                    <div class="col-6">{{ forloop.counter }}. {{ product.name }}</div>
                     <div class="col-2">{{ product.price }} Tk</div>
                     <div class="col-2 d-flex justify-content-center">{{ product.quantity }}</div>
                     <div class="col-2">{{ product.total }} Tk</div>
                   </div>
                   {% endfor %}
                 </td>
-                <td>{{ o.grouper.total }} Tk</td>
+                <td><div class="text-center">{{ o.grouper.total }} Tk </div></td>
                 <td>
                   {% if o.grouper.paid %}
                     <span class="badge bg-success">Paid</span>

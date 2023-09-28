@@ -27,7 +27,7 @@
                 <th class="user-sr">Sr.</th>
                 <th class="user-image">Picture</th>
                 <th class="user-name">Name</th>
-                <th class="user-ba">BA No.</th>
+                <th class="user-ba">Personal No.</th>
                 <th class="user-unit">Unit</th>
                 <th class="user-role">Role</th>
                 <th class="user-add"></th>
@@ -41,7 +41,7 @@
                   <td>{{ forloop.counter }}.</td>
                   <td class="user-image"><img src={{ p_user.image.url }} alt="Image Preview" class="m-2" style="max-width: 50px; height: auto; border-radius: 8px;"></td>
                   <td class="user-name">{{ p_user.name }}</td>
-                  <td class="user-ba">{{ p_user.ba }}</td>
+                  <td class="user-ba">{{ p_user.personal_no }}</td>
                   <td class="user-unit">{{ p_user.unit }}</td>
                   <td class="user-role">
                     <select class="form-select" aria-label="Default select example" id="userRole" name="userRole">
@@ -72,7 +72,7 @@
                 <th class="user-sr">Sr.</th>
                 <th class="user-image">Picture</th>
                 <th class="user-name">Name</th>
-                <th class="user-ba">BA No.</th>
+                <th class="user-ba">Personal No.</th>
                 <th class="user-unit">Unit</th>
                 <th class="user-role">Role</th>
                 <th class="user-action">Action</th>
@@ -84,7 +84,7 @@
                   <td>{{ forloop.counter }}.</td>
                   <td class="user-image"><img src={{ a_user.image.url }} alt="Image Preview" class="m-2" style="max-width: 50px; height: auto; border-radius: 8px;"></td>
                   <td class="user-name">{{ a_user.name }}</td>
-                  <td class="user-ba">{{ a_user.ba }}</td>
+                  <td class="user-ba">{{ a_user.personal_no }}</td>
                   <td class="user-unit">{{ a_user.unit }}</td>
                   <td class="user-role">{{ a_user.role }}</td>
                   <td class="user-action">

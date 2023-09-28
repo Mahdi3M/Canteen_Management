@@ -25,14 +25,14 @@
       </div>
       <div class="col-4">
         <div class="has-validation">
-          <label for="start_date" class="form-label">Start Date</label>
+          <label for="start_date" class="form-label">Start Date (Inclusive)</label>
           <input type="date" class="form-control reg-form-input" name="start_date" id="start_date" {% if start %}value={{start}}{% endif %} required>
           <div class="invalid-feedback">Please, enter your name!</div>
         </div>
       </div>
       <div class="col-4">
         <div class="has-validation">
-          <label for="finish_date" class="form-label">Finish Date</label>
+          <label for="finish_date" class="form-label">Finish Date (Exclusive)</label>
           <input type="date" class="form-control reg-form-input" name="finish_date" id="finish_date" {% if finish %}value={{finish}}{% endif %} required>
         </div>
       </div>
