@@ -6,9 +6,7 @@ Bar NCO:
         a. BarCode Scanner Buy
         b. BarCode Scan Modal Dynamic
         c. BarCodes Print
-    2. Bill Generation
-        a. Get Template
-        b. Bill Print
+
 Admin:
     1. Report Generation
         a. Get Template

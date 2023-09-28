@@ -11,7 +11,7 @@ class User(AbstractUser):
         ('Customer', 'Customer'),
     )
 
-    ba = models.CharField(blank=True, null=True, max_length=6)
+    personal_no = models.CharField(blank=True, null=True, max_length=15)
     unit = models.CharField(blank=True, null=True, max_length=32)
     role = models.CharField(max_length=10, choices=ROLES, default='Customer')
     image = models.ImageField(default='default.jpg', upload_to='profile_pics', blank=True, null=True)
@@ -66,7 +66,7 @@ class Order(models.Model):
         ('Complete', 'Complete'),
     )
     name = models.CharField(max_length=255, default="None")
-    ba = models.CharField(blank=True, null=True, max_length=6)
+    personal_no = models.CharField(blank=True, null=True, max_length=15)
     timestamp = models.DateTimeField(default=timezone.now)
     status = models.CharField(max_length=10, choices=STATUS, default='Pending')
     total = models.DecimalField(max_digits=10, decimal_places=2)

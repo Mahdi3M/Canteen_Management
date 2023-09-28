@@ -114,7 +114,9 @@ def sign_out(request):
 def register(request):
     if request.method == "POST":
         name = request.POST.get('name')
-        ba = request.POST.get('ba')
+        prefix = request.POST.get('prefixType')
+        number = request.POST.get('number')
+        personal_no = prefix+number
         rank = request.POST.get('rank')
         unit = request.POST.get('unit')
         username = request.POST.get('username')
@@ -142,7 +144,7 @@ def register(request):
                 myuser.is_active = False
                 myuser.first_name = rank
                 myuser.last_name = name
-                myuser.ba = ba
+                myuser.personal_no = personal_no
                 myuser.unit = unit
                 if image_file:
                     myuser.image = image_file
@@ -211,7 +213,7 @@ def customer_checkout(request):
         with transaction.atomic():
             new_Order = Order()
             new_Order.name = request.user.name
-            new_Order.ba = request.user.ba
+            new_Order.personal_no = request.user.personal_no
             new_Order.total = total
             new_Order.save()
             
@@ -246,15 +248,15 @@ def customer_history(request):
         f_date = parse_date(finish_date)
         
         if start_date and finish_date:
-            orders = Order.objects.filter(ba = request.user.ba, timestamp__gte = s_date, timestamp__lte=f_date)
+            orders = Order.objects.filter(personal_no = request.user.personal_no, timestamp__gte = s_date, timestamp__lte=f_date)
         elif start_date:
-            orders = Order.objects.filter(ba = request.user.ba, timestamp__gte = s_date)
+            orders = Order.objects.filter(personal_no = request.user.personal_no, timestamp__gte = s_date)
         elif finish_date:
-            orders = Order.objects.filter(ba = request.user.ba, timestamp__lte=f_date)
+            orders = Order.objects.filter(personal_no = request.user.personal_no, timestamp__lte=f_date)
         else:
-            orders = Order.objects.filter(ba = request.user.ba)
+            orders = Order.objects.filter(personal_no = request.user.personal_no)
     else:
-        orders = Order.objects.filter(ba = request.user.ba)
+        orders = Order.objects.filter(personal_no = request.user.personal_no)
         
     context['order_list'] = OrderItem.objects.filter(order__in = orders, order__status = 'Complete').order_by('-order__timestamp')
     
@@ -299,30 +301,38 @@ def nco_bills(request):
     context = {}
 
     if request.method == "POST":
-        if "date_btn" in request.POST:
-            start_date = request.POST.get('start_date')
-            s_date = parse_date(start_date)
-            finish_date = request.POST.get('finish_date')
-            f_date = parse_date(finish_date)
-            
-            print(s_date, f_date)
-            
-            if start_date and finish_date:
-                orders = Order.objects.filter(timestamp__gte = s_date, timestamp__lte=f_date)
-            elif start_date:
-                orders = Order.objects.filter(timestamp__gte = s_date)
-            elif finish_date:
-                orders = Order.objects.filter(timestamp__lte=f_date)
-            else:
-                orders = Order.objects.all()
+        start_date = request.POST.get('start_date')
+        s_date = parse_date(start_date)
+        finish_date = request.POST.get('finish_date')
+        f_date = parse_date(finish_date)
+        prefix = request.POST.get('prefixType')
+        number = request.POST.get('personal_no')
+        personal_no = prefix + number
+        
+        context['start'] = start_date
+        context['finish'] = finish_date
+        context['prefix'] = prefix
+        context['number'] = number
+        
+        
+        orders = Order.objects.filter(timestamp__gte = s_date, timestamp__lte=f_date, personal_no= personal_no)
+        due_orders = Order.objects.filter(timestamp__gte = s_date, timestamp__lte=f_date, personal_no= personal_no, paid=False)
                 
-        elif "bill_btn" in request.POST:
+        if "bill_btn" in request.POST:
             print("Bill Generated")
-            orders = Order.objects.all()
+                
+        elif "payment_btn" in request.POST:
+            for order in orders:
+                order.paid = True
+                order.save()
+            print("Payment Complete")
+            
     else:
         orders = Order.objects.all()
+        due_orders = Order.objects.filter(paid = False)
         
     context['order_list'] = OrderItem.objects.filter(order__in = orders, order__status = 'Complete').order_by('-order__timestamp')
+    context['total_due'] = due_orders.aggregate(Sum('total'))['total__sum']
     context['notification'] = Product.objects.filter(stock_quantity__lte = 5)
     
     return render(request, "Canteen/nco_bills.html", context)
