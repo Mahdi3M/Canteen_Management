@@ -1,10 +1,15 @@
 from django.shortcuts import redirect
 from django.db.models import Sum
 from django.core.mail import send_mail
+from django.core.files import File
 from django.conf import settings
 from functools import wraps
 from datetime import timedelta
 from .models import *
+from barcode.writer import ImageWriter
+from io import BytesIO
+
+import barcode
 
 def send_email_to_client(email):
     subject = "STC&S Officers Mess Cafe Verification"
@@ -78,3 +83,18 @@ def get_sales_data(timespan):
         'total_customer':sum(customer_list),
         'top_products': top_products,
         }
+    
+
+def get_barcode(product):
+    category_id = str(product.category.id).zfill(2)
+    subcategory_id = str(product.subcategory.id).zfill(4)
+    product_id = str(product.id).zfill(6)
+    barcode_id = category_id+subcategory_id+product_id
+    
+    EAN = barcode.get_barcode_class('ean13')
+    ean = EAN(barcode_id, writer = ImageWriter())
+    buffer = BytesIO()
+    ean.write(buffer)
+    product.barcode.save(f'{product.name}.png', File(buffer), save=False)
+    
+    product.save()

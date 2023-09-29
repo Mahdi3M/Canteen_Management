@@ -7,7 +7,6 @@ urlpatterns = [
     path('', views.signin, name="signin"),
     path('signout', views.sign_out, name="signout"),
     path('register/', views.register, name="register"),
-    path('send_otp_email/', views.send_otp_email, name="send_otp_email"),
     path('profile/', views.profile, name="profile"),
     path('contact/', views.contact, name="contact"),
 
@@ -22,4 +21,6 @@ urlpatterns = [
     path('home/', views.home, name="home"),
     path('admin_summary/', views.admin_summary, name="admin_summary"),
     path('admin_users/', views.admin_users, name="admin_users"),
+    
+    path('send_otp_email/', views.send_otp_email, name="send_otp_email"),
 ]
