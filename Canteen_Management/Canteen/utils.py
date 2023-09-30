@@ -48,14 +48,20 @@ def generate_bill_pdf(personal_no, due_orders):
     sign = "Cafe Officer:"
     
     
-    def new_bill_page(order_no=0, item_no=0, product_no=0, total_bill=0):
+    def new_bill_page(order_no=0, item_no=0, product_no=0, total_bill=0, page_no=1, pdf=None):
         
         # Drawing the pdf Header
+        image_path = os.path.join(settings.BASE_DIR, 'static', 'assets', 'img', 'logo.png')
+        pdf.drawImage(image_path, 40, page_height-80, 45, 45, mask='auto')
+        
         pdf.setFont("Helvetica-Bold", 18)
         pdf.drawCentredString(page_width/2, page_height-50, title) # write text in page
         
         pdf.setFont("Helvetica-Bold", 16)
         pdf.drawCentredString(page_width/2, page_height-75, subtitle)
+        
+        pdf.setFont("Helvetica", 8)
+        pdf.drawRightString(page_width-30, page_height-45, f"Page {page_no}")
         
         pdf.line(30, page_height-95, page_width-30, page_height-95)
         
@@ -87,22 +93,23 @@ def generate_bill_pdf(personal_no, due_orders):
         pdf.setFont("Helvetica", 10)
         pdf.setStrokeColorRGB(0.8, 0.8, 0.8)
         for i in range(item_no, len(items)):
-            if page_height-gaps-15 < 140 and len(items)-i <= 3:
-                gaps -= 10
+            if page_height-gaps-15 < 160:
                 item_no = i
                 page_over = True
+                if items[i].order.id != prev_order:
+                    product_no = 0
+                    order_no += 1                    
                 break
                 
             if items[i].order.id != prev_order:
-                product_no = 0
-                order_no += 1
                 gaps -= 10
                 prev_order = items[i].order.id
-                total_bill += items[i].order.total
                 if i-item_no:
                     pdf.line(35, page_height-gaps, page_width-35, page_height-gaps)
+                    product_no = 0
+                    order_no += 1
                 gaps += 15
-                pdf.drawString(40, page_height-gaps, f"{order_no}.")
+                pdf.drawString(40, page_height-gaps, f"{order_no+1}.")
                 pdf.drawString(70, page_height-gaps, f"{items[i].order.timestamp.strftime('%d-%b-%Y')}")
                 pdf.drawString(page_width-100, page_height-gaps, f"{items[i].order.total} Tk")
                 
@@ -112,9 +119,12 @@ def generate_bill_pdf(personal_no, due_orders):
             pdf.drawString(page_width-170, page_height-gaps, f"{items[i].total} Tk")
             gaps += 15
             product_no += 1
+            total_bill += items[i].total
         
+        gaps -= 5
         pdf.setStrokeColorRGB(0, 0, 0)
         pdf.rect(35, page_height-gaps, page_width-70, gaps-145)
+        print(page_height-gaps)
 
         if not page_over:
             # Drawing the total Bills
@@ -146,16 +156,13 @@ def generate_bill_pdf(personal_no, due_orders):
         pdf.drawString(page_width-250, 50, sign)
         pdf.line(page_width-250+pdf.stringWidth(sign, "Helvetica-Bold", 12)+5, 50, page_width-30, 50)
         pdf.showPage()
-        return complete, order_no, item_no, product_no, total_bill
+        current_page = pdf
+        if not complete:
+            new_bill_page(order_no, item_no, product_no, total_bill, page_no+1, current_page)
 
     # Save the PDF and close the canvas
     
-    complete, order_no, item_no, product_no, total_bill = new_bill_page()
-    while True:
-        if complete:
-            break
-        else:
-            complete, order_no, item_no, product_no, total_bill = new_bill_page(order_no, item_no, product_no, total_bill)
+    new_bill_page(pdf=pdf)
     pdf.save()
 
     return response
