@@ -3,13 +3,55 @@ from django.db.models import Sum
 from django.core.mail import send_mail
 from django.core.files import File
 from django.conf import settings
+from django.http import HttpResponse
+from barcode.writer import ImageWriter
+from reportlab.pdfgen import canvas
+from reportlab.lib import pagesizes, units
 from functools import wraps
 from datetime import timedelta
 from .models import *
-from barcode.writer import ImageWriter
 from io import BytesIO
 
-import barcode
+import barcode, os
+    
+    
+def generate_barcode_pdf(path):
+    
+    # Create a response object with PDF content type
+    response = HttpResponse(content_type='application/pdf')
+    response['Content-Disposition'] = 'attachment; filename="barcode_sheet.pdf"'
+    
+    # Create a canvas object to draw on the PDF
+    c = canvas.Canvas(response, pagesize=pagesizes.portrait(pagesizes.A4))
+    
+    # Define the size of each barcode image (50x25 mm)
+    image_width = 40 * units.mm
+    image_height = 24 * units.mm
+
+    # Calculate the number of rows and columns based on the page size and image size
+    page_width, page_height = pagesizes.portrait(pagesizes.A4)
+    num_columns = int(page_width / image_width)
+    num_rows = int(page_height / image_height)
+    
+    left_margin = (page_width % image_width) / 2
+    top_margin = (page_height % image_height) / 2
+    print(page_width, page_height, image_width, image_height, num_columns, num_rows)
+
+    # Load the barcode image (replace 'barcode.png' with your actual image path)
+    barcode_image_path = os.path.join(settings.MEDIA_ROOT, 'barcodes', path.split('/')[-1])
+
+    # Loop through rows and columns to place the barcode images
+    for row in range(num_rows):
+        for col in range(num_columns):
+            x = (col * image_width) + int(left_margin)
+            y = (page_height - (row + 1) * image_height) - int(top_margin)
+            c.drawImage(barcode_image_path, x, y, image_width, image_height)
+
+    # Save the PDF and close the canvas
+    c.save()
+
+    return response
+
 
 def send_email_to_client(email):
     subject = "STC&S Officers Mess Cafe Verification"
@@ -98,3 +140,4 @@ def get_barcode(product):
     product.barcode.save(f'{product.name}.png', File(buffer), save=False)
     
     product.save()
+

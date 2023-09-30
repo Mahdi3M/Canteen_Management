@@ -41,18 +41,28 @@
                 <th scope="col">Category</th>
                 <th scope="col">Buying Price</th>
                 <th scope="col">Selling Price</th>
+                <th scope="col">Barcode</th>
               </tr>
             </thead>
             <tbody>
               {% for product in all_products %}
                 <tr>
-                  <th scope="row">{{ forloop.count }}</th>
+                  <th scope="row">{{ forloop.counter }}</th>
                   <td>{{ product.name }}</td>
                   <td>{{ product.stock_quantity }}</td>
                   <td>{{ product.subcategory.name }}</td>
                   <td>{{ product.category.name }}</td>
                   <td>{{ product.buying_price }}</td>
                   <td>{{ product.selling_price }}</td>
+                  <td>
+                    <form method=POST action={% url "Canteen:nco_inventory" %}>
+                      {% csrf_token %}
+                      <input type="hidden" name="barcode" {% if product.barcode %} value="{{ product.barcode.url }}" {% endif %}>
+                      <button class="btn btn-sm btn-success" type="submit" name="barcode_btn">
+                        <i class="bx bx-barcode me-2"></i>Barcode
+                      </button>
+                    </form>
+                  </td>
                 </tr>
               {% endfor %}
             </tbody>

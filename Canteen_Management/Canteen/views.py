@@ -392,7 +392,13 @@ def nco_bills(request):
 @role_required(allowed_roles=['Bar NCO'])
 def nco_inventory(request):
     if request.method == "POST":
-        if request.POST.get('form_name') == "add_new_product":            
+        if "barcode_btn" in request.POST:
+            barcode_path = request.POST.get('barcode')
+            if barcode_path:
+                return generate_barcode_pdf(barcode_path)
+                
+                
+        elif request.POST.get('form_name') == "add_new_product":            
             new_Product = Product()        
             new_Product.name = request.POST.get('productName')
             new_Product.image = request.FILES.get('image')
