@@ -368,7 +368,7 @@ def nco_bills(request):
         due_orders = Order.objects.filter(timestamp__gte = s_date, timestamp__lte=f_date, personal_no= personal_no, paid=False)
                 
         if "bill_btn" in request.POST:
-            print("Bill Generated")
+            return generate_bill_pdf(personal_no, due_orders)
                 
         elif "payment_btn" in request.POST:
             for order in orders:
