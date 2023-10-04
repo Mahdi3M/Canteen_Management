@@ -79,10 +79,10 @@
               </div>
             </div><!-- End Revenue Card -->
 
-            <!-- Customers Card -->
+            <!-- Checkouts Card -->
             <div class="col-xxl-4 col-xl-12">
 
-              <div class="card info-card customers-card">
+              <div class="card info-card checkouts-card">
 
                 <div class="filter">
                   <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
@@ -90,28 +90,28 @@
                     <li class="dropdown-header text-start">
                       <h6>Filter</h6>
                     </li>
-                    <li><button class="dropdown-item" type="button" onclick="selectCustomer('Today')">Today</button></li>
-                    <li><button class="dropdown-item" type="button" onclick="selectCustomer('This Week')">This Week</button></li>
-                    <li><button class="dropdown-item" type="button" onclick="selectCustomer('This Month')">This Month</button></li>
+                    <li><button class="dropdown-item" type="button" onclick="selectCheckout('Today')">Today</button></li>
+                    <li><button class="dropdown-item" type="button" onclick="selectCheckout('This Week')">This Week</button></li>
+                    <li><button class="dropdown-item" type="button" onclick="selectCheckout('This Month')">This Month</button></li>
                   </ul>
                 </div>
 
                 <div class="card-body">
-                  <h5 class="card-title customer-title">Customers <span>| This Month</span></h5>
+                  <h5 class="card-title checkout-title">Checkouts <span>| This Month</span></h5>
 
                   <div class="d-flex align-items-center">
                     <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
                       <i class="bi bi-people"></i>
                     </div>
                     <div class="ps-3">
-                      <h6 class="customer-total">{{ monthly.total_customer }}</h6>
+                      <h6 class="checkout-total">{{ monthly.total_checkout }}</h6>
                     </div>
                   </div>
 
                 </div>
               </div>
 
-            </div><!-- End Customers Card -->
+            </div><!-- End Checkouts Card -->
 
             <!-- Reports -->
             <div class="col-12">
@@ -148,23 +148,24 @@
                       cardTitle.innerHTML = `Report <span>/${value}</span>`;
                 
                       // Update the chart data
-                      let sales_data, revenue_data, customer_data, time_data;
+                      let sales_data, revenue_data, checkout_data, time_data;
+                      console.log({{ daily.sales|safe }});
                       if (value == "Today") {
                         sales_data = {{ daily.sales|safe }};
                         revenue_data = {{ daily.revenue|safe }};
-                        customer_data = {{ daily.customer|safe }};
+                        checkout_data = {{ daily.checkout|safe }};
                         time_data = {{ daily.time|safe }};
                       }
                       if (value == "This Week") {
                         sales_data = {{ weekly.sales|safe }};
                         revenue_data = {{ weekly.revenue|safe }};
-                        customer_data = {{ weekly.customer|safe }};
+                        checkout_data = {{ weekly.checkout|safe }};
                         time_data = {{ weekly.time|safe }};
                       }
                       if (value == "This Month") {
                         sales_data = {{ monthly.sales|safe }};
                         revenue_data = {{ monthly.revenue|safe }};
-                        customer_data = {{ monthly.customer|safe }};
+                        checkout_data = {{ monthly.checkout|safe }};
                         time_data = {{ monthly.time|safe }};
                       }
 
@@ -176,7 +177,7 @@
                         const localMoment = utcMoment.local(); // Convert to local time
                         time_data_local.push(localMoment.format('YYYY-MM-DD HH:mm:ss')); // Format as needed
                       }
-                      console.log(time_data_local);
+                      console.log({{ weekly.checkout|safe}});
                 
                       // Draw the chart with updated data
                       chart = new ApexCharts(document.querySelector("#reportsChart"), {
@@ -187,8 +188,8 @@
                           name: 'Revenue/100Tk',
                           data: revenue_data,
                         }, {
-                          name: 'Customers',
-                          data: customer_data,
+                          name: 'Checkouts',
+                          data: checkout_data,
                         }],
                         chart: {
                           height: 350,
@@ -337,18 +338,18 @@
     const cardTitle = document.querySelector(".revenue-title");
     const cardTotal = document.querySelector(".revenue-total");
     cardTitle.innerHTML = `Revenue <span>| ${value}</span>`;
-    if (value == "Today") {cardTotal.innerHTML = {{ daily.total_revenue|escapejs }};}
-    if (value == "This Week") {cardTotal.innerHTML = {{ weekly.total_revenue|escapejs }};}
-    if (value == "This Month") {cardTotal.innerHTML = {{ monthly.total_revenue|escapejs }};}
+    if (value == "Today") {cardTotal.innerHTML = '৳{{ daily.total_revenue|escapejs }}';}
+    if (value == "This Week") {cardTotal.innerHTML = '৳{{ weekly.total_revenue|escapejs }}';}
+    if (value == "This Month") {cardTotal.innerHTML = '৳{{ monthly.total_revenue|escapejs }}';}
   }
   
-  function selectCustomer(value) {
-    const cardTitle = document.querySelector(".customer-title");
-    const cardTotal = document.querySelector(".customer-total");
-    cardTitle.innerHTML = `Customer <span>| ${value}</span>`;
-    if (value == "Today") {cardTotal.innerHTML = {{ daily.total_customer|escapejs }};}
-    if (value == "This Week") {cardTotal.innerHTML = {{ weekly.total_customer|escapejs }};}
-    if (value == "This Month") {cardTotal.innerHTML = {{ monthly.total_customer|escapejs }};}
+  function selectCheckout(value) {
+    const cardTitle = document.querySelector(".checkout-title");
+    const cardTotal = document.querySelector(".checkout-total");
+    cardTitle.innerHTML = `Checkout <span>| ${value}</span>`;
+    if (value == "Today") {cardTotal.innerHTML = {{ daily.total_checkout|escapejs }};}
+    if (value == "This Week") {cardTotal.innerHTML = {{ weekly.total_checkout|escapejs }};}
+    if (value == "This Month") {cardTotal.innerHTML = {{ monthly.total_checkout|escapejs }};}
   }
   
   function selectTop(value) {

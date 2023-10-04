@@ -3,7 +3,8 @@
 
 {% block main %}
 <main id="main" class="main">
-
+  
+  <!-- Page Title -->
   <div class="pagetitle">
     <h1>Users</h1>
   </div><!-- End Page Title -->
@@ -17,6 +18,8 @@
       <button class="nav-link" id="pills-all-users-tab" data-bs-toggle="pill" data-bs-target="#pills-all-users" type="button" role="tab" aria-controls="pills-all-users" aria-selected="false">All Users</button>
     </li>
   </ul>
+
+  <!-- Pending Users -->
   <div class="tab-content pt-2" id="myTabContent">
     <div class="tab-pane fade show active" id="pills-pending-users" role="tabpanel" aria-labelledby="pending-users-tab">
       <div class="card p-4">  
@@ -57,12 +60,13 @@
                 </tr>
               </form>
               {% endfor %}
-                <!-- Add more rows as needed -->
             </tbody>
           </table>
         </div>
       </div>
-    </div>
+    </div><!-- End Pending Users -->
+
+    <!-- All Users -->
     <div class="tab-pane fade" id="pills-all-users" role="tabpanel" aria-labelledby="all-users-tab">
       <div class="card p-4">  
         <div class="card-body">
@@ -98,12 +102,11 @@
                   </td>
                 </tr>
               {% endfor %}
-              <!-- Add more rows as needed -->
             </tbody>
           </table>
         </div>
       </div>
-    </div>
+    </div><!-- End All Users -->
   </div><!-- End Pills Tabs -->
 
 </main>
