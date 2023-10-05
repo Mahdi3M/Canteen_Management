@@ -5,16 +5,18 @@ from django.core.files import File
 from django.conf import settings
 from django.http import HttpResponse
 from barcode.writer import ImageWriter
-from reportlab.lib import pagesizes, units, colors
-from reportlab.lib.styles import getSampleStyleSheet
+from reportlab.lib import pagesizes, units
 from reportlab.pdfgen import canvas
-from reportlab.platypus import SimpleDocTemplate, Table, TableStyle, Paragraph, PageBreak, flowables, Spacer
 from functools import wraps
 from datetime import timedelta
 from .models import *
 from io import BytesIO
 
 import barcode, os
+
+
+def generate_report_pdf():
+    pass
 
 
 def generate_bill_pdf(personal_no, due_orders):

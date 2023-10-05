@@ -430,7 +430,7 @@ def nco_inventory(request):
         category_dict[category.name] = subcategory_dict
 
     context['category_dict'] = category_dict
-    context['all_products'] = Product.objects.all()
+    context['all_products'] = Product.objects.all().order_by('name')
     context['notification'] = Product.objects.filter(stock_quantity__lte = 5)
     
     return render(request, "Canteen/nco_inventory.html", context)
