@@ -62,33 +62,8 @@
             <span class="badge bg-success badge-number cart">0</span>
           </a><!-- End Cart Icon -->
 
-          <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow carts">
-            <li class="dropdown-header">
-              You have 3 products in your cart
-            </li>
-            <li>
-              <hr class="dropdown-divider">
-            </li>
-
-            <li class="cart-item">
-              <a href="#">
-                <img src={% static 'assets/img/default.png' %} alt="" class="rounded-circle">
-                <div>
-                  <h4>product_name</h4>
-                  <p>Price: product_selling_price</p>
-                  <p>Quantity: Amount</p>
-                  <p>Total: product_selling_price * amount</p>
-                </div>
-              </a>
-            </li>
-            <li>
-              <hr class="dropdown-divider">
-            </li>
-
-            <li class="dropdown-footer">
-              <a href="#">Show all</a>
-            </li>
-
+          <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow carts" id="cart-list">
+            
           </ul>
 
         </li><!-- End Cart Nav -->

@@ -1,4 +1,6 @@
+const cartList = document.getElementById('cart-list');
 const checkoutList = document.getElementById('checkout-list');
+const scanList = document.getElementById('scan-list');
 
 if (localStorage.getItem('cart') == null) {
     var cart = {};
@@ -6,9 +8,14 @@ if (localStorage.getItem('cart') == null) {
     cart = JSON.parse(localStorage.getItem('cart'));
 }
 
-updateCartUI(cart);
+if (cartList) {
+  updateCartUI(cart);
+}
 if (checkoutList) {
   updateCheckoutUI(cart);
+}
+if (scanList) {
+  updateScanUI(cart);
 }
 
 
@@ -17,47 +24,69 @@ document.querySelectorAll('.add-to-cart').forEach(button => {
 });
 
 function addToCart(event) {
-    const button = event.target;
-    const productId = button.dataset.id;
-    const productName = button.dataset.name;
-    const productAvailable = button.dataset.available;
-    const productPrice = parseFloat(button.dataset.price);
-    const productImage = button.dataset.image;
+  const button = event.target;
+  const productId = button.dataset.id;
+  const productName = button.dataset.name;
+  const productAvailable = button.dataset.available;
+  const productPrice = parseFloat(button.dataset.price);
+  const productImage = button.dataset.image;
 
-    // console.log(productId, productName, productPrice, productImage, productAvailable)
-    
-    if (cart[productId]) {
-        if(cart[productId].quantity<cart[productId].available){
-            cart[productId].quantity += 1;
-        } else{
-          alert("No Items Left...")
-        }   
-    } else {
-        cart[productId] = {
-            id: productId,
-            name: productName,
-            price: productPrice,
-            image: productImage,
-            available: productAvailable,
-            quantity: 1
-        };
-    }
-    localStorage.setItem('cart', JSON.stringify(cart));
+  // console.log(productId, productName, productPrice, productImage, productAvailable)
+  
+  if (cart[productId]) {
+    if(cart[productId].quantity<cart[productId].available){
+      cart[productId].quantity += 1;
+    } else{
+      alert("No Items Left...")
+    }   
+  } else {
+    cart[productId] = {
+      id: productId,
+      name: productName,
+      price: productPrice,
+      image: productImage,
+      available: productAvailable,
+      quantity: 1
+    };
+  }
+  localStorage.setItem('cart', JSON.stringify(cart));
 
+  if (cartList) {
     updateCartUI(cart);
-    if (checkoutList) {
-      updateCheckoutUI(cart);
-    }
+  }
+  if (checkoutList) {
+    updateCheckoutUI(cart);
+  }
+}
 
-    if (checkoutList) {
-      console.log("Checkout Page");
-    }
+function addToScan(id, name, price, available, image){
+  price = parseFloat(price);
+  if (cart[id]) {
+    if(cart[id].quantity<cart[id].available){
+      cart[id].quantity += 1;
+    } else{
+      alert("No Items Left...")
+    }   
+  } else {
+    cart[id] = {
+      id: id,
+      name: name,
+      price: price,
+      image: image,
+      available: available,
+      quantity: 1
+    };
+  }
+  localStorage.setItem('cart', JSON.stringify(cart));
+  console.log(cart)
 }
 
 function clearCart(){
   cart = {};
   localStorage.removeItem('cart');
-  updateCartUI(cart);
+  if (cartList) {
+    updateCartUI(cart);
+  }
   if (checkoutList) {
     updateCheckoutUI(cart);
   }
@@ -69,7 +98,9 @@ function plusProduct(productId){
     if(item.quantity < item.available){
       item.quantity += 1;
       localStorage.setItem('cart', JSON.stringify(cart));
-      updateCartUI(cart);
+      if (cartList) {
+        updateCartUI(cart);
+      }
       if (checkoutList) {
         updateCheckoutUI(cart);
       }
@@ -86,7 +117,9 @@ function minusProduct(productId) {
   if (item && item.quantity > 0) {
       item.quantity--;
       localStorage.setItem('cart', JSON.stringify(cart));
-      updateCartUI(cart);
+      if (cartList) {
+        updateCartUI(cart);
+      }
       if (checkoutList) {
         updateCheckoutUI(cart);
       }
@@ -105,7 +138,9 @@ function minusProduct(productId) {
 function removeProduct(productId){
   delete cart[productId];
   localStorage.setItem('cart', JSON.stringify(cart));
-  updateCartUI(cart);
+  if (cartList) {
+    updateCartUI(cart);
+  }
   if (checkoutList) {
     updateCheckoutUI(cart);
   }
@@ -266,4 +301,9 @@ function updateCheckoutUI (cart){
 // const totalCostElement = document.getElementById('cart-total');
 // totalCostElement.textContent = `Total: ৳${totalCost.toFixed(2)}`;
 
+}
+
+
+function updateScanUI(cart) {
+ 
 }

@@ -42,9 +42,11 @@ def get_barcode_data(request):
         product = Product.objects.get(id = product_id)
         name = product.name
         price = product.selling_price
+        qnt = product.stock_quantity
+        image = product.image.url
 
         try:
-            return JsonResponse({'success': True, 'name': name, 'price': str(price)})
+            return JsonResponse({'success': True, 'id':product_id, 'name': name, 'price': str(price), 'available': qnt, 'image': image})
         except Exception as e:
             return JsonResponse({'success': False, 'error': str(e)})
         

@@ -61,7 +61,7 @@
                 </form>
                 
                 <!-- Product Table -->
-                <table class="table">
+                <table class="table" id="scan-list">
                   <thead>
                       <tr>
                         <th>Product Name</th>
@@ -189,11 +189,7 @@
           if (response.success) {
             //console.log('Product added.');
             barcodeInput.value = "";
-            product_name = response.name;
-            product_price  = response.price;
-
-            console.log(product_name);
-            console.log(product_price);
+            addToScan(response.id, response.name, response.price, response.available, response.image);
 
           } else {
             alert('Failed to add product ' + response.error);
