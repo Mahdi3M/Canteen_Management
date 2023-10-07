@@ -30,66 +30,57 @@
             </div>
             <div class="modal-body">
               <!-- Product Form -->
-                <form method="POST" action="{% url 'Canteen:nco_order' %}">
-                  {% csrf_token %}
-                  <div class="form-group pb-3 row">
-                    <div class="col-4">
-                      <label for="personal_no" class="form-label">Personal Number</label>
-                      <div class="input-group">
-                        <select class="form-select" id="prefixSelect" name="prefixType" style="display: inline-block; max-width: fit-content;">
-                          <option value="BA-" {% if prefix in 'BA-' %} selected{% endif %}>BA-</option>
-                          <option value="BSS-" {% if prefix in 'BSS-' %} selected{% endif %}>BSS-</option>
-                          <option value="FO-" {% if prefix in 'FO-' %} selected{% endif %}>FO-</option>
-                        </select>
-                        <input type="text" class="form-control reg-form-input" name="personal_no" id="personal_no" required>
-                      </div>
-                    </div>
-                    <div class="col-5">
-                      <label for="productName" class="form-label">Product Name</label>
-                      <div class="input-group">
-                        <input type="text" class="form-control" id="productName" placeholder="Enter search keyword">
-                        <button type="button" class="input-group-text"><i class="bi bi-search"></i></button>
-                      </div>
-                    </div>
-                    <div class="col-3">
-                      <label for="productName" class="form-label">Barcode</label>
-                      <div class="input-group">
-                        <input type="text" class="form-control" id="barcode">
-                      </div>
+                <div class="form-group pb-3 row">
+                  <div class="col-4">
+                    <label for="productName" class="form-label">Barcode</label>
+                    <div class="input-group">
+                      <input type="text" class="form-control" id="barcode">
                     </div>
                   </div>
-                </form>
-                
+                  <div class="col-8">
+                    <form method="POST" action="{% url 'Canteen:nco_order' %}" class="row justify-content-around">
+                      {% csrf_token %}
+                      <div class="col-8">
+                        <label for="personal_no" class="form-label">Personal Number</label>
+                        <div class="input-group">
+                          <select class="form-select" id="prefixSelect" name="prefixType" style="display: inline-block; max-width: fit-content;">
+                            <option value="BA-" selected>BA-</option>
+                            <option value="BSS-">BSS-</option>
+                            <option value="FO-">FO-</option>
+                          </select>
+                          <input type="text" class="form-control reg-form-input" name="personal_no" id="personal_no" required>
+                        </div>
+                      </div>
+                      <input type="hidden" id="cartJson" name="cartJSON" value="">
+                      <input type="hidden" id="cartTotal" name="cartTotal" value="">
+                      <button type="submit" class="btn btn-primary col-4 align-self-end" style="height:40px; width:150px;" name="checkout-order">Add to Checkout</button>
+                    </form>
+                  </div>
+                </div>
+              
                 <!-- Product Table -->
-                <table class="table" id="scan-list">
+                <table class="table">
                   <thead>
                       <tr>
+                        <th>#</th>
                         <th>Product Name</th>
                         <th>Price</th>
-                        <th>Quantity</th>
+                        <th>Qnt</th>
+                        <th>Total</th>
                         <th>Actions</th>
                       </tr>
                   </thead>
-                  <tbody>
-                    <tr>
-                      <td>Product 1</td>
-                      <td>৳10.00</td>
-                      <td>
-                        <button class="btn btn-sm btn-secondary">-</button>
-                        <span>1</span>
-                        <button class="btn btn-sm btn-secondary">+</button>
-                      </td>
-                      <td>
-                        <button class="btn btn-sm btn-danger">Remove</button>
-                      </td>
-                    </tr>
-                    <!-- Add more rows as needed -->
+                  <tbody id="scan-list">
                   </tbody>
               </table>
             </div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-              <button type="button" class="btn btn-primary">Add to Checkout</button>
+            <div class="modal-footer justify-content-between">
+              <div>
+                Total: <span id="scan-grand-total"></span>
+              </div>
+              <div>
+                <button type="button" class="btn btn-danger" onclick="clearCart()">Clear All</button>
+              </div>
             </div>
           </div>
         </div>
@@ -133,13 +124,9 @@
                   <p id="order-total">Total: {{ o.grouper.total }} Tk</p>
                   <form method=POST action={% url 'Canteen:nco_order' %}>
                     {% csrf_token %}
-                    <input type="hidden" name="complete-order" value="{{ o.grouper.id }}">
-                    <button type="submit" class="btn btn-success me-2">Complete</button>
-                  </form>
-                  <form method=POST action={% url 'Canteen:nco_order' %}>
-                    {% csrf_token %}
-                    <input type="hidden" name="remove-order" value="{{ o.grouper.id }}">
-                    <button type="submit" class="btn btn-danger">Remove</button>
+                    <input type="hidden" name="order-id" value="{{ o.grouper.id }}">
+                    <button type="submit" class="btn btn-success me-2" name="complete-order">Complete</button>
+                    <button type="submit" class="btn btn-danger" name="remove-order">Remove</button>
                   </form>
                 </div>
           </div>
@@ -189,7 +176,7 @@
           if (response.success) {
             //console.log('Product added.');
             barcodeInput.value = "";
-            addToScan(response.id, response.name, response.price, response.available, response.image);
+            addToScan(response.id, response.name, response.price);
 
           } else {
             alert('Failed to add product ' + response.error);
@@ -217,4 +204,12 @@
     return cookieValue;
   }
 </script>
+
+{% if thank %}
+  <script>
+    cart = {};
+    localStorage.removeItem('cart');
+    updateScanUI(cart);
+  </script>
+{%endif%}
 {% endblock scripts %}

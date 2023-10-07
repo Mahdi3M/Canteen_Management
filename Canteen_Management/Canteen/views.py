@@ -38,7 +38,6 @@ def get_barcode_data(request):
         barcode = request.POST.get('barcode')
         
         product_id = int(barcode[6:11])
-        print(barcode[6:12])
         product = Product.objects.get(id = product_id)
         name = product.name
         price = product.selling_price
@@ -291,14 +290,14 @@ def nco_order(request):
     context['notification'] = Product.objects.filter(stock_quantity__lte = 5)
     
     if request.method == "POST":
-        if request.POST.get('complete-order'):
-            id = request.POST.get('complete-order')
+        if "complete-order" in request.POST:
+            id = request.POST.get('order-id')
             order = Order.objects.get(id = id)          
             order.status = 'Complete'
             order.save()
             
-        if request.POST.get('remove-order'):
-            id = request.POST.get('remove-order')
+        elif "remove-order" in request.POST:
+            id = request.POST.get('order-id')
             order = Order.objects.get(id = id)
             products = OrderItem.objects.filter(order = order)
             with transaction.atomic():
@@ -308,7 +307,38 @@ def nco_order(request):
                     product.save()
                 order.delete()
             print("Order Removed")
-    
+            
+        elif "checkout-order" in request.POST:
+            cartJSON = request.POST.get("cartJSON")
+            cart = json.loads(cartJSON)
+            total = request.POST.get("cartTotal")
+            prefix = request.POST.get("prefixType")
+            num = request.POST.get("personal_no")
+            personal_no = prefix+num
+            customer = User.objects.get(personal_no=personal_no)
+            
+            with transaction.atomic():
+                new_Order = Order()
+                new_Order.name = customer.name
+                new_Order.personal_no = personal_no
+                new_Order.total = total
+                new_Order.save()
+                
+                for item in cart:
+                    new_Order_List = OrderItem()
+                    new_Order_List.order = new_Order
+                    new_Order_List.product_id = cart[item]["id"]
+                    new_Order_List.name = cart[item]["name"]
+                    new_Order_List.price = cart[item]["price"]
+                    new_Order_List.quantity = cart[item]["quantity"]
+                    new_Order_List.total = cart[item]["quantity"] * cart[item]["price"]
+                    new_Order_List.save()
+                    
+                    product = Product.objects.get(id = cart[item]["id"])
+                    product.stock_quantity -= cart[item]["quantity"]
+                    product.save()
+                    
+                context['thank'] = True
     return render(request, "Canteen/nco_order.html", context)
 
 @login_required(redirect_field_name='next', login_url="Canteen:signin")

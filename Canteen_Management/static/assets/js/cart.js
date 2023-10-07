@@ -59,26 +59,21 @@ function addToCart(event) {
   }
 }
 
-function addToScan(id, name, price, available, image){
+function addToScan(id, name, price){
   price = parseFloat(price);
   if (cart[id]) {
-    if(cart[id].quantity<cart[id].available){
-      cart[id].quantity += 1;
-    } else{
-      alert("No Items Left...")
-    }   
+    cart[id].quantity += 1;   
   } else {
     cart[id] = {
       id: id,
       name: name,
       price: price,
-      image: image,
-      available: available,
       quantity: 1
     };
   }
   localStorage.setItem('cart', JSON.stringify(cart));
-  console.log(cart)
+  //console.log(cart)
+  updateScanUI(cart);
 }
 
 function clearCart(){
@@ -89,6 +84,9 @@ function clearCart(){
   }
   if (checkoutList) {
     updateCheckoutUI(cart);
+  }
+  if (scanList){
+    updateScanUI(cart);
   }
 }
 
@@ -143,6 +141,9 @@ function removeProduct(productId){
   }
   if (checkoutList) {
     updateCheckoutUI(cart);
+  }
+  if (scanList){
+    updateScanUI(cart);
   }
 }
 
@@ -296,14 +297,40 @@ function updateCheckoutUI (cart){
     $('#cartJson').val(JSON.stringify(cart));
     $('#cartTotal').val(JSON.stringify(sum));
   }
-
-// const totalCost = calculateTotalCost(cart);
-// const totalCostElement = document.getElementById('cart-total');
-// totalCostElement.textContent = `Total: ৳${totalCost.toFixed(2)}`;
-
 }
 
 
 function updateScanUI(cart) {
- 
+  var sum = 0;
+  for(var prd in cart){
+    sum = sum + (cart[prd].price * cart[prd].quantity);
+  }
+  console.log(sum);
+  let serial = 0;
+  scanList.innerHTML = '';
+  for (const id in cart) {
+    const item = cart[id];
+    serial = serial+1;
+    const listItem = document.createElement('tr');
+
+    const itemDetails = `
+      <td>${serial}</td>
+      <td>${item.name}</td>
+      <td>৳${item.price}</td>
+      <td>${item.quantity}</td>
+      <td>৳${item.price * item.quantity}</td>
+      <td>
+        <button class="btn btn-sm btn-danger" onclick="removeProduct('${id}')">Remove</button>
+      </td>
+    `;
+
+    listItem.innerHTML = itemDetails;
+    scanList.appendChild(listItem);
+  }
+  document.getElementById('scan-grand-total').textContent = sum;
+
+  if (Object.keys(cart).length != 0) {
+    $('#cartJson').val(JSON.stringify(cart));
+    $('#cartTotal').val(JSON.stringify(sum));
+  }
 }

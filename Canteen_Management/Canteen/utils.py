@@ -250,11 +250,11 @@ def get_sales_data(timespan):
     revenue_list = []
     customer_list = []
     time_list = []        
-    top_sales = OrderItem.objects.filter(order__timestamp__gte=start_time, order__timestamp__lte=today).values('product_id').annotate(total_sold=Sum('quantity')).order_by('-total_sold')[:5]
+    top_sales = OrderItem.objects.filter(order__timestamp__gte=start_time, order__timestamp__lte=today).values('name').annotate(total_sold=Sum('quantity')).order_by('-total_sold')[:5]
     top_products = [{
         'sold': item['total_sold'], 
-        'product': Product.objects.get(id = item['product_id']),
-        'revenue': Product.objects.get(id = item['product_id']).selling_price * item['total_sold']
+        'product': Product.objects.get(name = item['name']),
+        'revenue': Product.objects.get(name = item['name']).selling_price * item['total_sold']
         } for item in top_sales]
     
     for ti in spans:
@@ -284,7 +284,10 @@ def get_sales_data(timespan):
     
 
 def get_barcode(product):
-    barcode_id = str(product.id).zfill(12)
+    category_id = str(product.category.id).zfill(2)
+    subcategory_id = str(product.subcategory.id).zfill(4)
+    product_id = str(product.id).zfill(6)
+    barcode_id = category_id+subcategory_id+product_id
     
     EAN = barcode.get_barcode_class('ean13')
     ean = EAN(barcode_id, writer = ImageWriter())
