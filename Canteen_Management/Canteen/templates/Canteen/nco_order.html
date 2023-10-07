@@ -1,6 +1,11 @@
 {% extends 'base.html' %}
 {% load static %}
 
+{% block head %}
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+{% endblock head %}
+
 {% block main %}
 <main id="main" class="main">
 
@@ -15,59 +20,79 @@
 
       <!-- Modal -->
       <div class="modal fade" id="addProductModal" tabindex="-1" role="dialog" aria-labelledby="addProductModalLabel" aria-hidden="true">
-          <div class="modal-dialog modal-dialog-scrollable" role="document">
-              <div class="modal-content">
-                  <div class="modal-header">
-                      <h5 class="modal-title" id="addProductModalLabel">Add Product to Checkout</h5>
-                      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                          <span aria-hidden="true">&times;</span>
-                      </button>
+        <div class="modal-dialog modal-lg modal-dialog-scrollable" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="addProductModalLabel">Add Product to Checkout</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <!-- Product Form -->
+                <form method="POST" action="{% url 'Canteen:nco_order' %}">
+                  {% csrf_token %}
+                  <div class="form-group pb-3 row">
+                    <div class="col-4">
+                      <label for="personal_no" class="form-label">Personal Number</label>
+                      <div class="input-group">
+                        <select class="form-select" id="prefixSelect" name="prefixType" style="display: inline-block; max-width: fit-content;">
+                          <option value="BA-" {% if prefix in 'BA-' %} selected{% endif %}>BA-</option>
+                          <option value="BSS-" {% if prefix in 'BSS-' %} selected{% endif %}>BSS-</option>
+                          <option value="FO-" {% if prefix in 'FO-' %} selected{% endif %}>FO-</option>
+                        </select>
+                        <input type="text" class="form-control reg-form-input" name="personal_no" id="personal_no" required>
+                      </div>
+                    </div>
+                    <div class="col-5">
+                      <label for="productName" class="form-label">Product Name</label>
+                      <div class="input-group">
+                        <input type="text" class="form-control" id="productName" placeholder="Enter search keyword">
+                        <button type="button" class="input-group-text"><i class="bi bi-search"></i></button>
+                      </div>
+                    </div>
+                    <div class="col-3">
+                      <label for="productName" class="form-label">Barcode</label>
+                      <div class="input-group">
+                        <input type="text" class="form-control" id="barcode">
+                      </div>
+                    </div>
                   </div>
-                  <div class="modal-body">
-                    <!-- Product Form -->
-                      <form>
-                          <div class="form-group pb-5">
-                              <label for="productName">Product Name</label>
-                              <div class="input-group">
-                                <input type="text" class="form-control" id="productName" placeholder="Enter search keyword">
-                                <button type="submit" class="input-group-text" title="Search"><i class="bi bi-search"></i></button>
-                            </div>
-                          </div>
-                      </form>
-                      
-                      <!-- Product Table -->
-                      <table class="table">
-                          <thead>
-                              <tr>
-                                  <th>Product Name</th>
-                                  <th>Price</th>
-                                  <th>Quantity</th>
-                                  <th>Actions</th>
-                              </tr>
-                          </thead>
-                          <tbody>
-                              <tr>
-                                  <td>Product 1</td>
-                                  <td>৳10.00</td>
-                                  <td>
-                                      <button class="btn btn-sm btn-secondary">-</button>
-                                      <span>1</span>
-                                      <button class="btn btn-sm btn-secondary">+</button>
-                                  </td>
-                                  <td>
-                                      <button class="btn btn-sm btn-danger">Remove</button>
-                                  </td>
-                              </tr>
-                              <!-- Add more rows as needed -->
-                          </tbody>
-                      </table>
-                  </div>
-                  <div class="modal-footer">
-                      <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                      <button type="button" class="btn btn-primary">Add to Checkout</button>
-                  </div>
-              </div>
+                </form>
+                
+                <!-- Product Table -->
+                <table class="table">
+                  <thead>
+                      <tr>
+                        <th>Product Name</th>
+                        <th>Price</th>
+                        <th>Quantity</th>
+                        <th>Actions</th>
+                      </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>Product 1</td>
+                      <td>৳10.00</td>
+                      <td>
+                        <button class="btn btn-sm btn-secondary">-</button>
+                        <span>1</span>
+                        <button class="btn btn-sm btn-secondary">+</button>
+                      </td>
+                      <td>
+                        <button class="btn btn-sm btn-danger">Remove</button>
+                      </td>
+                    </tr>
+                    <!-- Add more rows as needed -->
+                  </tbody>
+              </table>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+              <button type="button" class="btn btn-primary">Add to Checkout</button>
+            </div>
           </div>
+        </div>
       </div>
       <!-- End Modal -->
 
@@ -130,7 +155,70 @@
 <script>
   $("#order").removeClass("collapsed");
 </script>
-<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+
+<script>
+  $(document).ready(function() {
+    $('#addProductModal').on('shown.bs.modal', function() {
+      $('#barcode').focus();
+    });
+  });
+</script>
+
+
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+<script>
+  let product_name = null;
+  let product_price = null;
+  $(document).ready(function() {
+    var barcodeInput = document.getElementById("barcode");
+    barcodeInput.addEventListener("change", function(){
+      var barcode = $('#barcode').val(); 
+      var csrfToken = getCookie('csrftoken');
+      //console.log(barcode);
+      $.ajax({
+        type: 'POST',
+        url: {% url "Canteen:get_barcode_data" %},  // Replace with the actual URL of your view
+        data: {'barcode': barcode},
+        dataType: 'json',
+        headers: {
+          'X-CSRFToken': csrfToken
+        },
+        success: function(response) {
+          if (response.success) {
+            //console.log('Product added.');
+            barcodeInput.value = "";
+            product_name = response.name;
+            product_price  = response.price;
+
+            console.log(product_name);
+            console.log(product_price);
+
+          } else {
+            alert('Failed to add product ' + response.error);
+          }
+        },
+        error: function() {
+          alert('Failed to add product. Please try again later.');
+        }
+      });
+    });
+  });
+
+  function getCookie(name) {
+    var cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+      var cookies = document.cookie.split(';');
+      for (var i = 0; i < cookies.length; i++) {
+        var cookie = cookies[i].trim();
+        if (cookie.substring(0, name.length + 1) === (name + '=')) {
+          cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+          break;
+        }
+      }
+    }
+    return cookieValue;
+  }
+</script>
 {% endblock scripts %}

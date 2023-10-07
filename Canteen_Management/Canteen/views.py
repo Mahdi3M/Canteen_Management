@@ -31,6 +31,23 @@ def send_otp_email(request):
             return JsonResponse({'success': True, 'otp': otp})
         except Exception as e:
             return JsonResponse({'success': False, 'error': str(e)})
+        
+
+def get_barcode_data(request):
+    if request.method == "POST":
+        barcode = request.POST.get('barcode')
+        
+        product_id = int(barcode[6:11])
+        print(barcode[6:12])
+        product = Product.objects.get(id = product_id)
+        name = product.name
+        price = product.selling_price
+
+        try:
+            return JsonResponse({'success': True, 'name': name, 'price': str(price)})
+        except Exception as e:
+            return JsonResponse({'success': False, 'error': str(e)})
+        
 
 
 #<-- ======= Pages ======= -->
@@ -341,9 +358,10 @@ def nco_bills(request):
 def nco_inventory(request):
     if request.method == "POST":
         if "barcode_btn" in request.POST:
-            barcode_path = request.POST.get('barcode')
-            if barcode_path:
-                return generate_barcode_pdf(barcode_path)
+            product_id = request.POST.get('barcode')
+            product_obj = Product.objects.get(id = product_id)
+            if product_obj:
+                return generate_barcode_pdf(product_obj.barcode.url, product_obj.name)
                 
                 
         elif request.POST.get('form_name') == "add_new_product":            

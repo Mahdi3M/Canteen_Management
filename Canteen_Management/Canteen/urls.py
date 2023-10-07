@@ -23,4 +23,5 @@ urlpatterns = [
     path('admin_users/', views.admin_users, name="admin_users"),
     
     path('send_otp_email/', views.send_otp_email, name="send_otp_email"),
+    path('get_barcode_data/', views.get_barcode_data, name="get_barcode_data"),
 ]

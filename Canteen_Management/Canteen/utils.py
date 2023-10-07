@@ -22,7 +22,7 @@ def generate_report_pdf():
 def generate_bill_pdf(personal_no, due_orders):
     # Create a response object with PDF content type
     response = HttpResponse(content_type='application/pdf')
-    response['Content-Disposition'] = 'attachment; filename="barcode_sheet.pdf"'
+    response['Content-Disposition'] = f'attachment; filename="{personal_no}_{timezone.localtime().now().strftime("%d-%b-%Y")}.pdf"'
     
     # Get the Order Items
     items = OrderItem.objects.filter(order__in = due_orders, order__status = 'Complete').order_by('order__timestamp')
@@ -171,11 +171,11 @@ def generate_bill_pdf(personal_no, due_orders):
     
     
     
-def generate_barcode_pdf(path):
+def generate_barcode_pdf(path, name):
     
     # Create a response object with PDF content type
     response = HttpResponse(content_type='application/pdf')
-    response['Content-Disposition'] = 'attachment; filename="barcode_sheet.pdf"'
+    response['Content-Disposition'] = f'attachment; filename="{name}_barcode.pdf"'
     
     # Create a canvas object to draw on the PDF
     pdf = canvas.Canvas(response, pagesize=pagesizes.portrait(pagesizes.A4))
@@ -283,11 +283,8 @@ def get_sales_data(timespan):
         }
     
 
-def get_barcode(product):    
-    product_id = str(product.id).zfill(5)
-    price_int = str(int(product.selling_price)).zfill(5)
-    price_float = str(int((float(product.selling_price)*100)%100)).zfill(2)
-    barcode_id = product_id + price_int + price_float
+def get_barcode(product):
+    barcode_id = str(product.id).zfill(12)
     
     EAN = barcode.get_barcode_class('ean13')
     ean = EAN(barcode_id, writer = ImageWriter())

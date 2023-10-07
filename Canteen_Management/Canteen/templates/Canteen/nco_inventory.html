@@ -21,8 +21,7 @@
     </li>
   </ul>
 
-  <!-- Add New Product -->
-
+  <!-- All Product -->
   <div class="tab-content pt-2" id="myTabContent">
     <div class="tab-pane fade show active" id="pills-all-product" role="tabpanel" aria-labelledby="all-product-tab">
       <div class="card">
@@ -57,7 +56,7 @@
                   <td>
                     <form method=POST action={% url "Canteen:nco_inventory" %}>
                       {% csrf_token %}
-                      <input type="hidden" name="barcode" {% if product.barcode %} value="{{ product.barcode.url }}" {% endif %}>
+                      <input type="hidden" name="barcode" {% if product.barcode %} value="{{ product.id }}" {% endif %}>
                       <button class="btn btn-sm btn-success" type="submit" name="barcode_btn">
                         <i class="bx bx-barcode me-2"></i>Barcode
                       </button>
