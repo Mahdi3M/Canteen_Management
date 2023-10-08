@@ -3,9 +3,13 @@
 
 {% block main %}
 <main id="main" class="main">
+
+  <!-- Page Title -->
   <div class="pagetitle">
     <h1>Orders</h1>
   </div><!-- End Page Title -->
+
+  <!-- Filter by Personal Number and Date -->
   <form method=POST action={% url "Canteen:nco_bills" %} nonvalidate>
     {% csrf_token %}
     <div  class="row my-4">
@@ -41,7 +45,7 @@
         <button class="btn btn-primary w-80 h-50" type="submit" name="form_btn">Submit</button>
       </div>
     </div>
-  </form>
+  </form><!-- End Filter by Personal Number and Date -->
 
   <div class="card my-4">
     <div class="card-body">
@@ -98,12 +102,12 @@
             {% endfor %}
           </tbody>
         </table>
-      </div>
-      <!-- End Table with stripped rows -->
+      </div><!-- End Table with stripped rows -->
 
     </div>
   </div>
 
+  <!-- Total Payment Due -->
   {% if start and finish and number %}
     {% if total_due %}
     <form method=POST action={% url 'Canteen:nco_bills' %}>
@@ -115,8 +119,8 @@
           <input type="hidden" name="prefixType" value={{ prefix }}>
           <input type="hidden" name="personal_no" value={{ number }}>
           <div>
-          <button class="btn btn-primary w-80 h-50 me-4" type="submit" name="bill_btn">Generate Bill</button>
-          <button class="btn btn-success md-5" type="submit" name="payment_btn">Complete Payment</button>
+            <button class="btn btn-primary w-80 h-50 me-4" type="submit" name="bill_btn">Generate Bill</button>
+            <button class="btn btn-success md-5" type="submit" name="payment_btn">Complete Payment</button>
           </div>
       </div>
     </form>
@@ -125,7 +129,7 @@
       <b class="text-success">No Due Left</b>
     </div>
     {% endif %}
-  {% endif %}
+  {% endif %}<!-- End Total Payment Due -->
 
 </main>
 {% endblock main %}

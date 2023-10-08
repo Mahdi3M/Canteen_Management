@@ -4,14 +4,18 @@
 {% block main %}
 <main id="main" class="main">
 
+  <!-- Page Title -->
   <div class="pagetitle">
     <h1>Checkout Items</h1>
   </div><!-- End Page Title -->
 
   <section id="cart-section">
+    <!-- Checkout List (Generated from cart.js) -->
     <ul class="cards p-3 row row-cols-auto" id="checkout-list">
-      
-    </ul>
+
+    </ul><!-- End Checkout List -->
+
+    <!-- Checkout Form -->
     <form method=POST action={% url 'Canteen:customer_checkout' %}>
       <div class="total mb-5">
           {% csrf_token %}
@@ -20,7 +24,7 @@
           <input type="hidden" id="cartTotal" name="cartTotal" value="">
           <button type="submit" class="checkout me-md-5" on>Checkout</button>
       </div>
-    </form>
+    </form><!-- End Checkout Form -->
   </section>
 
 </main>
@@ -31,16 +35,14 @@
   $("#cart").removeClass("collapsed");
 </script>
 
+<!-- Clears UI if Checked Out -->
 {% if thank %}
   <script>
     alert('Thanks for shopping with us.');
     cart = {};
     localStorage.removeItem('cart');
     updateCartUI(cart);
-    if (checkoutList) {
-      updateCheckoutUI(cart);
-    }
-    document.location="/customer_checkout/";
+    updateCheckoutUI(cart);
   </script>
 {%endif%}
 {% endblock scripts %}

@@ -3,320 +3,293 @@
 
 {% block main %}
 <main id="main" class="main">
+  <!-- End Page Title -->
+  <div class="pagetitle">
+    <h1>Statistics</h1>
+  </div><!-- End Page Title -->
 
-    <div class="pagetitle">
-      <h1>Statistics</h1>
-    </div><!-- End Page Title -->
+  <section class="section dashboard">
+    <div class="row">
+      <div class="col-lg-12">
+        <div class="row">
 
-    <section class="section dashboard">
-      <div class="row">
-
-        <!-- Left side columns -->
-        <div class="col-lg-12">
-          <div class="row">
-
-            <!-- Sales Card -->
-            <div class="col-xxl-4 col-md-6">
-              <div class="card info-card sales-card">
-
-                <div class="filter">
-                  <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
-                  <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
-                    <li class="dropdown-header text-start">
-                      <h6>Filter</h6>
-                    </li>
-                    <li><button class="dropdown-item" type="button" onclick="selectSales('Today')">Today</button></li>
-                    <li><button class="dropdown-item" type="button" onclick="selectSales('This Week')">This Week</button></li>
-                    <li><button class="dropdown-item" type="button" onclick="selectSales('This Month')">This Month</button></li>
-                  </ul>
-                </div>
-
-                <div class="card-body">
-                  <h5 class="card-title sales-title">Sales <span>| Today</span></h5>
-
-                  <div class="d-flex align-items-center">
-                    <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
-                      <i class="bi bi-cart"></i>
-                    </div>
-                    <div class="ps-3">
-                      <h6 class="sales-total">{{ daily.total_sales }}</h6>
-                    </div>
-                  </div>
-                </div>
-
+          <!-- Sales Card -->
+          <div class="col-xxl-4 col-md-6">
+            <div class="card info-card sales-card">
+              <div class="filter">
+                <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
+                <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
+                  <li class="dropdown-header text-start"><h6>Filter</h6></li>
+                  <li><button class="dropdown-item" type="button" onclick="selectSales('Today')">Today</button></li>
+                  <li><button class="dropdown-item" type="button" onclick="selectSales('This Week')">This Week</button></li>
+                  <li><button class="dropdown-item" type="button" onclick="selectSales('This Month')">This Month</button></li>
+                </ul>
               </div>
-            </div><!-- End Sales Card -->
 
-            <!-- Revenue Card -->
-            <div class="col-xxl-4 col-md-6">
-              <div class="card info-card revenue-card">
-
-                <div class="filter">
-                  <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
-                  <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
-                    <li class="dropdown-header text-start">
-                      <h6>Filter</h6>
-                    </li>
-                    <li><button class="dropdown-item" type="button" onclick="selectRevenue('Today')">Today</button></li>
-                    <li><button class="dropdown-item" type="button" onclick="selectRevenue('This Week')">This Week</button></li>
-                    <li><button class="dropdown-item" type="button" onclick="selectRevenue('This Month')">This Month</button></li>
-                  </ul>
-                </div>
-
-                <div class="card-body">
-                  <h5 class="card-title revenue-title">Revenue <span>| This Week</span></h5>
-
-                  <div class="d-flex align-items-center">
-                    <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
-                      <span class="taka-symbol">&#2547;</span>
-                    </div>
-                    <div class="ps-3">
-                      <h6 class="revenue-total">৳{{ weekly.total_revenue }}</h6>
-                    </div>
+              <div class="card-body">
+                <h5 class="card-title sales-title">Sales <span>| Today</span></h5>
+                <div class="d-flex align-items-center">
+                  <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                    <i class="bi bi-cart"></i>
                   </div>
-                </div>
-
-              </div>
-            </div><!-- End Revenue Card -->
-
-            <!-- Checkouts Card -->
-            <div class="col-xxl-4 col-xl-12">
-
-              <div class="card info-card checkouts-card">
-
-                <div class="filter">
-                  <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
-                  <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
-                    <li class="dropdown-header text-start">
-                      <h6>Filter</h6>
-                    </li>
-                    <li><button class="dropdown-item" type="button" onclick="selectCheckout('Today')">Today</button></li>
-                    <li><button class="dropdown-item" type="button" onclick="selectCheckout('This Week')">This Week</button></li>
-                    <li><button class="dropdown-item" type="button" onclick="selectCheckout('This Month')">This Month</button></li>
-                  </ul>
-                </div>
-
-                <div class="card-body">
-                  <h5 class="card-title checkout-title">Checkouts <span>| This Month</span></h5>
-
-                  <div class="d-flex align-items-center">
-                    <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
-                      <i class="bi bi-people"></i>
-                    </div>
-                    <div class="ps-3">
-                      <h6 class="checkout-total">{{ monthly.total_checkout }}</h6>
-                    </div>
+                  <div class="ps-3">
+                    <h6 class="sales-total">{{ daily.total_sales }}</h6>
                   </div>
-
                 </div>
               </div>
 
-            </div><!-- End Checkouts Card -->
+            </div>
+          </div><!-- End Sales Card -->
 
-            <!-- Reports -->
-            <div class="col-12">
-              <div class="card">
+          <!-- Revenue Card -->
+          <div class="col-xxl-4 col-md-6">
+            <div class="card info-card revenue-card">
+              <div class="filter">
+                <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
+                <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
+                  <li class="dropdown-header text-start"><h6>Filter</h6></li>
+                  <li><button class="dropdown-item" type="button" onclick="selectRevenue('Today')">Today</button></li>
+                  <li><button class="dropdown-item" type="button" onclick="selectRevenue('This Week')">This Week</button></li>
+                  <li><button class="dropdown-item" type="button" onclick="selectRevenue('This Month')">This Month</button></li>
+                </ul>
+              </div>
 
-                <div class="filter">
-                  <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
-                  <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
-                    <li class="dropdown-header text-start">
-                      <h6>Filter</h6>
-                    </li>
-                    <li><button class="dropdown-item" type="button" onclick="selectReport('Today')">Today</button></li>
-                    <li><button class="dropdown-item" type="button" onclick="selectReport('This Week')">This Week</button></li>
-                    <li><button class="dropdown-item" type="button" onclick="selectReport('This Month')">This Month</button></li>
-                  </ul>
+              <div class="card-body">
+                <h5 class="card-title revenue-title">Revenue <span>| This Week</span></h5>
+                <div class="d-flex align-items-center">
+                  <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                    <span class="taka-symbol">&#2547;</span>
+                  </div>
+                  <div class="ps-3">
+                    <h6 class="revenue-total">৳{{ weekly.total_revenue }}</h6>
+                  </div>
                 </div>
-                
-                <div class="card-body">
-                  <h5 class="card-title report-title">Reports <span>/This Week</span></h5>
+              </div>
 
-                  <!-- Line Chart -->
-                  <div id="reportsChart"></div>
+            </div>
+          </div><!-- End Revenue Card -->
 
-                  <script>
-                    // Initialize the chart with default empty data
-                    let chart = null;
-                
-                    function selectReport(value) {
-                      if (chart) {
-                        chart.destroy();
-                      }
+          <!-- Checkouts Card -->
+          <div class="col-xxl-4 col-xl-12">
+            <div class="card info-card checkouts-card">
+              <div class="filter">
+                <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
+                <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
+                  <li class="dropdown-header text-start"><h6>Filter</h6></li>
+                  <li><button class="dropdown-item" type="button" onclick="selectCheckout('Today')">Today</button></li>
+                  <li><button class="dropdown-item" type="button" onclick="selectCheckout('This Week')">This Week</button></li>
+                  <li><button class="dropdown-item" type="button" onclick="selectCheckout('This Month')">This Month</button></li>
+                </ul>
+              </div>
 
-                      const cardTitle = document.querySelector(".report-title");
-                      cardTitle.innerHTML = `Report <span>/${value}</span>`;
-                
-                      // Update the chart data
-                      let sales_data, revenue_data, checkout_data, time_data;
-                      console.log({{ daily.sales|safe }});
-                      if (value == "Today") {
-                        sales_data = {{ daily.sales|safe }};
-                        revenue_data = {{ daily.revenue|safe }};
-                        checkout_data = {{ daily.checkout|safe }};
-                        time_data = {{ daily.time|safe }};
-                      }
-                      if (value == "This Week") {
-                        sales_data = {{ weekly.sales|safe }};
-                        revenue_data = {{ weekly.revenue|safe }};
-                        checkout_data = {{ weekly.checkout|safe }};
-                        time_data = {{ weekly.time|safe }};
-                      }
-                      if (value == "This Month") {
-                        sales_data = {{ monthly.sales|safe }};
-                        revenue_data = {{ monthly.revenue|safe }};
-                        checkout_data = {{ monthly.checkout|safe }};
-                        time_data = {{ monthly.time|safe }};
-                      }
+              <div class="card-body">
+                <h5 class="card-title checkout-title">Checkouts <span>| This Month</span></h5>
+                <div class="d-flex align-items-center">
+                  <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                    <i class="bi bi-people"></i>
+                  </div>
+                  <div class="ps-3">
+                    <h6 class="checkout-total">{{ monthly.total_checkout }}</h6>
+                  </div>
+                </div>
+              </div>
 
-                      const time_data_local = [];
+            </div>
+          </div><!-- End Checkouts Card -->
 
-                      // Convert UTC timestamps to local standard time
-                      for (const utcTimestamp of time_data) {
-                        const utcMoment = moment.utc(utcTimestamp); // Use a library like Moment.js
-                        const localMoment = utcMoment.local(); // Convert to local time
-                        time_data_local.push(localMoment.format('YYYY-MM-DD HH:mm:ss')); // Format as needed
-                      }
-                      console.log({{ weekly.checkout|safe}});
-                
-                      // Draw the chart with updated data
-                      chart = new ApexCharts(document.querySelector("#reportsChart"), {
-                        series: [{
-                          name: 'Sales',
-                          data: sales_data,
-                        }, {
-                          name: 'Revenue/100Tk',
-                          data: revenue_data,
-                        }, {
-                          name: 'Checkouts',
-                          data: checkout_data,
-                        }],
-                        chart: {
-                          height: 350,
-                          type: 'area',
-                          toolbar: {
-                            show: false
-                          },
-                        },
-                        markers: {
-                          size: 4
-                        },
-                        colors: ['#4154f1', '#2eca6a', '#ff771d'],
-                        fill: {
-                          type: "gradient",
-                          gradient: {
-                            shadeIntensity: 1,
-                            opacityFrom: 0.3,
-                            opacityTo: 0.4,
-                            stops: [0, 90, 100]
-                          }
-                        },
-                        dataLabels: {
-                          enabled: false
-                        },
-                        stroke: {
-                          curve: 'smooth',
-                          width: 2
-                        },
-                        xaxis: {
-                          type: 'datetime',
-                          categories: time_data_local,
-                        },
-                        tooltip: {
-                          x: {
-                            format: 'dd/MM/yy HH:mm'
-                          },
-                        }
-                      });
-                
-                      chart.render();
+          <!-- Reports -->
+          <div class="col-12">
+            <div class="card">
+              <div class="filter">
+                <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
+                <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
+                  <li class="dropdown-header text-start">
+                    <h6>Filter</h6>
+                  </li>
+                  <li><button class="dropdown-item" type="button" onclick="selectReport('Today')">Today</button></li>
+                  <li><button class="dropdown-item" type="button" onclick="selectReport('This Week')">This Week</button></li>
+                  <li><button class="dropdown-item" type="button" onclick="selectReport('This Month')">This Month</button></li>
+                </ul>
+              </div>
+              
+              <div class="card-body">
+                <h5 class="card-title report-title">Reports <span>/This Week</span></h5>
+
+                <!-- Line Chart -->
+                <div id="reportsChart"></div>
+                <script>
+                  let chart = null;
+              
+                  function selectReport(value) {
+                    if (chart) {
+                      chart.destroy();
                     }
-                
-                    // Initial chart render
-                    document.addEventListener("DOMContentLoaded", () => {
-                      // Load the chart for Today by default
-                      selectReport('This Week');
+
+                    const cardTitle = document.querySelector(".report-title");
+                    cardTitle.innerHTML = `Report <span>/${value}</span>`;
+              
+                    // Update the chart data
+                    let sales_data, revenue_data, checkout_data, time_data;
+                    console.log({{ daily.sales|safe }});
+                    if (value == "Today") {
+                      sales_data = {{ daily.sales|safe }};
+                      revenue_data = {{ daily.revenue|safe }};
+                      checkout_data = {{ daily.checkout|safe }};
+                      time_data = {{ daily.time|safe }};
+                    }
+                    if (value == "This Week") {
+                      sales_data = {{ weekly.sales|safe }};
+                      revenue_data = {{ weekly.revenue|safe }};
+                      checkout_data = {{ weekly.checkout|safe }};
+                      time_data = {{ weekly.time|safe }};
+                    }
+                    if (value == "This Month") {
+                      sales_data = {{ monthly.sales|safe }};
+                      revenue_data = {{ monthly.revenue|safe }};
+                      checkout_data = {{ monthly.checkout|safe }};
+                      time_data = {{ monthly.time|safe }};
+                    }
+
+                    const time_data_local = [];
+
+                    // Convert UTC timestamps to local standard time
+                    for (const utcTimestamp of time_data) {
+                      const utcMoment = moment.utc(utcTimestamp); // Use a library like Moment.js
+                      const localMoment = utcMoment.local(); // Convert to local time
+                      time_data_local.push(localMoment.format('YYYY-MM-DD HH:mm:ss')); // Format as needed
+                    }
+                    console.log({{ weekly.checkout|safe}});
+              
+                    // Draw the chart with updated data
+                    chart = new ApexCharts(document.querySelector("#reportsChart"), {
+                      series: [{
+                        name: 'Sales',
+                        data: sales_data,
+                      }, {
+                        name: 'Revenue/100Tk',
+                        data: revenue_data,
+                      }, {
+                        name: 'Checkouts',
+                        data: checkout_data,
+                      }],
+                      chart: {
+                        height: 350,
+                        type: 'area',
+                        toolbar: {
+                          show: false
+                        },
+                      },
+                      markers: {
+                        size: 4
+                      },
+                      colors: ['#4154f1', '#2eca6a', '#ff771d'],
+                      fill: {
+                        type: "gradient",
+                        gradient: {
+                          shadeIntensity: 1,
+                          opacityFrom: 0.3,
+                          opacityTo: 0.4,
+                          stops: [0, 90, 100]
+                        }
+                      },
+                      dataLabels: {
+                        enabled: false
+                      },
+                      stroke: {
+                        curve: 'smooth',
+                        width: 2
+                      },
+                      xaxis: {
+                        type: 'datetime',
+                        categories: time_data_local,
+                      },
+                      tooltip: {
+                        x: {
+                          format: 'dd/MM/yy HH:mm'
+                        },
+                      }
                     });
-                  </script>
-                  <!-- End Line Chart -->
-
-                </div>
+              
+                    chart.render();
+                  }
+              
+                  document.addEventListener("DOMContentLoaded", () => {
+                    // Load the chart for This Week by default
+                    selectReport('This Week');
+                  });
+                </script>
+                <!-- End Line Chart -->
 
               </div>
-            </div><!-- End Reports -->
+            </div>
+          </div><!-- End Reports -->
 
-            <!-- Top Selling -->
-            <div class="col-12">
-              <div class="card top-selling overflow-auto">
+          <!-- Top Selling -->
+          <div class="col-12">
+            <div class="card top-selling overflow-auto">
+              <div class="filter">
+                <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
+                <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
+                  <li class="dropdown-header text-start"><h6>Filter</h6></li>
+                  <li><button class="dropdown-item" type="button" onclick="selectTop('Today')">Today</button></li>
+                  <li><button class="dropdown-item" type="button" onclick="selectTop('This Week')">This Week</button></li>
+                  <li><button class="dropdown-item" type="button" onclick="selectTop('This Month')">This Month</button></li>
+                </ul>
+              </div>
 
-                <div class="filter">
-                  <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
-                  <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
-                    <li class="dropdown-header text-start">
-                      <h6>Filter</h6>
-                    </li>
-                    <li><button class="dropdown-item" type="button" onclick="selectTop('Today')">Today</button></li>
-                    <li><button class="dropdown-item" type="button" onclick="selectTop('This Week')">This Week</button></li>
-                    <li><button class="dropdown-item" type="button" onclick="selectTop('This Month')">This Month</button></li>
-                  </ul>
-                </div>
+              <div class="card-body pb-0">
+                <h5 class="card-title top-title">Top Selling <span>| This Month</span></h5>
 
-                <div class="card-body pb-0">
-                  <h5 class="card-title top-title">Top Selling <span>| This Month</span></h5>
-
-                  <table class="table table-borderless">
-                    <thead>
-                      <tr>
-                        <th scope="col">Preview</th>
-                        <th scope="col">Product</th>
-                        <th scope="col">Price</th>
-                        <th scope="col">Sold</th>
-                        <th scope="col">Revenue</th>
+                <table class="table table-borderless">
+                  <thead>
+                    <tr>
+                      <th scope="col">Preview</th>
+                      <th scope="col">Product</th>
+                      <th scope="col">Price</th>
+                      <th scope="col">Sold</th>
+                      <th scope="col">Revenue</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {% for top in daily.top_products %}
+                      <tr class="daily" style="display: none">
+                        <th scope="row"><a href="#"><img src={{ top.product.image.url }} alt=""></a></th>
+                        <td><a href="#" class="text-primary fw-bold">{{ top.product.name }}</a></td>
+                        <td>৳{{ top.product.selling_price }}</td>
+                        <td class="fw-bold">{{ top.sold }}</td>
+                        <td>৳{{ top.revenue }}</td>
                       </tr>
-                    </thead>
-                    <tbody>
-                      {% for top in daily.top_products %}
-                        <tr class="daily" style="display: none">
-                          <th scope="row"><a href="#"><img src={{ top.product.image.url }} alt=""></a></th>
-                          <td><a href="#" class="text-primary fw-bold">{{ top.product.name }}</a></td>
-                          <td>৳{{ top.product.selling_price }}</td>
-                          <td class="fw-bold">{{ top.sold }}</td>
-                          <td>৳{{ top.revenue }}</td>
-                        </tr>
-                      {% endfor %}
-                      {% for top in weekly.top_products %}
-                        <tr class="weekly" style="display: none">
-                          <th scope="row"><a href="#"><img src={{ top.product.image.url }} alt=""></a></th>
-                          <td><a href="#" class="text-primary fw-bold">{{ top.product.name }}</a></td>
-                          <td>৳{{ top.product.selling_price }}</td>
-                          <td class="fw-bold">{{ top.sold }}</td>
-                          <td>৳{{ top.revenue }}</td>
-                        </tr>
-                      {% endfor %}
-                      {% for top in monthly.top_products %}
-                        <tr class="monthly" style="display:">
-                          <th scope="row"><a href="#"><img src={{ top.product.image.url }} alt=""></a></th>
-                          <td><a href="#" class="text-primary fw-bold">{{ top.product.name }}</a></td>
-                          <td>৳{{ top.product.selling_price }}</td>
-                          <td class="fw-bold">{{ top.sold }}</td>
-                          <td>৳{{ top.revenue }}</td>
-                        </tr>
-                      {% endfor %}
-                    </tbody>
-                  </table>
-
-                </div>
-
+                    {% endfor %}
+                    {% for top in weekly.top_products %}
+                      <tr class="weekly" style="display: none">
+                        <th scope="row"><a href="#"><img src={{ top.product.image.url }} alt=""></a></th>
+                        <td><a href="#" class="text-primary fw-bold">{{ top.product.name }}</a></td>
+                        <td>৳{{ top.product.selling_price }}</td>
+                        <td class="fw-bold">{{ top.sold }}</td>
+                        <td>৳{{ top.revenue }}</td>
+                      </tr>
+                    {% endfor %}
+                    {% for top in monthly.top_products %}
+                      <tr class="monthly" style="display:">
+                        <th scope="row"><a href="#"><img src={{ top.product.image.url }} alt=""></a></th>
+                        <td><a href="#" class="text-primary fw-bold">{{ top.product.name }}</a></td>
+                        <td>৳{{ top.product.selling_price }}</td>
+                        <td class="fw-bold">{{ top.sold }}</td>
+                        <td>৳{{ top.revenue }}</td>
+                      </tr>
+                    {% endfor %}
+                  </tbody>
+                </table>
               </div>
-            </div><!-- End Top Selling -->
+            </div>
+          </div><!-- End Top Selling -->
 
-          </div>
-        </div><!-- End Left side columns -->
-
+        </div>
       </div>
-    </section>
+    </div>
+  </section>
 
-  </main><!-- End #main -->
+</main>
 {% endblock main %}
 
 {% block scripts %}
@@ -324,6 +297,7 @@
   $("#statistics").removeClass("collapsed");
 </script>
 
+<!-- Set data of Today, This Week and This Month -->
 <script>
   function selectSales(value) {
     const cardTitle = document.querySelector(".sales-title");
@@ -355,8 +329,6 @@
   function selectTop(value) {
     const cardTitle = document.querySelector(".top-title");
     cardTitle.innerHTML = `Top Selling <span>| ${value}</span>`;
-  
-    // Get all rows with a common class name
     const allRows = document.querySelectorAll(".daily, .weekly, .monthly");
   
     if (value == "Today") {

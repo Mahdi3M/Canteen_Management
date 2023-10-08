@@ -15,10 +15,6 @@ from io import BytesIO
 import barcode, os
 
 
-def generate_report_pdf():
-    pass
-
-
 def generate_bill_pdf(personal_no, due_orders):
     # Create a response object with PDF content type
     response = HttpResponse(content_type='application/pdf')

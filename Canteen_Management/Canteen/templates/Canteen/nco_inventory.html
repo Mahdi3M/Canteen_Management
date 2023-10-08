@@ -4,6 +4,7 @@
 {% block main %}
 <main id="main" class="main">
 
+  <!-- Page Title -->
   <div class="pagetitle">
     <h1>Inventory</h1>
   </div><!-- End Page Title -->
@@ -27,9 +28,9 @@
       <div class="card">
         <div class="card-body">
           <h5 class="card-title">All Products List</h5>
-          {% comment %} <p>Add lightweight datatables to your project with using the <a href="https://github.com/fiduswriter/Simple-DataTables" target="_blank">Simple DataTables</a> library. Just add <code>.datatable</code> class name to any table you wish to conver to a datatable</p> {% endcomment %}
+          <!-- <p>Add lightweight datatables to your project with using the <a href="https://github.com/fiduswriter/Simple-DataTables" target="_blank">Simple DataTables</a> library. Just add <code>.datatable</code> class name to any table you wish to conver to a datatable</p> -->
 
-          <!-- Table with stripped rows -->
+          <!-- Data Table -->
           <table class="table datatable">
             <thead>
               <tr>
@@ -65,12 +66,13 @@
                 </tr>
               {% endfor %}
             </tbody>
-          </table>
-          <!-- End Table with stripped rows -->
+          </table><!-- Data Table End -->
 
         </div>
       </div>
     </div>
+
+    <!-- Add New Product -->
     <div class="tab-pane fade" id="pills-new-product" role="tabpanel" aria-labelledby="new-product-tab">
       <div class="card p-4 mb-5">
         <form method=POST action={% url 'Canteen:nco_inventory' %} class="needs-validation" enctype="multipart/form-data" novalidate>
@@ -144,15 +146,14 @@
           </div>
         </form>
       </div>    
-    </div>
+    </div><!-- End Add New Product -->
 
     <!-- Manage Product -->
-
     <div class="tab-pane fade" id="pills-manage-product" role="tabpanel" aria-labelledby="manage-product-tab">
-      <div class="row d-flex justify-content-center">
-
-        <!-- Edit Products -->
+      <div class="row d-flex justify-content-center">        
         <div class="col-md-7 col-sm-11">
+
+          <!-- Edit Products -->
           <div class="card">
             <form method=POST action={% url 'Canteen:nco_inventory' %} class="needs-validation" enctype="multipart/form-data" novalidate>
               {% csrf_token %}
@@ -212,11 +213,12 @@
                 <button type="submit" class="btn btn-primary">Save</button>
               </div>
             </form>
-          </div>
-        </div>
+          </div><!-- End Edit Products -->
 
-        <!-- Edit Category -->
+        </div>
         <div class="col-md-5 col-sm-11">
+
+          <!-- Edit Category -->
           <div class="card d-flex justify-content-center">
             <form method=POST action={% url 'Canteen:nco_inventory' %} class="needs-validation" novalidate>
               {% csrf_token %}
@@ -243,9 +245,9 @@
                 <button type="submit" class="btn btn-primary">Save</button>
               </div>
             </form>
-          </div>
+          </div><!-- End Edit Category -->
 
-        <!-- Edit Sub Category -->
+          <!-- Edit Subcategory -->
           <div class="card d-flex justify-content-center">
             <form method=POST action={% url 'Canteen:nco_inventory' %} class="needs-validation" novalidate>
               {% csrf_token %}
@@ -278,7 +280,8 @@
                 <button type="submit" class="btn btn-primary">Save</button>
               </div>
             </form>
-          </div>
+          </div><!-- End Edit Subcategory -->
+
         </div>
       </div>
     </div>
@@ -292,6 +295,7 @@
   $("#inventory").removeClass("collapsed");
 </script>
 
+<!-- Image Preview -->
 <script>
   function previewImage() {
       var preview = document.getElementById('preview');
@@ -309,6 +313,7 @@
   }
 </script>
 
+<!-- Update Dropdowns-->
 <script>
   const categoryDropdowns = document.querySelectorAll('.category');
   const subCategoryDropdowns = document.querySelectorAll('.subCategory');
@@ -350,7 +355,6 @@
     });
   }
 
-  // Attach event listeners to all pairs of category and subcategory dropdowns
   categoryDropdowns.forEach((categoryDropdown, index) => {
     const subCategoryDropdown = subCategoryDropdowns[index];
 
@@ -368,6 +372,4 @@
     });
   });
 </script>
-
-
 {% endblock scripts %}

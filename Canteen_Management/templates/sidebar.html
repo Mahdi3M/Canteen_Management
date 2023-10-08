@@ -14,13 +14,6 @@
           </a>
         </li>
 
-        {% comment %} <li class="nav-item">
-          <a id="summary" class="nav-link collapsed" href={% url 'Canteen:admin_summary' %}>
-            <i class="bi bi-file-earmark-text"></i>
-            <span>Summary</span>
-          </a>
-        </li> {% endcomment %}
-
         <li class="nav-item">
           <a id="users" class="nav-link collapsed" href={% url 'Canteen:admin_users' %}>
             <i class="bi bi-people"></i>
@@ -28,8 +21,8 @@
           </a>
         </li>
       {% endif %}
-      <!-- ======= Customer ======= -->
 
+      <!-- ======= Customer ======= -->
       <li class="nav-item">
         <a id="catalog" class="nav-link collapsed" href={% url 'Canteen:customer_catalog' %}>
           <i class="bi bi-grid"></i>

@@ -26,9 +26,8 @@
     </div>
   </div><!-- End Page Title -->
   
-
-  <div class="wrapper-container">
-    
+  <!-- Catalog Products -->
+  <div class="wrapper-container">    
     {% regroup products by category as category_list %}
     {% for c in category_list %}
     <div class="cards px-3">
@@ -63,9 +62,9 @@
           <i id="right" class="fa-solid fa-angle-right"></i>
         </div>
       {% endfor %}
-    {% endfor %}  
-    
-  </div>  
+    {% endfor %}
+  </div><!-- End Catalog Products -->
+
 </main>
 {% endblock main %}
 
@@ -74,6 +73,7 @@
   $("#catalog").removeClass("collapsed");
 </script>
 
+<!-- Search Bar JS -->
 <script>
   const keywords = {{ keywords|safe }};
   const searchInput = document.getElementById('search-input');
@@ -103,6 +103,6 @@
       autoSuggestions.innerHTML = '';
     }
   });
-</script>
+</script><!-- End Search Bar JS -->
 
 {% endblock scripts %}

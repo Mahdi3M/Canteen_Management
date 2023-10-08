@@ -3,21 +3,20 @@
 
 {% block head %}
 <style>
-  /* Set the minimum width for the specific columns */
   th:nth-child(2) { /* Second column (Order No.) */
-    min-width: 100px; /* Adjust the width as needed */
+    min-width: 100px;
   }
 
   th:nth-child(3) { /* Third column (Date and Time) */
-    min-width: 140px; /* Adjust the width as needed */
+    min-width: 140px;
   }
 
   th:nth-child(4) { /* Fourth column (Product Name, Price, Quantity, Total) */
-    min-width: 400px; /* Adjust the width as needed */
+    min-width: 400px;
   }
 
   th:nth-child(5) { /* Fifth column (Total Price) */
-    min-width: 150px; /* Adjust the width as needed */
+    min-width: 150px;
   }
 </style>
 {% endblock head %}
@@ -25,11 +24,12 @@
 {% block main %}
 <main id="main" class="main">
 
+  <!-- Page Title -->
   <div class="pagetitle">
     <h1>Order History</h1>
   </div><!-- End Page Title -->
 
-  
+  <!-- Filter By Date -->
   <form method=POST action={% url "Canteen:customer_history" %} class="row my-4">
     {% csrf_token %}
     <div class="col-3">
@@ -47,7 +47,7 @@
     <div class="col-6 d-flex align-self-end justify-content-start">
       <button class="btn btn-primary w-80 h-50 ms-3" type="submit">Submit</button>
     </div>
-  </form>
+  </form><!-- End Filter By Date -->
 
   <div class="card my-4">
     <div class="card-body">
@@ -102,8 +102,7 @@
             {% endfor %}
           </tbody>
         </table>
-      </div>
-      <!-- End Table with stripped rows -->
+      </div><!-- End Table with stripped rows -->
 
     </div>
   </div>
@@ -112,14 +111,14 @@
 {% endblock main %}
 
 {% block scripts %}
-<script>
-  $("#history").removeClass("collapsed");
-</script>
+  <script>
+    $("#history").removeClass("collapsed");
+  </script>
 
-
-<script>
-  $(function () {
-      $("#start_date").datepicker({dateFormat: 'dd-mm-yy'});
-  });
-</script>
+  <!-- Fix Date Format -->
+  <script>
+    $(function () {
+        $("#start_date").datepicker({dateFormat: 'dd-mm-yy'});
+    });
+  </script>
 {% endblock scripts %}

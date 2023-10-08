@@ -9,6 +9,7 @@
 {% block main %}
 <main id="main" class="main">
 
+  <!-- Page Title --> 
   <div class="pagetitle">
     <h1>Orders</h1>
   </div><!-- End Page Title -->
@@ -28,60 +29,61 @@
                 <span aria-hidden="true">&times;</span>
               </button>
             </div>
+
             <div class="modal-body">
               <!-- Product Form -->
-                <div class="form-group pb-3 row">
-                  <div class="col-4">
-                    <label for="productName" class="form-label">Barcode</label>
-                    <div class="input-group">
-                      <input type="text" class="form-control" id="barcode">
-                    </div>
-                  </div>
-                  <div class="col-8">
-                    <form method="POST" action="{% url 'Canteen:nco_order' %}" class="row justify-content-around">
-                      {% csrf_token %}
-                      <div class="col-8">
-                        <label for="personal_no" class="form-label">Personal Number</label>
-                        <div class="input-group">
-                          <select class="form-select" id="prefixSelect" name="prefixType" style="display: inline-block; max-width: fit-content;">
-                            <option value="BA-" selected>BA-</option>
-                            <option value="BSS-">BSS-</option>
-                            <option value="FO-">FO-</option>
-                          </select>
-                          <input type="text" class="form-control reg-form-input" name="personal_no" id="personal_no" required>
-                        </div>
-                      </div>
-                      <input type="hidden" id="cartJson" name="cartJSON" value="">
-                      <input type="hidden" id="cartTotal" name="cartTotal" value="">
-                      <button type="submit" class="btn btn-primary col-4 align-self-end" style="height:40px; width:150px;" name="checkout-order">Add to Checkout</button>
-                    </form>
+              <div class="form-group pb-3 row">
+                <div class="col-4">
+                  <label for="productName" class="form-label">Barcode</label>
+                  <div class="input-group">
+                    <input type="text" class="form-control" id="barcode">
                   </div>
                 </div>
-              
-                <!-- Product Table -->
-                <table class="table">
-                  <thead>
-                      <tr>
-                        <th>#</th>
-                        <th>Product Name</th>
-                        <th>Price</th>
-                        <th>Qnt</th>
-                        <th>Total</th>
-                        <th>Actions</th>
-                      </tr>
-                  </thead>
-                  <tbody id="scan-list">
-                  </tbody>
-              </table>
+                <div class="col-8">
+                  <form method="POST" action="{% url 'Canteen:nco_order' %}" class="row justify-content-around">
+                    {% csrf_token %}
+                    <div class="col-8">
+                      <label for="personal_no" class="form-label">Personal Number</label>
+                      <div class="input-group">
+                        <select class="form-select" id="prefixSelect" name="prefixType" style="display: inline-block; max-width: fit-content;">
+                          <option value="BA-" selected>BA-</option>
+                          <option value="BSS-">BSS-</option>
+                          <option value="FO-">FO-</option>
+                        </select>
+                        <input type="text" class="form-control reg-form-input" name="personal_no" id="personal_no" required>
+                      </div>
+                    </div>
+                    <input type="hidden" id="cartJson" name="cartJSON" value="">
+                    <input type="hidden" id="cartTotal" name="cartTotal" value="">
+                    <button type="submit" class="btn btn-primary col-4 align-self-end" style="height:40px; width:150px;" name="checkout-order">Add to Checkout</button>
+                  </form>
+                </div>
+              </div><!-- End Product Form -->
+            
+              <!-- Product Table -->
+              <table class="table">
+                <thead>
+                    <tr>
+                      <th>#</th>
+                      <th>Product Name</th>
+                      <th>Price</th>
+                      <th>Qnt</th>
+                      <th>Total</th>
+                      <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="scan-list">
+                </tbody>
+              </table><!-- Product Table -->
             </div>
+
             <div class="modal-footer justify-content-between">
-              <div>
-                Total: <span id="scan-grand-total"></span>
-              </div>
+              <div>Total: <span id="scan-grand-total"></span></div>
               <div>
                 <button type="button" class="btn btn-danger" onclick="clearCart()">Clear All</button>
               </div>
             </div>
+
           </div>
         </div>
       </div>
@@ -89,6 +91,8 @@
 
     </div>
   </div>
+
+  <!-- Pending Orders -->
   <section id="order">
     <ul class="cards p-3">
       {% regroup orders_pending by order as order_list %}
@@ -134,7 +138,8 @@
       </li>
       {% endfor %}
     </ul>  
-  </section>
+  </section><!-- End Pending Orders -->
+
 </main>
 {% endblock main %}
 
@@ -143,6 +148,7 @@
   $("#order").removeClass("collapsed");
 </script>
 
+<!-- Autofocus on Barcode Input -->
 <script>
   $(document).ready(function() {
     $('#addProductModal').on('shown.bs.modal', function() {
@@ -155,6 +161,7 @@
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
+<!-- AJAX request for Product Info -->
 <script>
   let product_name = null;
   let product_price = null;
@@ -205,6 +212,7 @@
   }
 </script>
 
+<!-- Clear Cart if Checked Out -->
 {% if thank %}
   <script>
     cart = {};

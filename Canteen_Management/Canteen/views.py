@@ -179,12 +179,6 @@ def profile(request):
 
 
 
-@login_required(redirect_field_name='next', login_url="Canteen:signin")
-def contact(request):
-    return render(request, "Canteen/contact.html")
-
-
-
 #<-- ======= Customer ======= -->
 
 @login_required(redirect_field_name='next', login_url="Canteen:signin")
@@ -500,14 +494,6 @@ def home(request):
     context['daily'] = get_sales_data("one_day_ago")
     
     return render(request, "Canteen/index.html", context)
-
-
-
-@login_required(redirect_field_name='next', login_url="Canteen:signin")
-@role_required(allowed_roles=['Admin'])
-def admin_summary(request):
-
-    return render(request, "Canteen/admin_summary.html")
 
 
 
