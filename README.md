@@ -1,4 +1,10 @@
 # Canteen_Management
+
+## Table of Contents
+- [Create Virtual Environment](#create-virtual-environment)
+- [Activate Virtual Environment](#activate-virtual-environment)
+- [Install all Requirements](#install-all-requirements)
+- [Run the Django Application](#run-the-pyqt5-application)
  
 ## Create Virtual Environment (Optional)
 
@@ -32,13 +38,17 @@
 
 ## Install all Requirements
 
-1. Run the following command to install PyQt5:
+1. Activate the virtural Environment if created.
+
+2. Navigate to the "Canteen_Management" Directory.
+
+3. Run the following command to install all requirements:
     
     -pip install -r requirements.txt
    
 
 
-## Run the PyQt5 Application
+## Run the Django Application
 
 1. Activate the virtural Environment if created.
 
