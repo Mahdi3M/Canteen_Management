@@ -14,7 +14,7 @@ class User(AbstractUser):
     personal_no = models.CharField(blank=True, null=True, max_length=15)
     unit = models.CharField(blank=True, null=True, max_length=32)
     role = models.CharField(max_length=10, choices=ROLES, default='Customer')
-    image = models.ImageField(default='default.jpg', upload_to='profile_pics', blank=True, null=True)
+    image = models.ImageField(default='..\\static\\assets\\img\\default_user.jpg', upload_to='profile_pics', blank=True, null=True)
     address = models.CharField(blank=True, null=True, max_length=256)
     phone = models.CharField(blank=True, null=True, max_length=15)
 

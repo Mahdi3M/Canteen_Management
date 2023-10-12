@@ -3,12 +3,14 @@
 *.pot
 *.pyc
 __pycache__
-db.sqlite3
+#db.sqlite3
 media
-password.txt
 
 # Backup files # 
 *.bak 
+
+# Bat files #
+Run Django Server.bat
 
 # If you are using PyCharm # 
 # User-specific stuff
