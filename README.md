@@ -4,7 +4,7 @@
 - [Create Virtual Environment](#create-virtual-environment)
 - [Activate Virtual Environment](#activate-virtual-environment)
 - [Install all Requirements](#install-all-requirements)
-- [Run the Django Application](#run-the-pyqt5-application)
+- [Run the Django Application](#run-the-django-application)
  
 ## Create Virtual Environment (Optional)
 
