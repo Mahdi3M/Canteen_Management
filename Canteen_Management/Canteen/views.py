@@ -189,6 +189,8 @@ def customer_catalog(request):
     subcategory_names = Subcategory.objects.values_list('name', flat=True)
     product_names = Product.objects.values_list('name', flat=True)
     context["keywords"] = list(category_names) + list(subcategory_names) + list(product_names)
+    if request.user.role == "Admin":
+        context['p_users'] = User.objects.filter(is_active = False).count()
     if request.user.role == "Bar NCO":        
         context['notification'] = Product.objects.filter(stock_quantity__lte = 5)
     
@@ -214,6 +216,8 @@ def customer_catalog(request):
 def customer_checkout(request):
     context = {}
     context['thank'] = False
+    if request.user.role == "Admin":
+        context['p_users'] = User.objects.filter(is_active = False).count()
     if request.method == "POST":
         cartJSON = request.POST.get("cartJSON")
         cart = json.loads(cartJSON)
@@ -267,8 +271,10 @@ def customer_history(request):
     else:
         orders = Order.objects.filter(personal_no = request.user.personal_no)
         
-    context['order_list'] = OrderItem.objects.filter(order__in = orders, order__status = 'Complete').order_by('-order__timestamp')
-    
+    context['order_list'] = OrderItem.objects.filter(order__in = orders, order__status = 'Complete').order_by('-order__timestamp')    
+    if request.user.role == "Admin":
+        context['p_users'] = User.objects.filter(is_active = False).count()
+        
     return render(request, "Canteen/customer_history.html", context)
 
 
@@ -399,22 +405,23 @@ def nco_inventory(request):
             new_Product.stock_quantity = request.POST.get('amount')
             
             category = request.POST.get('category')
-            new_category = request.POST.get('new-category')
+            if not category:
+                category = request.POST.get('new-category')
             subcategory = request.POST.get('subCategory')
-            new_subcategory = request.POST.get('new-sub-category') 
+            if not subcategory:
+                subcategory = request.POST.get('new-sub-category') 
             
-            if category:
-                new_Category = Category.objects.get(name = category)
-                new_Product.category = new_Category
+            if Category.objects.filter(name = category).exists():
+                new_Product.category = Category.objects.get(name = category)
             else:            
-                new_Category = Category(name = new_category)
+                new_Category = Category(name = category)
                 new_Category.save()
                 new_Product.category = new_Category
             
-            if subcategory:
+            if Subcategory.objects.filter(name = subcategory, category=new_Product.category).exists():
                 new_Product.subcategory = Subcategory.objects.get(name = subcategory)
             else:
-                new_Subcategory = Subcategory(name = new_subcategory, category = new_Category)
+                new_Subcategory = Subcategory(name = subcategory, category = new_Product.category)
                 new_Subcategory.save()
                 new_Product.subcategory = new_Subcategory
             new_Product.save()            
@@ -447,8 +454,10 @@ def nco_inventory(request):
             category.save()
         
         elif request.POST.get('form_name') == "edit_subcategory":
+            category_name = request.POST.get('category')
             subcategory_name = request.POST.get('subCategory')
-            subcategory = Subcategory.objects.get(name = subcategory_name)
+            category = Category.objects.get(name = category_name)
+            subcategory = Subcategory.objects.get(name = subcategory_name, category = category)
             
             if request.POST.get('editSubCategoryName'):
                 subcategory.name = request.POST.get('editSubCategoryName')
@@ -492,7 +501,8 @@ def home(request):
     context['monthly'] = get_sales_data("one_month_ago")
     context['weekly'] = get_sales_data("one_week_ago")
     context['daily'] = get_sales_data("one_day_ago")
-    
+    context['p_users'] = User.objects.filter(is_active = False).count()
+        
     return render(request, "Canteen/index.html", context)
 
 
@@ -521,5 +531,6 @@ def admin_users(request):
     
     context["pending_users"] = User.objects.filter(is_active = False)
     context["all_users"] = User.objects.filter(is_active = True)
+    context['p_users'] = User.objects.filter(is_active = False).count()
     
     return render(request, "Canteen/admin_users.html", context)

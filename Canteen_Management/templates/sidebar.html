@@ -17,7 +17,7 @@
         <li class="nav-item">
           <a id="users" class="nav-link collapsed" href={% url 'Canteen:admin_users' %}>
             <i class="bi bi-people"></i>
-            <span>Users</span>
+            <span>Users<span class="badge bg-primary badge-number ms-2">{{ p_users }}</span></span>
           </a>
         </li>
       {% endif %}
