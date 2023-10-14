@@ -1,0 +1,83 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block head %}
+<style>
+  th:nth-child(1) { /* Second column (Sr.) */
+    min-width: 20px;
+  }
+
+  th:nth-child(2) { /* Second column (Date and Time) */
+    min-width: 140px;
+  }
+
+  th:nth-child(3) { /* Third column (Product Name) */
+    min-width: 250px;
+  }
+
+  th:nth-child(4) { /* Fourth column (Qnt) */
+    min-width: 100px;
+  }
+
+  th:nth-child(5) { /* Fifth column (Comment) */
+    min-width: 400px;
+  }
+</style>
+{% endblock head %}
+
+{% block main %}
+<main id="main" class="main">
+  
+  <!-- Page Title -->
+  <div class="pagetitle">
+    <h1>Stock Change Requests</h1>
+  </div><!-- End Page Title -->
+
+  {% if stock_changes %}
+  <!-- Stock Changes -->
+  <div class="card p-4 mt-5">  
+    <div class="card-body">
+      <table class="table stock-changes">
+        <thead>
+          <tr>
+            <th class="stock-sr">Sr.</th>
+            <th class="stock-date">Date and Time</th>
+            <th class="stock-name">Product Name</th>
+            <th class="stock-change">Quantity</th>
+            <th class="stock-comment">Comment</th>
+            <th class="stock-action">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for stock_change in stock_changes %}
+          <form method=POST action={% url 'Canteen:admin_stock' %}>
+            {% csrf_token %}
+            <tr>
+              <td>{{ forloop.counter }}.</td>
+              <td class="stock-date">{{ stock_change.timestamp }}</td>
+              <td class="stock-name">{{ stock_change.name }}</td>
+              <td class="stock-change">{{ stock_change.change }}</td>
+              <td class="stock-comment">{{ stock_change.comment }}</td>
+              <td class="stock-action">
+                <input type="hidden" name="stock_change_id" value="{{ stock_change.id }}">
+                <button type="submit" class="btn btn-success mb-1" name="stock_change_approved">Approve</button>
+                <button type="submit" class="btn btn-danger mb-1" name="stock_change_denied">Remove</button>
+              </td>
+            </tr>
+          </form>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div><!-- End Stock Changes -->
+  {% else %}
+    <h1 class="text-center mt-5 pt-5">No Stock Change Requests</h1>
+  {% endif %}
+</main>
+{% endblock main %}
+
+{% block scripts %}
+<script>
+  $("#stock").removeClass("collapsed");
+</script>
+{% endblock scripts %}

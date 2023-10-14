@@ -18,7 +18,7 @@
       <button class="nav-link" id="pills-new-product-tab" data-bs-toggle="pill" data-bs-target="#pills-new-product" type="button" role="tab" aria-controls="pills-new-product" aria-selected="true">Add New Product</button>
     </li>
     <li class="nav-item" role="presentation">
-      <button class="nav-link" id="pills-manage-product-tab" data-bs-toggle="pill" data-bs-target="#pills-manage-product" type="button" role="tab" aria-controls="pills-manage-product" aria-selected="false">Manage Product</button>
+      <button class="nav-link" id="pills-manage-inventory-tab" data-bs-toggle="pill" data-bs-target="#pills-manage-inventory" type="button" role="tab" aria-controls="pills-manage-inventory" aria-selected="false">Manage Inventory</button>
     </li>
   </ul>
 
@@ -138,8 +138,7 @@
                   <div class="invalid-feedback">Please enter the amount.</div>
                 </div>
                 <div class="d-flex justify-content-end mt-5">
-                  <input type="hidden" name="form_name" value="add_new_product">
-                  <button type="submit" class="btn btn-primary">Add</button>
+                  <button type="submit" class="btn btn-primary" name="add_new_product">Add</button>
                 </div>
               </div>              
             </div>
@@ -148,10 +147,10 @@
       </div>    
     </div><!-- End Add New Product -->
 
-    <!-- Manage Product -->
-    <div class="tab-pane fade" id="pills-manage-product" role="tabpanel" aria-labelledby="manage-product-tab">
+    <!-- Manage Inventory -->
+    <div class="tab-pane fade" id="pills-manage-inventory" role="tabpanel" aria-labelledby="manage-inventory-tab">
       <div class="row d-flex justify-content-center">        
-        <div class="col-md-7 col-sm-11">
+        <div class="col-md-7 col-sm-11 pe-3">
 
           <!-- Edit Products -->
           <div class="card">
@@ -182,9 +181,53 @@
                     <option value="" selected>Select Product</option>
                   </select>
                 </div>
-                <div class="mb-3 col-md-12">
+                <div class="mb-3 col-md-6">
                   <label for="editProductName" class="form-label">Edit Product Name</label>
                   <input type="text" class="form-control" id="editProductName" placeholder="Change Product Name" name="editProductName">
+                </div>
+                <div class="mb-3 col-md-3">
+                  <label for="buyingPrice" class="form-label">Edit Buying Price</label>
+                  <input type="number" class="form-control" id="buyingPrice" placeholder="Enter buying price" name="buyingPrice">
+                </div>
+                <div class="mb-3 col-md-3">
+                  <label for="sellingPrice" class="form-label">Edit Selling Price</label>
+                  <input type="number" class="form-control" id="sellingPrice" placeholder="Enter selling price" name="sellingPrice">
+                </div>
+              </div>
+              <div class="d-flex justify-content-end m-4">
+                <button type="submit" class="btn btn-primary" name="edit_product">Save</button>
+              </div>
+            </form>
+          </div><!-- End Edit Products -->
+
+          <!-- Edit Stock -->
+          <div class="card">
+            <form method=POST action={% url 'Canteen:nco_inventory' %} class="needs-validation" enctype="multipart/form-data" novalidate>
+              {% csrf_token %}
+              <div class="row g-3 p-4">
+                <div class="d-flex justify-content-center mb-3">
+                  <h3> Request Stock Edit </h3>
+                </div>
+                <div class="mb-3 col-md-4">
+                  <label for="category" class="form-label">Category<span class="text-danger">*</span></label>
+                  <select class="form-control category" id="category" name="category" required>
+                    <option value="" selected>Select Category</option>                  
+                    {% for category in category_dict %}
+                      <option value="{{ category }}">{{ category }}</option>
+                    {% endfor %}
+                  </select>
+                </div>
+                <div class="mb-3 col-md-4">
+                  <label for="subCategory" class="form-label">Sub Category<span class="text-danger">*</span></label>
+                  <select class="form-control subCategory" id="subCategory" name="subCategory" required>
+                    <option value="" selected>Select Sub Category</option>
+                  </select>
+                </div>
+                <div class="mb-3 col-md-4">
+                  <label for="productName" class="form-label">Product Name<span class="text-danger">*</span></label>
+                  <select class="form-control product" id="productName" name="productName" required>
+                    <option value="" selected>Select Product</option>
+                  </select>
                 </div>
                 <div class="mb-3 col-10 col-md-5">
                   <label for="amount" class="form-label">Add to Inventory</label>
@@ -195,25 +238,16 @@
                   <label for="amount" class="form-label">Remove from Inventory</label>
                   <input type="number" class="form-control" placeholder="Enter amount" name="remove_amount">
                 </div>
-                <div class="mb-3 col-md-6">
-                  <label for="buyingPrice" class="form-label">Edit Buying Price</label>
-                  <input type="number" class="form-control" id="buyingPrice" placeholder="Enter buying price" name="buyingPrice">
-                </div>
-                <div class="mb-3 col-md-6">
-                  <label for="sellingPrice" class="form-label">Edit Selling Price</label>
-                  <input type="number" class="form-control" id="sellingPrice" placeholder="Enter selling price" name="sellingPrice">
-                </div>
                 <div class="mb-3 col-md-12">
                   <label for="amount" class="form-label">Comment</label>
-                  <textarea class="form-control" placeholder="Leave a comment here" id="floatingTextarea" style="height: 120px;"></textarea>
+                  <textarea class="form-control" placeholder="Leave a comment here" id="floatingTextarea" name="comment"></textarea>
                 </div>          
               </div>
               <div class="d-flex justify-content-end m-4">
-                <input type="hidden" name="form_name" value="edit_product">
-                <button type="submit" class="btn btn-primary">Save</button>
+                <button type="submit" class="btn btn-primary" name="edit_stock">Save</button>
               </div>
             </form>
-          </div><!-- End Edit Products -->
+          </div><!-- End Edit Stock -->
 
         </div>
         <div class="col-md-5 col-sm-11">
@@ -241,8 +275,7 @@
                 </div>           
               </div>
               <div class="d-flex justify-content-end m-4">
-                <input type="hidden" name="form_name" value="edit_category">
-                <button type="submit" class="btn btn-primary">Save</button>
+                <button type="submit" class="btn btn-primary" name="edit_category">Save</button>
               </div>
             </form>
           </div><!-- End Edit Category -->
@@ -255,7 +288,7 @@
                 <div class="col-md-12 d-flex justify-content-center mb-3">
                   <h3> Edit Sub Category </h3>
                 </div>
-                <div class="mb-3 col-md-6">
+                <div class="mb-3 col-md-12">
                   <label for="category" class="form-label">Category<span class="text-danger">*</span></label>
                   <select class="form-control category" id="category" name="category" required>
                     <option value="" selected>Select Category</option>
@@ -264,7 +297,7 @@
                     {% endfor %}
                   </select>
                 </div>
-                <div class="mb-3 col-md-6">
+                <div class="mb-3 col-md-12">
                   <label for="subCategory" class="form-label">Sub Category<span class="text-danger">*</span></label>
                   <select class="form-control subCategory" id="subCategory" name="subCategory" required>
                     <option value="" selected>Select Sub Category</option>
@@ -276,15 +309,14 @@
                 </div>           
               </div>
               <div class="d-flex justify-content-end m-4">
-                <input type="hidden" name="form_name" value="edit_subcategory">
-                <button type="submit" class="btn btn-primary">Save</button>
+                <button type="submit" class="btn btn-primary" name="edit_subcategory">Save</button>
               </div>
             </form>
           </div><!-- End Edit Subcategory -->
 
         </div>
       </div>
-    </div>
+    </div><!-- End Manage Inventory -->
   </div><!-- End Pills Tabs -->
 
 </main>
@@ -317,7 +349,7 @@
 <script>
   const categoryDropdowns = document.querySelectorAll('.category');
   const subCategoryDropdowns = document.querySelectorAll('.subCategory');
-  const productDropdown = document.querySelector('.product');
+  const productDropdowns = document.querySelectorAll('.product');
 
   const categoryDict = {{ category_dict|safe }};
 
@@ -345,19 +377,21 @@
     const subcategories = categoryDict[selectedCategory] || {};
     const products = subcategories[selectedSubCategory] || [];
 
-    productDropdown.innerHTML = '<option value="" selected>Select Product</option>';
+    if (productDropdown){
+      productDropdown.innerHTML = '<option value="" selected>Select Product</option>';
 
-    products.forEach(product => {
-      const option = document.createElement('option');
-      option.value = product;
-      option.textContent = product;
-      productDropdown.appendChild(option);
-    });
+      products.forEach(product => {
+        const option = document.createElement('option');
+        option.value = product;
+        option.textContent = product;
+        productDropdown.appendChild(option);
+      });
+    }
   }
 
   categoryDropdowns.forEach((categoryDropdown, index) => {
     const subCategoryDropdown = subCategoryDropdowns[index];
-
+    const productDropdown = productDropdowns[index-1];
     // Initial updates
     updateSubCategoryDropdown(categoryDropdown, subCategoryDropdown);
 

@@ -78,3 +78,12 @@ class OrderItem(models.Model):
     price = models.DecimalField(max_digits=10, decimal_places=2)
     quantity = models.PositiveIntegerField(default=0)
     total = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
+    
+    
+class StockEdit(models.Model):
+    name = models.CharField(max_length=255)
+    product_id = models.PositiveIntegerField(null=True, blank=True)
+    change = models.IntegerField(null=True, blank=True)
+    comment = models.CharField(max_length=512, blank=True, null=True)
+    approved = models.BooleanField(default=False)
+    timestamp = models.DateTimeField(default=timezone.now)

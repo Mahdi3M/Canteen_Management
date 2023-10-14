@@ -19,6 +19,7 @@ urlpatterns = [
     
     path('home/', views.home, name="home"),
     path('admin_users/', views.admin_users, name="admin_users"),
+    path('admin_stock/', views.admin_stock, name="admin_stock"),
     
     path('send_otp_email/', views.send_otp_email, name="send_otp_email"),
     path('get_barcode_data/', views.get_barcode_data, name="get_barcode_data"),

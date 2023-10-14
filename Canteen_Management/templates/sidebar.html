@@ -20,6 +20,13 @@
             <span>Users<span class="badge bg-primary badge-number ms-2">{{ p_users }}</span></span>
           </a>
         </li>
+
+        <li class="nav-item">
+          <a id="stock" class="nav-link collapsed" href={% url 'Canteen:admin_stock' %}>
+            <i class="bi bi-archive"></i>
+            <span>Stock<span class="badge bg-primary badge-number ms-2">{{ s_requests }}</span></span>
+          </a>
+        </li>
       {% endif %}
 
       <!-- ======= Customer ======= -->

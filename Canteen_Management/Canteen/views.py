@@ -191,6 +191,7 @@ def customer_catalog(request):
     context["keywords"] = list(category_names) + list(subcategory_names) + list(product_names)
     if request.user.role == "Admin":
         context['p_users'] = User.objects.filter(is_active = False).count()
+        context['s_requests'] = StockEdit.objects.filter(approved = False).count()
     if request.user.role == "Bar NCO":        
         context['notification'] = Product.objects.filter(stock_quantity__lte = 5)
     
@@ -218,6 +219,7 @@ def customer_checkout(request):
     context['thank'] = False
     if request.user.role == "Admin":
         context['p_users'] = User.objects.filter(is_active = False).count()
+        context['s_requests'] = StockEdit.objects.filter(approved = False).count()
     if request.method == "POST":
         cartJSON = request.POST.get("cartJSON")
         cart = json.loads(cartJSON)
@@ -274,6 +276,7 @@ def customer_history(request):
     context['order_list'] = OrderItem.objects.filter(order__in = orders, order__status = 'Complete').order_by('-order__timestamp')    
     if request.user.role == "Admin":
         context['p_users'] = User.objects.filter(is_active = False).count()
+        context['s_requests'] = StockEdit.objects.filter(approved = False).count()
         
     return render(request, "Canteen/customer_history.html", context)
 
@@ -396,7 +399,7 @@ def nco_inventory(request):
                 return generate_barcode_pdf(product_obj.barcode.url, product_obj.name)
                 
                 
-        elif request.POST.get('form_name') == "add_new_product":            
+        elif "add_new_product" in request.POST:
             new_Product = Product()        
             new_Product.name = request.POST.get('productName')
             new_Product.image = request.FILES.get('image')
@@ -427,16 +430,12 @@ def nco_inventory(request):
             new_Product.save()            
             get_barcode(new_Product)
         
-        elif request.POST.get('form_name') == "edit_product":
+        elif "edit_product" in request.POST:
             product_name = request.POST.get('productName')
             product = Product.objects.get(name = product_name)
             
             if request.POST.get('editProductName'):
-                product.name = request.POST.get('editProductName')               
-            if request.POST.get('add_amount'):
-                product.stock_quantity += int(request.POST.get('add_amount'))                
-            if request.POST.get('remove_amount'):
-                product.stock_quantity -= int(request.POST.get('remove_amount'))               
+                product.name = request.POST.get('editProductName')           
             if request.POST.get('buyingPrice'):
                 product.buying_price = request.POST.get('buyingPrice')               
             if request.POST.get('sellingPrice'):
@@ -444,7 +443,21 @@ def nco_inventory(request):
                 
             product.save()
         
-        elif request.POST.get('form_name') == "edit_category":
+        elif "edit_stock" in request.POST:
+            product_name = request.POST.get('productName')
+            product = Product.objects.get(name = product_name)
+            stock = StockEdit(name = product_name, product_id  = product.id)
+            
+            if request.POST.get('add_amount'):
+                stock.change = int(request.POST.get('add_amount'))
+            if request.POST.get('remove_amount'):
+                stock.change = int(request.POST.get('remove_amount')) * (-1)                
+            if request.POST.get('comment'):
+                stock.comment = request.POST.get('comment')
+                
+            stock.save()
+        
+        elif "edit_category" in request.POST:
             category_name = request.POST.get('category')
             category = Category.objects.get(name = category_name)
             
@@ -453,7 +466,7 @@ def nco_inventory(request):
                 
             category.save()
         
-        elif request.POST.get('form_name') == "edit_subcategory":
+        elif "edit_subcategory" in request.POST:
             category_name = request.POST.get('category')
             subcategory_name = request.POST.get('subCategory')
             category = Category.objects.get(name = category_name)
@@ -502,6 +515,7 @@ def home(request):
     context['weekly'] = get_sales_data("one_week_ago")
     context['daily'] = get_sales_data("one_day_ago")
     context['p_users'] = User.objects.filter(is_active = False).count()
+    context['s_requests'] = StockEdit.objects.filter(approved = False).count()
         
     return render(request, "Canteen/index.html", context)
 
@@ -527,10 +541,35 @@ def admin_users(request):
             delete_user = User.objects.get(id = id)
             delete_user.delete()
     
-    context = {}
-    
+    context = {}    
     context["pending_users"] = User.objects.filter(is_active = False)
     context["all_users"] = User.objects.filter(is_active = True)
     context['p_users'] = User.objects.filter(is_active = False).count()
+    context['s_requests'] = StockEdit.objects.filter(approved = False).count()
     
     return render(request, "Canteen/admin_users.html", context)
+
+
+
+@login_required(redirect_field_name='next', login_url="Canteen:signin")
+@role_required(allowed_roles=['Admin'])
+def admin_stock(request):    
+    if request.method == "POST":
+        id = request.POST.get("stock_change_id")
+        stock = StockEdit.objects.get(id = id)
+        product = Product.objects.get(id = stock.product_id)
+        if "stock_change_approved" in request.POST:
+            product.stock_quantity += stock.change
+            stock.approved = True
+            product.save()
+            stock.save()
+        if "stock_change_denied" in request.POST:
+            stock.delete()
+            print("denied")
+    
+    context = {}    
+    context["stock_changes"] = StockEdit.objects.filter(approved = False)
+    context['p_users'] = User.objects.filter(is_active = False).count()
+    context['s_requests'] = StockEdit.objects.filter(approved = False).count()
+    
+    return render(request, "Canteen/admin_stock.html", context)

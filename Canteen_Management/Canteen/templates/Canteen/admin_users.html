@@ -22,50 +22,54 @@
   <!-- Pending Users -->
   <div class="tab-content pt-2" id="myTabContent">
     <div class="tab-pane fade show active" id="pills-pending-users" role="tabpanel" aria-labelledby="pending-users-tab">
-      <div class="card p-4">  
-        <div class="card-body">
-          <table class="table pending-users">
-            <thead>
-              <tr>
-                <th class="user-sr">Sr.</th>
-                <th class="user-image">Picture</th>
-                <th class="user-name">Name</th>
-                <th class="user-ba">Personal No.</th>
-                <th class="user-unit">Unit</th>
-                <th class="user-role">Role</th>
-                <th class="user-add"></th>
-              </tr>
-            </thead>
-            <tbody>
-              {% for p_user in pending_users %}
-              <form method=POST action={% url 'Canteen:admin_users' %}>
-                {% csrf_token %}
+      {% if pending_users %}
+        <div class="card p-4">  
+          <div class="card-body">
+            <table class="table pending-users">
+              <thead>
                 <tr>
-                  <td>{{ forloop.counter }}.</td>
-                  <td class="user-image"><img src={{ p_user.image.url }} alt="Image Preview" class="m-2" style="max-width: 50px; height: auto; border-radius: 8px;"></td>
-                  <td class="user-name">{{ p_user.name }}</td>
-                  <td class="user-ba">{{ p_user.personal_no }}</td>
-                  <td class="user-unit">{{ p_user.unit }}</td>
-                  <td class="user-role">
-                    <select class="form-select" aria-label="Default select example" id="userRole" name="userRole">
-                      <option value="Admin">Admin</option>
-                      <option value="Bar NCO">Bar NCO</option>
-                      <option selected value="Customer">Customer</option>
-                    </select>
-                  </td>
-                  <td class="user-add">
-                    <input type="hidden" name="user_id_add" value="{{ p_user.id }}">
-                    <button type="submit" class="btn btn-primary">Add</button>
-                  </td>
+                  <th class="user-sr">Sr.</th>
+                  <th class="user-image">Picture</th>
+                  <th class="user-name">Name</th>
+                  <th class="user-ba">Personal No.</th>
+                  <th class="user-unit">Unit</th>
+                  <th class="user-role">Role</th>
+                  <th class="user-add"></th>
                 </tr>
-              </form>
-              {% endfor %}
-            </tbody>
-          </table>
+              </thead>
+              <tbody>
+                {% for p_user in pending_users %}
+                <form method=POST action={% url 'Canteen:admin_users' %}>
+                  {% csrf_token %}
+                  <tr>
+                    <td>{{ forloop.counter }}.</td>
+                    <td class="user-image"><img src={{ p_user.image.url }} alt="Image Preview" class="m-2" style="max-width: 50px; height: auto; border-radius: 8px;"></td>
+                    <td class="user-name">{{ p_user.name }}</td>
+                    <td class="user-ba">{{ p_user.personal_no }}</td>
+                    <td class="user-unit">{{ p_user.unit }}</td>
+                    <td class="user-role">
+                      <select class="form-select" aria-label="Default select example" id="userRole" name="userRole">
+                        <option value="Admin">Admin</option>
+                        <option value="Bar NCO">Bar NCO</option>
+                        <option selected value="Customer">Customer</option>
+                      </select>
+                    </td>
+                    <td class="user-add">
+                      <input type="hidden" name="user_id_add" value="{{ p_user.id }}">
+                      <button type="submit" class="btn btn-primary">Add</button>
+                    </td>
+                  </tr>
+                </form>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
         </div>
-      </div>
-    </div><!-- End Pending Users -->
-
+      </div><!-- End Pending Users -->
+    {% else %}
+      <h1 class="text-center mt-5 pt-5">No Pending Users</h1>
+    {% endif %}
+    
     <!-- All Users -->
     <div class="tab-pane fade" id="pills-all-users" role="tabpanel" aria-labelledby="all-users-tab">
       <div class="card p-4">  

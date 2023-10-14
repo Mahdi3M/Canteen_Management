@@ -32,9 +32,12 @@ def generate_bill_pdf(personal_no, due_orders):
     title = "STC&S OFFRS' MESS CAFE"
     subtitle = "BILL OF PAYMENT"
     
-    user = User.objects.get(personal_no = personal_no)
     info = ["Personal No:", "Rank:", "Name:", "Wg/Unit:", "Mobile:"]
-    info_data = [personal_no, user.first_name, user.last_name, user.unit, user.phone or "None"]
+    if User.objects.filter(personal_no = personal_no).exists():
+        user = User.objects.get(personal_no = personal_no)
+        info_data = [personal_no, user.first_name or "None", user.last_name or "None", user.unit or "None", user.phone or "None"]
+    else:
+        info_data = [personal_no, "None", "None", "None", "None"]
     
     bill = due_orders.aggregate(Sum('total'))['total__sum']
     total = f"Total Bill Due:"
@@ -246,11 +249,11 @@ def get_sales_data(timespan):
     revenue_list = []
     customer_list = []
     time_list = []        
-    top_sales = OrderItem.objects.filter(order__timestamp__gte=start_time, order__timestamp__lte=today).values('name').annotate(total_sold=Sum('quantity')).order_by('-total_sold')[:5]
+    top_sales = OrderItem.objects.filter(order__timestamp__gte=start_time, order__timestamp__lte=today).values('product_id').annotate(total_sold=Sum('quantity')).order_by('-total_sold')[:5]
     top_products = [{
         'sold': item['total_sold'], 
-        'product': Product.objects.get(name = item['name']),
-        'revenue': Product.objects.get(name = item['name']).selling_price * item['total_sold']
+        'product': Product.objects.get(id = item['product_id']),
+        'revenue': Product.objects.get(id = item['product_id']).selling_price * item['total_sold']
         } for item in top_sales]
     
     for ti in spans:
