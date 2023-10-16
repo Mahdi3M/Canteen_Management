@@ -365,14 +365,14 @@ h6 {
 }
 
 .logo img {
-  max-height: 26px;
+  max-height: 35px;
   margin-right: 6px;
 }
 
 .logo span {
-  font-size: 26px;
-  font-weight: 700;
-  color: #012970;
+  font-size: 30px;
+  font-weight: 1000;
+  color: #000;
   font-family: "Nunito", sans-serif;
 }
 
