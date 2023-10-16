@@ -179,6 +179,10 @@ def generate_barcode_pdf(path, name):
     # Create a canvas object to draw on the PDF
     pdf = canvas.Canvas(response, pagesize=pagesizes.portrait(pagesizes.A4))
     
+    page_width, page_height = pagesizes.portrait(pagesizes.A4)
+    pdf.setFont("Helvetica-Bold", 18)
+    pdf.drawCentredString(page_width/2, page_height-50, name)
+    
     # Define the size of each barcode image (50x25 mm)
     image_width = 40 * units.mm
     image_height = 24 * units.mm
@@ -200,7 +204,8 @@ def generate_barcode_pdf(path, name):
         for col in range(num_columns):
             x = (col * image_width) + int(left_margin)
             y = (page_height - (row + 1) * image_height) - int(top_margin)
-            pdf.drawImage(barcode_image_path, x, y, image_width, image_height)
+            if row:
+                pdf.drawImage(barcode_image_path, x, y, image_width, image_height)
 
     # Save the PDF and close the canvas
     pdf.save()

@@ -295,7 +295,7 @@ def nco_order(request):
     if request.method == "POST":
         if "complete-order" in request.POST:
             id = request.POST.get('order-id')
-            order = Order.objects.get(id = id)          
+            order = Order.objects.get(id = id)
             order.status = 'Complete'
             order.save()
             
@@ -371,9 +371,10 @@ def nco_bills(request):
             return generate_bill_pdf(personal_no, due_orders)
                 
         elif "payment_btn" in request.POST:
-            for order in orders:
-                order.paid = True
-                order.save()
+            with transaction.atomic():
+                for order in orders:
+                    order.paid = True
+                    order.save()
             print("Payment Complete")
             
     else:
